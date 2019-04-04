@@ -1,0 +1,263 @@
+{
+	"info": {
+		"_postman_id": "bf57fcb3-d5d1-4c54-99ba-45aa1d1b5bea",
+		"name": "Course",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "account",
+			"item": [
+				{
+					"name": "signin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ce9b683e-378b-4ab1-ba08-40daae66150f",
+								"exec": [
+									"var response = pm.response.json();",
+									"pm.environment.set(\"token\", response.token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": \"alexander\",\n\t\"password\": \"123456\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/account/signin",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"account",
+								"signin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "signout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInJvbGUiOiJBZG1pbiIsImlhdCI6MTU1MTMwMTYzMSwiZXhwIjoxNTUxMzExNjMxfQ.5Vjggv_R1G5u53IgL6FPn3er2S8_WKA7GF4uZsA8r8I",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/api/account/signout",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"account",
+								"signout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "register new user",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"firstname\": \"Alexander\",\n  \"lastname\": \"Belenkov\",\n  \"username\": \"alexander\",\n  \"password\": \"123456\"\n}\n"
+						},
+						"url": {
+							"raw": "{{host}}/api/account/register/user",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"account",
+								"register",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "register new admin",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"firstname\": \"Alexander\",\n  \"lastname\": \"Belenkov\",\n  \"username\": \"alexander\",\n  \"password\": \"123456\"\n}\n"
+						},
+						"url": {
+							"raw": "{{host}}/api/account/register/admin",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"account",
+								"register",
+								"admin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "only-admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/api/account/only-admin",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"account",
+								"only-admin"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "orders",
+			"item": [
+				{
+					"name": "post",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"executor\": \"executor-123\",\n    \"productId\": \"product-1\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/orders/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"orders",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/api/orders/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"orders",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
