@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { register } from '../actions/authActions';
+import { registerUser } from '../actions/authActions';
 import { clearErrors } from '../actions/errorActions';
 import UserRegistrationForm from '../components/home/main/UserRegistrationForm';
 
@@ -11,5 +11,5 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    {register,clearErrors}
+    {registerUser,clearErrors}
 )(UserRegistrationForm);

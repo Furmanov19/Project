@@ -12,13 +12,11 @@ module.exports.registerUser = (req, res, next) => {
 module.exports.confirmUser = (req, res, next) => {
   userService
     .confirm(req.body)
-    .then((token) => {
+    .then((token) => {//not only token responsed from service
       res.json(token);
     })
     .catch(err =>next(err));
 };
-
-
 module.exports.loadUser = (req, res, next) => {
   userService
     .loadUser(req.user)

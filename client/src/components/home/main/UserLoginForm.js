@@ -6,7 +6,7 @@ import Button from '@material-ui/core/Button';
 import { Formik } from "formik";
 import { string, object } from "yup";
 import InputMask from 'react-input-mask';
-import ConfirmFormContainer from '../../../containers/ConfirmFormContainer';
+import ConfirmFormContainer from '../../../containers/UserConfirmFormContainer';
 const Input = (props) => (
   <InputMask mask="+3\75 \(99\) 999 99 99" maskChar=" " disabled={props.disabled} name={props.name} className={props.className} value={props.value} onChange={props.onChange} helperText={props.helperText} error={props.error}>
     {(inputProps) => <TextField {...inputProps} type="tel" variant="outlined" label="Phone number"  autoComplete="phone"/>}
@@ -76,7 +76,7 @@ class UserRegistrationForm extends React.Component {
               name:values.name,
               password:values.password
             }
-              this.props.login(user);
+              this.props.loginUser(user);
             }
           }
         component={this.form}

@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { registerConfirm } from '../actions/authActions';
+import { registerConfirmUser } from '../actions/authActions';
 import ConfirmForm from '../components/home/main/ConfirmForm';
 
 const mapStateToProps = state => ({
@@ -10,5 +10,5 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    {registerConfirm}
+    {registerConfirmUser}
 )(ConfirmForm);

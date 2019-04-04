@@ -13,7 +13,6 @@ async function register(data) {
     <h3>Details</h3>
     <ul>
       <li>${name}</li>
-      <li>${username}</li>
       <li>${role}</li>
     </ul>
     <p>Your confirm code is ${code}</p>
@@ -22,8 +21,8 @@ async function register(data) {
   let transporter = nodemailer.createTransport({
     service:'gmail',
     auth:{
-      user:'artem.s.furman@gmail.com',
-      pass:'462450192f'
+      user:config.nodemailer.user,
+      pass:config.nodemailer.pass
     }
   });
 
@@ -44,7 +43,6 @@ async function register(data) {
     emailConfirmed,
     code,
     phone,
-    username,
     password,
     role,
     orders,
@@ -61,66 +59,67 @@ async function register(data) {
   return res;
 }
 
-async function confirm({code,email}) {
-    const user = await User.findOne({email});
-    let count=user.attemts;
-      if(user.code===code) {
-        await User.findOneAndUpdate({code},{
-          $set:{
-            emailConfirmed:true
-          },
-          $unset:{
-            attemts:{$exist:true},
-            code:{$exist:true}
-          }
-        });
-        const token = jwt.sign(
-          { id: user._id, role: user.role },
-          config.jwt.secret,
-          { expiresIn: config.jwt.expiration }
-        );
-        return {
-          token:token,
-          user:{
-            _id:user._id,
-            role:user.role
-            // emailConfirmed:user.emailConfirmed
-          }
-        };
-      }
-      else if( count==1) {
-        await User.findOneAndRemove({email});
-        throw new Error('User deleted');
-      }
-      else{
-        await User.findOneAndUpdate({email},{
-          $set:{
-            attemts:--count
-          }
-        });
-        throw new Error('Invalid code');
-      }
+async function confirm( { code, email } ) {
+    const user = await User.findOne( { email } );
+    let count = user.attemts;
+
+    if( user.code===code ) {
+      await User.findOneAndUpdate( { code },{
+        $set: {
+          emailConfirmed: true
+        },
+        $unset: {
+          attemts: { $exist: true },
+          code: { $exist: true }
+        }
+      });
+      const token = jwt.sign(
+        { id: user._id, role: user.role },
+        config.jwt.secret,
+        { expiresIn: config.jwt.expiration }
+      );
+      return {
+        token: token,
+        user: {
+          _id: user._id,
+          role: user.role
+          // emailConfirmed:user.emailConfirmed
+        }
+      };
+    }
+    else if ( count == 1 ) {
+      await User.findOneAndRemove( { email } );
+      throw new Error( 'User deleted' );
+    }
+    else {
+      await User.findOneAndUpdate( { email },{
+        $set: {
+          attemts: --count
+        }
+      });
+      throw new Error( 'Invalid code' );
+    }
 }
 
 async function loadUser( user ) {
   return {
-    _id:user._id,
-    role:user.role
+    _id: user._id,
+    role: user.role
     // emailConfirmed:user.emailConfirmed
   }
 }
 
-async function authenticate({name,password}) {
-    const user = await User.findOne({ name })
-    console.log(user);
-    if (user === null) throw new Error("User not found");
-    if (user.emailConfirmed === false) throw new Error("User not confirmd");
+async function authenticate( { name, password } ) {
+    const user = await User.findOne( { name } )
+
+    if ( user === null ) throw new Error ( "User not found" );
+    if ( user.emailConfirmed === false ) throw new Error ( "User not confirmd" );
+    
     let success = await user.comparePassword(password);
 
-    if (success === false) throw new Error("Password is incorrect");
-    if(success) console.log('success');
+    if ( success === false ) throw new Error ( "Password is incorrect" );
 
-    const token = jwt.sign(
+    const token = jwt.sign (
       { 
         id: user._id,
         role: user.role
@@ -130,10 +129,10 @@ async function authenticate({name,password}) {
     );
 
     return {
-      token:token,
-      user:{
-        _id:user._id,
-        role:user.role
+      token: token,
+      user: {
+        _id: user._id,
+        role: user.role
         // emailConfirmed:user.emailConfirmed
       }
     };

@@ -5,18 +5,32 @@ const executorService = require("./executors.services");
 module.exports.registerExecutor = (req, res, next) => {
   executorService
     .register(req.body)
-    .then(() => {
-      res.status(httpStatus.CREATED).json("Created");
+    .then((user) => {
+      res.json(user);
     })
     .catch(err => next(err));
 };
 module.exports.confirmExecutor = (req, res, next) => {
   executorService
     .confirm(req.body)
-    .then((executor) => {
-      executor
-      ? res.json(executor)
-      :res.json("Not Confirmed");
+    .then((token) => {
+      res.json(token);
+    })
+    .catch(err => next(err));
+};
+module.exports.loadExecutor = (req, res, next) => {
+  userService
+    .loadExecutor(req.executor)
+    .then((executor)=>{
+      res.json(executor);
+    })
+    .catch(err => next(err));
+};
+module.exports.signinExecutor = (req, res, next) => {
+  executorService
+    .authenticate(req.body)
+    .then(executor => {
+      res.json(executor);
     })
     .catch(err => next(err));
 };
@@ -68,18 +82,7 @@ module.exports.getExecutorById = (req, res, next) => {
       })
       .catch(err => next(err));
   };
-  module.exports.signinExecutor = (req, res, next) => {
-    executorService
-      .authenticate(req.body)
-      .then(executor => {
-        executor
-          ? res.json(executor)
-          : res
-              .status(httpStatus.UNAUTHORIZED)
-              .json({ message: "Username or password is incorrect" });
-      })
-      .catch(err => next(err));
-  };
+  
   
   module.exports.postExecutorRate = (req, res, next) => {
     executorService

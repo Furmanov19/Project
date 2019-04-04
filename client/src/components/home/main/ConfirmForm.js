@@ -19,7 +19,7 @@ export default class ConfirmForm extends Component {
             code:this.state.code,
             email:this.props.userEmail
         }
-        this.props.registerConfirm(userInfo);
+        this.props.registerConfirmUser(userInfo);
     }
     handleChange(e){
         this.setState({[e.target.name]:e.target.value});

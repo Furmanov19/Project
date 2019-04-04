@@ -24,6 +24,12 @@ const schema = joi
     GOOGLE_CLIENT_SECRET: joi
       .string()
       .default("uB91xl96kpL8fZMAxAH2nwtI"),
+    NODEMAILER_AUTH_USER: joi
+      .string()
+      .default("artem.s.furman@gmail.com"),
+    NODEMAILER_AUTH_PASS: joi
+      .string()
+      .default("462450192f"),
     MONGODB_HOST: joi.string().default("mongodb://127.0.0.1:27017/log")
   })
   .unknown()
@@ -53,6 +59,10 @@ module.exports = {
   google:{
     client_id:envVars.GOOGLE_CLIENT_ID,
     secret:envVars.GOOGLE_CLIENT_SECRET
+  },
+  nodemailer:{
+    user:envVars.NODEMAILER_AUTH_USER,
+    pass:envVars.NODEMAILER_AUTH_PASS
   },
   mongodb: {
     host: envVars.MONGODB_HOST
