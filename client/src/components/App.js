@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import {BrowserRouter,Route,Switch} from 'react-router-dom';
-import { Provider } from 'react-redux';
+import {Route,Switch} from 'react-router-dom';
 import {loadUser,loadExecutor} from '../actions/authActions'
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Home from './home/Home';
@@ -13,14 +12,12 @@ class App extends Component {
   }
   render() {
     return (
-      <Provider store={store}>
-        <BrowserRouter>
-          <CssBaseline />
-          <Switch>
-            <Route path="/" component ={Home}/>
-          </Switch>
-        </BrowserRouter>
-      </Provider>
+      <>
+        <CssBaseline />
+        <Switch>
+          <Route path="/" component ={Home}/>
+        </Switch>
+      </>  
     );
   }
 }
