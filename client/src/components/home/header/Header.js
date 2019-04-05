@@ -5,8 +5,9 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+import UserProfileMenu from './UserProfileMenu';
+import ExecutorProfileMenu from './ExecutorProfileMenu';
 import { Link } from 'react-router-dom';
-
 const styles = {
   root: {
     flexGrow: 1,
@@ -38,29 +39,46 @@ const RegLink = props => <Link to="/register" {...props} />
 const LogLink = props => <Link to="/login" {...props} />
 const Logo = props => <Link to="/" {...props} />
 
-function Header(props) {
-  const { classes } = props;
-  return (
-    <div className={classes.root}>
-      <AppBar position="static">
-        <Toolbar className={classes.toolbar}>
-          <Typography variant="h4" color="inherit" className={classes.grow}>
-            <Logo className={classes.logo}>
-              MY APP
-            </Logo>
-          </Typography>
-          <Typography>
-            <Button component={LogLink} className={classes.btn} size="large">
-              LOG IN
-            </Button>
-            <Button component={RegLink} className={classes.btn} size="large">
-              REGISTRATION
-            </Button>
-          </Typography>
-        </Toolbar>
-      </AppBar>
-    </div>
-  );
+class Header extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleClick=this.handleClick.bind(this);
+  }
+  handleClick(){
+    this.props.logout();
+  }
+  render() {
+  const { classes } = this.props;
+    return (
+      <div className={classes.root}>
+        <AppBar position="static">
+          <Toolbar className={classes.toolbar}>
+            <Typography variant="h4" color="inherit" className={classes.grow}>
+              <Logo className={classes.logo}>
+                MY APP
+              </Logo>
+            </Typography>
+            { !this.props.isAuth &&
+              <Typography>
+                <Button component={LogLink} className={classes.btn} size="large">
+                  LOG IN
+                </Button>
+                <Button component={RegLink} className={classes.btn} size="large">
+                  REGISTRATION
+                </Button>
+              </Typography>
+            }
+            { this.props.user && this.props.isAuth &&
+              <UserProfileMenu logout={this.props.logout}/>
+            }
+            { this.props.executor && this.props.isAuth &&
+              <ExecutorProfileMenu logout={this.props.logout}/>
+            }
+          </Toolbar>
+        </AppBar>
+      </div>
+    );
+  }
 }
 
 Header.propTypes = {

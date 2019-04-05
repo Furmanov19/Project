@@ -25,7 +25,6 @@ const initialState ={
     token: localStorage.getItem('token'),
     isAuthenticated: null,
     isLoading: false,
-    isConfirmed:false,
     user : null,
     executor:null
 }
@@ -43,7 +42,6 @@ export default function (state = initialState, action) {
                 ...state,
                 isAuthenticated: true,
                 isLoading: false,
-                isConfirmed: true,
                 user: action.payload,
                 executor:null
             }
@@ -57,7 +55,6 @@ export default function (state = initialState, action) {
                 ...state,
                 isAuthenticated: true,
                 isLoading: false,
-                isConfirmed: true,
                 user: null,
                 executor: action.payload
             }
@@ -69,8 +66,7 @@ export default function (state = initialState, action) {
         case USER_REGISTER_SUCCESS:
             return {
                 ...state,
-                isAuthenticated:true,
-                isConfirmed:false,
+                isAuthenticated:false,
                 isLoading:false,
                 user:action.payload,
                 executor:null
@@ -78,8 +74,7 @@ export default function (state = initialState, action) {
         case EXECUTOR_REGISTER_SUCCESS:
         return {
             ...state,
-            isAuthenticated: true,
-            isConfirmed: false,
+            isAuthenticated: false,
             isLoading: false,
             user: null,
             executor: action.payload
@@ -89,7 +84,7 @@ export default function (state = initialState, action) {
             localStorage.setItem('token',action.payload.token);
             return {
                 ...state,
-                isConfirmed: true,
+                isAuthenticated: true,
                 user: action.payload.user,
                 executor: null
             };
@@ -98,7 +93,7 @@ export default function (state = initialState, action) {
             localStorage.setItem('token',action.payload.token);
             return {
                 ...state,
-                isConfirmed: true,
+                isAuthenticated: true,
                 user: null,
                 executor: action.payload.executor
             };

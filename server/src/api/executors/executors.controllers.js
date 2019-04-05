@@ -19,7 +19,7 @@ module.exports.confirmExecutor = (req, res, next) => {
     .catch(err => next(err));
 };
 module.exports.loadExecutor = (req, res, next) => {
-  userService
+  executorService
     .loadExecutor(req.executor)
     .then((executor)=>{
       res.json(executor);
