@@ -30,7 +30,7 @@ export const loadUser = () => (dispatch,getState) => {
     dispatch({type: USER_LOADING});
 
     axios
-        .get('http://localhost:3001/api/users/current',tokenConfig(getState))       
+        .get('users/current',tokenConfig(getState))       
         .then( res =>
             {
                 dispatch(clearErrors());
@@ -64,7 +64,7 @@ export const registerUser = ({ name, email, phone, password }) => dispatch => {
     });
 
     axios
-        .post('http://localhost:3001/api/users/register',body,config)
+        .post('users/register',body,config)
         .then(res => 
             {
                 dispatch(clearErrors());
@@ -97,7 +97,7 @@ export const registerConfirmUser = (obj) => dispatch => {
         }
     }
     axios
-        .post('http://localhost:3001/api/users/register/confirm',obj,config)
+        .post('users/register/confirm',obj,config)
         .then(res => 
                 {
                     dispatch(clearErrors());
@@ -127,7 +127,7 @@ export const loginUser = (obj) => dispatch => {
     }
 
     axios
-        .post('http://localhost:3001/api/users/signin',obj,config)
+        .post('users/signin',obj,config)
         .then(res => 
             {
                 dispatch(clearErrors());
@@ -154,7 +154,7 @@ export const loadExecutor = () => (dispatch,getState) => {
     dispatch({type: EXECUTOR_LOADING});
 
     axios
-        .get('http://localhost:3001/api/executors/current',tokenConfig(getState))       
+        .get('executors/current',tokenConfig(getState))       
         .then( res =>
             {
                 dispatch(clearErrors());
@@ -188,7 +188,7 @@ export const registerExecutor = ({ name, email, phone, password }) => dispatch =
     });
 
     axios
-        .post('http://localhost:3001/api/executors/register',body,config)
+        .post('executors/register',body,config)
         .then(res => 
             {
                 dispatch(clearErrors());
@@ -199,7 +199,6 @@ export const registerExecutor = ({ name, email, phone, password }) => dispatch =
             }
         )
         .catch(err => {
-                console.log(err);
             dispatch(
                 returnErrors(
                     err.response.data,
@@ -221,7 +220,7 @@ export const registerConfirmExecutor = (obj) => dispatch => {
         }
     }
     axios
-        .post('http://localhost:3001/api/executors/register/confirm',obj,config)
+        .post('executors/register/confirm',obj,config)
         .then(res => 
                 {
                     dispatch(clearErrors());
@@ -249,9 +248,9 @@ export const loginExecutor = (obj) => dispatch => {
             'Content-Type': 'application/json'
         }
     }
-    console.log("action",obj);
+
     axios
-        .post('http://localhost:3001/api/executors/signin',obj,config)
+        .post('executors/signin',obj,config)
         .then(res => 
             {
                 dispatch(clearErrors());
