@@ -50,7 +50,7 @@ const styles = theme => ({
 });
 
 
-class UserRegistrationForm extends React.Component {
+class ExecutorRegistrationForm extends React.Component {
     constructor(props){
         super(props);
         this.state = {
@@ -65,11 +65,12 @@ class UserRegistrationForm extends React.Component {
           initialValues={{ name: "", password: ""}}
           validationSchema={validationSchema}
           onSubmit={(values, { setFieldError }) => {
-            let user ={
+            let executor ={
               name:values.name,
               password:values.password
             }
-              this.props.loginUser(user);
+            console.log(executor);
+              this.props.loginExecutor(executor);
             }
           }
         component={this.form}
@@ -128,4 +129,4 @@ class UserRegistrationForm extends React.Component {
 //   register: PropTypes.func.isRequired,
 // };
 
-export default withStyles(styles)(UserRegistrationForm);
+export default withStyles(styles)(ExecutorRegistrationForm);

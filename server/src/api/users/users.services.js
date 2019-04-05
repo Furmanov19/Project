@@ -5,7 +5,7 @@ const User = require("../../models/user.model");
 const nodemailer = require("nodemailer");
 
 async function register(data) {
-  const { name, email, phone, username, password, orders,role="user",emailConfirmed=false,attemts=5 } = data;
+  const { name, email, phone,  password, orders,role="user",emailConfirmed=false,attemts=5 } = data;
   let code=Math.floor(100000 + Math.random() * 900000);
 
   const output =`
@@ -110,7 +110,7 @@ async function loadUser( user ) {
 }
 
 async function authenticate( { name, password } ) {
-    const user = await User.findOne( { name } )
+    const user = await User.findOne( { name } );
 
     if ( user === null ) throw new Error ( "User not found" );
     if ( user.emailConfirmed === false ) throw new Error ( "User not confirmd" );

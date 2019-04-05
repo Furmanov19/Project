@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import {BrowserRouter,Route,Switch} from 'react-router-dom';
 import { Provider } from 'react-redux';
-import {loadUser} from '../actions/authActions'
+import {loadUser,loadExecutor} from '../actions/authActions'
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Home from './home/Home';
 import store from '../store';
@@ -9,6 +9,7 @@ import store from '../store';
 class App extends Component {
   componentDidMount() {
     store.dispatch(loadUser());
+    store.dispatch(loadExecutor());
   }
   render() {
     return (

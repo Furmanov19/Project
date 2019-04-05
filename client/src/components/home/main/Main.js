@@ -9,7 +9,7 @@ class Main extends Component {
       <>
         {
           this.props.executors.map(executor =>
-            <ExecutorPaper key={executor._id} username={executor.username} role={executor.role} />
+            <ExecutorPaper key={executor._id} name={executor.name} role={executor.role} />
           )
         }
       </>

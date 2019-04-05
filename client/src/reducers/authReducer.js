@@ -1,6 +1,7 @@
 import {
     USER_LOADING,
     USER_LOADED,
+    USER_LOADING_FAIL,
     USER_LOGIN_SUCCESS,
     USER_LOGIN_FAIL,
     USER_REGISTER_SUCCESS,
@@ -9,6 +10,7 @@ import {
     USER_REGISTER_CONFIRM_FAIL,
     EXECUTOR_LOADING,
     EXECUTOR_LOADED,
+    EXECUTOR_LOADING_FAIL,
     EXECUTOR_LOGIN_SUCCESS,
     EXECUTOR_LOGIN_FAIL,
     EXECUTOR_REGISTER_SUCCESS,
@@ -45,7 +47,12 @@ export default function (state = initialState, action) {
                 user: action.payload,
                 executor:null
             }
-            case EXECUTOR_LOADED:
+        case USER_LOADING_FAIL:
+            return {
+                ...state,
+                user: null
+            };
+        case EXECUTOR_LOADED:
             return {
                 ...state,
                 isAuthenticated: true,
@@ -54,6 +61,11 @@ export default function (state = initialState, action) {
                 user: null,
                 executor: action.payload
             }
+        case EXECUTOR_LOADING_FAIL:
+            return {
+                ...state,
+                executor: null
+            };
         case USER_REGISTER_SUCCESS:
             return {
                 ...state,
@@ -88,7 +100,7 @@ export default function (state = initialState, action) {
                 ...state,
                 isConfirmed: true,
                 user: null,
-                executor: action.payload.user
+                executor: action.payload.executor
             };
         case AUTH_ERROR:
         case USER_LOGIN_FAIL:
@@ -98,7 +110,7 @@ export default function (state = initialState, action) {
         case USER_REGISTER_CONFIRM_FAIL:
         case EXECUTOR_REGISTER_FAIL:
         case EXECUTOR_REGISTER_CONFIRM_FAIL:
-            localStorage.removeItem('token');
+            localStorage.removeItem('token');//тк загружается сразу 2 юзера и происходит удаление токена тк на одного из низ выбрасывает ошибку
             return {
                 ...state,
                 token:null,

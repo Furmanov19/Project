@@ -13,7 +13,7 @@ const schema = new mongoose.Schema(
     addres:{type: String, required: false },
     services: [{ type: String, required: false, lowercase: true }],
     orders:[{type: mongoose.Schema.Types.ObjectId, ref: 'Order', required: false}],
-    password: { type: String, required: true, select: false },
+    password: { type: String, required: true, select: true },
     role: { type: String, required: false, lowercase: true },
     rate:[{
       customer_id:{type: mongoose.Schema.Types.ObjectId, ref: 'Order', required: false},
@@ -56,7 +56,7 @@ schema.post("save", function(error, doc, next) {
 schema.methods.comparePassword = function(candidatePassword) {
   return new Promise((resolve, reject) => {
     bcrypt.compare(candidatePassword, this.password, (err, success) => {
-      if (err) return reject(err);
+      if ( err ) { return reject( err ) }
       return resolve(success);
     });
   });

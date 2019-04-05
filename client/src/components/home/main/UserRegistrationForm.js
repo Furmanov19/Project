@@ -153,6 +153,7 @@ class UserRegistrationForm extends React.Component {
           textFieldStyle={classes.textField}
           btnStyle={classes.button}
           userEmail={values.email}
+          user
         />
       )}
       {!this.state.isSended && (

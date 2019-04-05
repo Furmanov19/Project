@@ -15,11 +15,19 @@ export default class ConfirmForm extends Component {
         this.handleChange=this.handleChange.bind(this);
     }
     handleClick(){
+      if(this.props.user) {
         const userInfo={
             code:this.state.code,
             email:this.props.userEmail
         }
         this.props.registerConfirmUser(userInfo);
+      } else if(this.props.executor) {
+        const executorInfo={
+          code:this.state.code,
+          email:this.props.executorEmail
+      }
+      this.props.registerConfirmExecutor(executorInfo);
+      }
     }
     handleChange(e){
         this.setState({[e.target.name]:e.target.value});

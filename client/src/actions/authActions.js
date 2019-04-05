@@ -4,6 +4,7 @@ import {returnErrors,clearErrors} from './errorActions';
 import {
     USER_LOADING,
     USER_LOADED,
+    USER_LOADING_FAIL,
     USER_LOGIN_SUCCESS,
     USER_LOGIN_FAIL,
     USER_REGISTER_SUCCESS,
@@ -12,6 +13,7 @@ import {
     USER_REGISTER_CONFIRM_FAIL,
     EXECUTOR_LOADING,
     EXECUTOR_LOADED,
+    EXECUTOR_LOADING_FAIL,
     EXECUTOR_LOGIN_SUCCESS,
     EXECUTOR_LOGIN_FAIL,
     EXECUTOR_REGISTER_SUCCESS,
@@ -40,7 +42,7 @@ export const loadUser = () => (dispatch,getState) => {
         )
         .catch( err => {
             dispatch(returnErrors(err.response.data, err.response.status));
-            dispatch({type:AUTH_ERROR});
+            dispatch({type:USER_LOADING_FAIL});
         });
 };
 
@@ -164,7 +166,7 @@ export const loadExecutor = () => (dispatch,getState) => {
         )
         .catch( err => {
             dispatch(returnErrors(err.response.data, err.response.status));
-            dispatch({type:AUTH_ERROR});
+            dispatch({type:EXECUTOR_LOADING_FAIL});
         });
 };
 
@@ -247,7 +249,7 @@ export const loginExecutor = (obj) => dispatch => {
             'Content-Type': 'application/json'
         }
     }
-
+    console.log("action",obj);
     axios
         .post('http://localhost:3001/api/executors/signin',obj,config)
         .then(res => 

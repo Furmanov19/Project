@@ -7,7 +7,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import UserLoginContainer from '../../../containers/UserLoginContainer';
-
+import ExecutorLoginContainer from '../../../containers/ExecutorLoginContainer';
 
 function TabContainer({ children, dir, component="div" }) {
   return (
@@ -61,7 +61,7 @@ class LoginPage extends React.Component {
           onChangeIndex={this.handleChangeIndex}
         >
           <TabContainer dir={theme.direction} component={UserLoginContainer}>Item One</TabContainer>
-          <TabContainer dir={theme.direction}>Item Two</TabContainer>
+          <TabContainer dir={theme.direction} component={ExecutorLoginContainer}>Item Two</TabContainer>
         </SwipeableViews>
       </div>
     );

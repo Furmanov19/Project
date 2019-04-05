@@ -72,7 +72,7 @@ class ExecutorRegistrationForm extends React.Component {
   render() {
     return (
       <Formik
-          initialValues={{ name: "", email:"", phone:"", password: ""}}
+          initialValues={{ name: "", email:"", discription:"", password: ""}}
           validationSchema={validationSchema}
           onSubmit={(values, { setFieldError }) => {
               try{
@@ -80,10 +80,10 @@ class ExecutorRegistrationForm extends React.Component {
                 const newUser={
                   name:values.name,
                   email:values.email,
-                  phone:values.phone,
+                  discription:values.discription,
                   password:values.password
                 }
-                this.props.registerUser(newUser);
+                this.props.registerExecutor(newUser);
               } catch (errors) {
                 errors.forEach(err => {
                   setFieldError(err.field, err.error);
@@ -100,7 +100,7 @@ class ExecutorRegistrationForm extends React.Component {
   return (
     <form className={classes.container} onSubmit={handleSubmit} noValidate>
       <TextField
-            label="Name"
+            label="Company Name"
             autoComplete="name"
             className={classes.textField}
             disabled = {(this.state.disabled)? true : false}
@@ -113,6 +113,19 @@ class ExecutorRegistrationForm extends React.Component {
             error={Boolean(errors.name)}
       />
       <TextField
+          label="Discription"
+          multiline
+          rowsMax="4"
+          value={values.discription}
+          onChange={handleChange}
+          className={classes.textField}
+          margin="normal"
+          variant="outlined"
+          name="discription"
+          helperText={errors.discription}
+          error={Boolean(errors.discription)}
+        />
+      <TextField
             label="Email"
             autoComplete="email"
             className={classes.textField}
@@ -124,15 +137,6 @@ class ExecutorRegistrationForm extends React.Component {
             value={values.email}
             helperText={errors.email}
             error={Boolean(errors.email)}
-      />
-      <Input
-            className={classes.textField}
-            disabled = {(this.state.disabled)? true : false}
-            name="phone"
-            onChange={handleChange}
-            value={values.phone}
-            helperText={errors.phone}
-            error={Boolean(errors.phone)}
       />
       <TextField
             label="Password"
@@ -152,7 +156,8 @@ class ExecutorRegistrationForm extends React.Component {
           containerStyle={classes.confirmContainer}
           textFieldStyle={classes.textField}
           btnStyle={classes.button}
-          userEmail={values.email}
+          executorEmail={values.email}
+          executor
         />
       )}
       {!this.state.isSended && (
@@ -176,7 +181,7 @@ class ExecutorRegistrationForm extends React.Component {
 ExecutorRegistrationForm.propTypes = {
   classes: PropTypes.object.isRequired,
   error: PropTypes.object.isRequired,
-  registerUser: PropTypes.func.isRequired,
+  registerExecutor: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(ExecutorRegistrationForm);

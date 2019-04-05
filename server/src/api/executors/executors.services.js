@@ -112,39 +112,39 @@ async function loadExecutor( executor ) {
 }
 
 async function authenticate( { name, password } ) {
-  const executor = await Executor.findOne( { name } )
+  const executor = await Executor.findOne( { name } );
 
-    if ( executor === null ) throw new Error ( "Executor not found" );
-    if ( executor.emailConfirmed === false ) throw new Error ( "Executor not confirmd" );
-    
-    let success = await user.comparePassword(password);
+  if ( executor === null ) throw new Error ( "Executor not found" );
+  if ( executor.emailConfirmed === false ) throw new Error ( "Executor not confirmd" );
 
-    if ( success === false ) throw new Error ( "Password is incorrect" );
+  let success = await executor.comparePassword(password);
 
-    const token = jwt.sign (
-      { 
-        id: executor._id,
-        role: executor.role
-      },
-      config.jwt.secret,
-      { expiresIn: config.jwt.expiration }
-    );
+  if ( success === false ) throw new Error ( "Password is incorrect" );
 
-    return {
-      token: token,
-      user: {
-        _id: executor._id,
-        role: executor.role
-        // emailConfirmed:executor.emailConfirmed
-      }
-    };
+  const token = jwt.sign (
+    { 
+      id: executor._id,
+      role: executor.role
+    },
+    config.jwt.secret,
+    { expiresIn: config.jwt.expiration }
+  );
+
+  return {
+    token: token,
+    executor: {
+      _id: executor._id,
+      role: executor.role
+      // emailConfirmed:executor.emailConfirmed
+    }
+  };
 }
 
 
 
 
 
-async function get(_id ) {
+async function get() {
   return Executor.find({emailConfirmed:true});
 }
 async function getById(_id ) {
