@@ -6,8 +6,8 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
-import UserRegistrationContainer from '../../../containers/UserRegistrationContainer';
-import ExecutorRegistrationContainer from '../../../containers/ExecutorRegistrationContainer';
+import UserLoginContainer from '../../../../containers/UserLoginContainer';
+import ExecutorLoginContainer from '../../../../containers/ExecutorLoginContainer';
 
 function TabContainer({ children, dir, component="div" }) {
   return (
@@ -25,7 +25,7 @@ const styles = theme => ({
   },
 });
 
-class RegistrationPage extends React.Component {
+class LoginPage extends React.Component {
   state = {
     value: 0,
   };
@@ -60,17 +60,17 @@ class RegistrationPage extends React.Component {
           index={this.state.value}
           onChangeIndex={this.handleChangeIndex}
         >
-          <TabContainer dir={theme.direction} component={UserRegistrationContainer}>Item One</TabContainer>
-          <TabContainer dir={theme.direction} component={ExecutorRegistrationContainer}>Item Two</TabContainer>
+          <TabContainer dir={theme.direction} component={UserLoginContainer}>Item One</TabContainer>
+          <TabContainer dir={theme.direction} component={ExecutorLoginContainer}>Item Two</TabContainer>
         </SwipeableViews>
       </div>
     );
   }
 }
 
-RegistrationPage.propTypes = {
+LoginPage.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(RegistrationPage);
+export default withStyles(styles, { withTheme: true })(LoginPage);

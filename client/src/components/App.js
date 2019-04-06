@@ -5,13 +5,13 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import store from '../store';
 import HeaderContainer from '../containers/HeaderContainer';
 import HomePageContainer from '../containers/HomePageContainer';
-import RegistrationPage from '../components/home/main/RegistrationPage';
-import LoginPage from '../components/home/main/LoginPage';
+import RegistrationPage from './home/main/RegistrationPage/RegistrationPage';
+import LoginPage from './home/main/LoginPage/LoginPage';
 
-import UserOrderPage from '../components/home/main/UserOrderPage';
-import UserProfilePage from '../components/home/main/UserProfilePage';
-import ExecutorOrderPage from '../components/home/main/ExecutorOrderPage';
-import ExecutorProfilePage from '../components/home/main/ExecutorProfilePage';
+import UserOrderPage from './home/main/OrdersPage/UserOrderPage';
+import UserProfilePage from './home/main/ProfilePage/UserProfilePage';
+import ExecutorOrderPage from './home/main/OrdersPage/ExecutorOrderPage';
+import ExecutorProfilePage from './home/main/ProfilePage/ExecutorProfilePage';
 import { connect } from 'react-redux';
 
 class App extends Component {

@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { loginExecutor } from '../actions/authActions';
 import { clearErrors } from '../actions/errorActions';
-import ExecutorLoginForm from '../components/home/main/ExecutorLoginForm';
+import ExecutorLoginForm from '../components/home/main/LoginPage/ExecutorLoginForm';
 
 
 const mapStateToProps = state => ({
