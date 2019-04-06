@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ExecutorPaper from './ExecutorPaper';
+import ExecutorPaper from './ExecutorCard';
 
 class Main extends Component {
   componentWillMount(){

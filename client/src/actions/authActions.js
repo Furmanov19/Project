@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {returnErrors,clearErrors} from './errorActions';
-
+import {push} from 'connected-react-router';
 import {
     USER_LOADING,
     USER_LOADED,
@@ -40,6 +40,9 @@ export const loadUser = () => (dispatch,getState) => {
                 });
             }
         )
+        .then(() => {
+            dispatch(push('/profile'));
+        })
         .catch( err => {
             dispatch(returnErrors(err.response.data, err.response.status));
             dispatch({type:USER_LOADING_FAIL});
@@ -107,6 +110,9 @@ export const registerConfirmUser = (obj) => dispatch => {
                     });
             }
         )
+        .then(() => {
+            dispatch(push('/profile'));
+        })
         .catch(err =>{
             dispatch(
                 returnErrors(err.response.data,err.response.status,'USER_REGISTER_CONFIRM_FAIL')
@@ -137,6 +143,9 @@ export const loginUser = (obj) => dispatch => {
                 });
             }
         )
+        .then(() => {
+            dispatch(push('/profile'));
+        })
         .catch(err =>{
             dispatch(
                 returnErrors(err.response.data,err.response.status,'USER_LOGIN_FAIL')
@@ -164,6 +173,9 @@ export const loadExecutor = () => (dispatch,getState) => {
                 });
             }
         )
+        .then(() => {
+            dispatch(push('/profile'));
+        })
         .catch( err => {
             dispatch(returnErrors(err.response.data, err.response.status));
             dispatch({type:EXECUTOR_LOADING_FAIL});
@@ -230,6 +242,9 @@ export const registerConfirmExecutor = (obj) => dispatch => {
                     });
             }
         )
+        .then(() => {
+            dispatch(push('/profile'));
+        })
         .catch(err =>{
             dispatch(
                 returnErrors(err.response.data,err.response.status,'EXECUTOR_REGISTER_CONFIRM_FAIL')
@@ -260,6 +275,9 @@ export const loginExecutor = (obj) => dispatch => {
                 });
             }
         )
+        .then(() => {
+            dispatch(push('/profile'));
+        })
         .catch(err =>{
             dispatch(
                 returnErrors(err.response.data,err.response.status,'EXECUTOR_LOGIN_FAIL')

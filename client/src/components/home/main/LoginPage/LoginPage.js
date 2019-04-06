@@ -39,7 +39,7 @@ class LoginPage extends React.Component {
   };
 
   render() {
-    const { classes, theme } = this.props;
+    const { classes, theme, history } = this.props;
 
     return (
       <div className={classes.root}>
