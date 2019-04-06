@@ -5,6 +5,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import Button from "@material-ui/core/Button";
+import { ProfileLink, OrderLink } from './Links';
 
 const styles = {
   root: {
@@ -57,8 +58,8 @@ class ExecutorProfileMenu extends React.Component {
             open={open}
             onClose={this.handleClose}
         >
-            <MenuItem onClick={this.handleClose}>Edit</MenuItem>
-            <MenuItem onClick={this.handleClose}>Orders</MenuItem>
+            <MenuItem onClick={this.handleClose} component={ProfileLink}>Edit</MenuItem>
+            <MenuItem onClick={this.handleClose} component={OrderLink}>Orders</MenuItem>
             <MenuItem onClick={this.props.logout}>Log out</MenuItem>
         </Menu>
       </>

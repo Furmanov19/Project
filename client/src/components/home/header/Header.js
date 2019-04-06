@@ -7,7 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import UserProfileMenu from './UserProfileMenu';
 import ExecutorProfileMenu from './ExecutorProfileMenu';
-import { Link } from 'react-router-dom';
+import { RegLink, LogLink, Logo } from './Links';
 const styles = {
   root: {
     flexGrow: 1,
@@ -35,9 +35,6 @@ const styles = {
     textDecoration:"none"
   }
 };
-const RegLink = props => <Link to="/register" {...props} />
-const LogLink = props => <Link to="/login" {...props} />
-const Logo = props => <Link to="/" {...props} />
 
 class Header extends React.Component {
   constructor(props) {
