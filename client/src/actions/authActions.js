@@ -289,10 +289,9 @@ export const loginExecutor = (obj) => dispatch => {
 }
 
 //logout user
-export const logout = () => {
-    return {
-        type: LOGOUT_SUCCESS
-    }
+export const logout = () => dispatch => {
+    dispatch(push('/'));
+    dispatch({type: LOGOUT_SUCCESS});
 }
 
 

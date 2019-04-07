@@ -7,6 +7,7 @@ import HeaderContainer from '../containers/HeaderContainer';
 import HomePageContainer from '../containers/HomePageContainer';
 import RegistrationPage from './home/main/RegistrationPage/RegistrationPage';
 import LoginPage from './home/main/LoginPage/LoginPage';
+import ExecutorConfirmPage from './home/main/LoginPage/ExecutorConfirmPage';
 
 import UserOrderPage from './home/main/OrdersPage/UserOrderPage';
 import UserProfilePage from './home/main/ProfilePage/UserProfilePage';
@@ -26,7 +27,9 @@ class App extends Component {
         <HeaderContainer />
         <Switch>
           <Route path="/register" component={RegistrationPage}/>
-          <Route path="/login" component={LoginPage}/>
+          <Route path="/login" component={RegistrationPage}/>
+          <Route path="/confirm" component={ExecutorConfirmPage}/>
+
           {this.props.isAuth && this.props.user &&
             <Route path="/profile" component={UserProfilePage}/>//user profile page
           }

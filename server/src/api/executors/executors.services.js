@@ -4,17 +4,38 @@ const Executor = require("../../models/executor.model");
 
 const nodemailer = require("nodemailer");
 async function register(data) {
-  const {logo, name, email, discription, addres, services, orders, password, role="executor",emailConfirmed=false,attemts=5  } = data;
-  let code=Math.floor(100000 + Math.random() * 900000);
+  const {logo, name, email, discription, addres, services, orders, password, role="executor",emailConfirmed=false } = data;
+  
+  const token = jwt.sign(
+    { id: email },
+    config.jwt.secret,
+    { expiresIn: config.jwt.expiration }
+  );
 
+  const executor = new Executor({
+    logo,
+    name,
+    email,
+    emailConfirmed,
+    verifyToken:token,
+    discription,
+    addres,
+    services,
+    orders,
+    password,
+    role
+  });
+  await executor.save();
+
+  const link =`http://localhost:3000/confirm?verifyToken=${token}`;
+  
   const output =`
     <p>You have a new contact request</p>
     <h3>Details</h3>
     <ul>
       <li>${name}</li>
-      <li>${role}</li>
     </ul>
-    <p>Your confirm code is ${code}</p>
+    <p>Follow <a>${link}</a></p>
   `;
 
   let transporter = nodemailer.createTransport({
@@ -36,21 +57,6 @@ async function register(data) {
   let info = await transporter.sendMail(mailOptions);
   console.log("Message sent: %s", info.messageId);
 
-  const executor = new Executor({
-    logo,
-    name,
-    email,
-    emailConfirmed,
-    attemts,
-    code,
-    discription,
-    addres,
-    services,
-    orders,
-    password,
-    role
-  });
-  await executor.save();
   const savedExecutor =await Executor.findOne({email});
   const res = {
     _id:savedExecutor._id,
@@ -59,18 +65,20 @@ async function register(data) {
   return res;
 }
 
-async function confirm( { code,email } ) {
-  const executor = await Executor.findOne( { email } );
-  let count = executor.attemts;
-
-  if(executor.code === code) {
-    await Executor.findOneAndUpdate( { code },{
+async function confirm( { verifyToken } ) {
+  const executor = await Executor.findOne( { verifyToken} );
+  console.log(executor);
+  if ( executor === null ) throw new Error ( "Executor not found!!!" );
+  
+  console.log('executor token',executor.verifyToken);
+  if(executor.verifyToken === verifyToken) {
+    console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+    await Executor.findOneAndUpdate( { verifyToken },{
       $set: {
         emailConfirmed: true
       },
       $unset: {
-        attemts: { $exist: true },
-        code: { $exist: true }
+        verifyToken: { $exist: true }
       }
     });
 
@@ -88,18 +96,6 @@ async function confirm( { code,email } ) {
         // emailConfirmed:executor.emailConfirmed
       }
     };
-  }
-  else if ( count == 1 ) {
-    await Executor.findOneAndRemove( { email } );
-    throw new Error ( 'Executor deleted' );
-  }
-  else {
-    await Executor.findOneAndUpdate( { email },{
-      $set: {
-        attemts: --count
-      }
-    });
-    throw new Error( 'Invalid code' );
   }
 }
 

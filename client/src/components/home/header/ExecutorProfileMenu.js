@@ -37,6 +37,10 @@ class ExecutorProfileMenu extends React.Component {
   handleClose = () => {
     this.setState({ anchorEl: null });
   };
+  handleLogout = () => {
+    this.props.logout();
+    this.setState({ anchorEl: null });
+  }
 
   render() {
     const { anchorEl } = this.state;
@@ -60,7 +64,7 @@ class ExecutorProfileMenu extends React.Component {
         >
             <MenuItem onClick={this.handleClose} component={ProfileLink}>Edit</MenuItem>
             <MenuItem onClick={this.handleClose} component={OrderLink}>Orders</MenuItem>
-            <MenuItem onClick={this.props.logout}>Log out</MenuItem>
+            <MenuItem onClick={this.handleLogout}>Log out</MenuItem>
         </Menu>
       </>
     );

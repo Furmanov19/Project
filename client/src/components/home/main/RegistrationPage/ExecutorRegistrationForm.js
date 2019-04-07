@@ -1,12 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { Formik } from "formik";
 import { string, object } from "yup";
 import InputMask from 'react-input-mask';
-import ConfirmFormContainer from '../../../../containers/UserConfirmFormContainer';
+
+
 const Input = (props) => (
   <InputMask mask="+3\75 \(99\) 999 99 99" maskChar=" " disabled={props.disabled} name={props.name} className={props.className} value={props.value} onChange={props.onChange} helperText={props.helperText} error={props.error}>
     {(inputProps) => <TextField {...inputProps} type="tel" variant="outlined" label="Phone number"  autoComplete="phone"/>}
@@ -152,13 +154,9 @@ class ExecutorRegistrationForm extends React.Component {
             error={Boolean(errors.password)}
       />
       {this.state.isSended && (
-        <ConfirmFormContainer 
-          containerStyle={classes.confirmContainer}
-          textFieldStyle={classes.textField}
-          btnStyle={classes.button}
-          executorEmail={values.email}
-          executor
-        />
+        <Typography>
+         <h3> Register success!Visit Your Email :) </h3>
+        </Typography>
       )}
       {!this.state.isSended && (
         <Button
@@ -185,3 +183,12 @@ ExecutorRegistrationForm.propTypes = {
 };
 
 export default withStyles(styles)(ExecutorRegistrationForm);
+
+
+{/* <ConfirmFormContainer 
+          containerStyle={classes.confirmContainer}
+          textFieldStyle={classes.textField}
+          btnStyle={classes.button}
+          executorEmail={values.email}
+          executor
+        /> */}
