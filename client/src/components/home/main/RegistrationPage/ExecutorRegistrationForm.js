@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button';
 import { Formik } from "formik";
 import { string, object } from "yup";
 import InputMask from 'react-input-mask';
-
+import ExecutorServices from './ExecutorServices';
 
 const Input = (props) => (
   <InputMask mask="+3\75 \(99\) 999 99 99" maskChar=" " disabled={props.disabled} name={props.name} className={props.className} value={props.value} onChange={props.onChange} helperText={props.helperText} error={props.error}>
@@ -67,10 +67,68 @@ class ExecutorRegistrationForm extends React.Component {
         super(props);
         this.state = {
           disabled:false,
-          isSended:false
+          isSended:false,
+          services:{
+            standart:{
+              smallRoom:"",
+              largeRoom:"",
+              toilet:""
+            },
+            general:{
+              smallRoom:"",
+              largeRoom:"",
+              toilet:""
+            },
+            afterRepair:{
+              smallRoom:"",
+              largeRoom:"",
+              toilet:""
+            },
+            carpetDryCleaning:{
+              smallRoom:"",
+              largeRoom:"",
+              toilet:""
+            },
+            office:{
+              smallRoom:"",
+              largeRoom:"",
+              toilet:""
+            },
+            industrialСleaning:{
+              smallRoom:"",
+              largeRoom:"",
+              toilet:""
+            },
+            furniture:{
+              smallRoom:"",
+              largeRoom:"",
+              toilet:""
+            },
+            pool:{
+              smallRoom:"",
+              largeRoom:"",
+              toilet:""
+            }
+          }  
         };
-       
+      // handleChangeService () {}
+      this.handleChangeService=this.handleChangeService.bind(this);
     }
+
+    handleChangeService(e,service){
+        
+      this.setState({
+      ...this.state,
+      "services":{
+        ...this.state.services,
+        [service]: {
+            ...this.state.services[service],
+            [e.target.name]: e.target.value
+        }
+      }
+      })
+    }
+
   render() {
     return (
       <Formik
@@ -79,13 +137,16 @@ class ExecutorRegistrationForm extends React.Component {
           onSubmit={(values, { setFieldError }) => {
               try{
                 this.setState({disabled:true,isSended:true});
-                const newUser={
+                console.log(object);
+                const newExecutor={
                   name:values.name,
                   email:values.email,
                   discription:values.discription,
-                  password:values.password
+                  password:values.password,
+                  services:this.state.services
                 }
-                this.props.registerExecutor(newUser);
+                console.log(newExecutor);
+                this.props.registerExecutor(newExecutor);
               } catch (errors) {
                 errors.forEach(err => {
                   setFieldError(err.field, err.error);
@@ -153,9 +214,11 @@ class ExecutorRegistrationForm extends React.Component {
             helperText={errors.password}
             error={Boolean(errors.password)}
       />
+      <ExecutorServices   handleChangeService={this.handleChangeService}/>
+      
       {this.state.isSended && (
         <Typography>
-         <h3> Register success!Visit Your Email :) </h3>
+          <h3> Register success!Visit Your Email :) </h3>
         </Typography>
       )}
       {!this.state.isSended && (
@@ -183,12 +246,3 @@ ExecutorRegistrationForm.propTypes = {
 };
 
 export default withStyles(styles)(ExecutorRegistrationForm);
-
-
-{/* <ConfirmFormContainer 
-          containerStyle={classes.confirmContainer}
-          textFieldStyle={classes.textField}
-          btnStyle={classes.button}
-          executorEmail={values.email}
-          executor
-        /> */}

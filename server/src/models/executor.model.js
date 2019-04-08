@@ -10,7 +10,48 @@ const schema = new mongoose.Schema(
     verifyToken:{type:String, required: false},
     discription:{type: String, required: false },
     addres:{type: String, required: false },
-    services: [{ type: String, required: false, lowercase: true }],
+    services:{
+      standart:{
+        smallRoom:{type: Number, required: false},
+        largeRoom:{type: Number, required: false},
+        toilet:{type: Number, required: false}
+      },
+      general:{
+        smallRoom:{type: Number, required: false},
+        largeRoom:{type: Number, required: false},
+        toilet:{type: Number, required: false}
+      },
+      afterRepair:{
+        smallRoom:{type: Number, required: false},
+        largeRoom:{type: Number, required: false},
+        toilet:{type: Number, required: false}
+      },
+      carpetDryCleaning:{
+        smallRoom:{type: Number, required: false},
+        largeRoom:{type: Number, required: false},
+        toilet:{type: Number, required: false}
+      },
+      office:{
+        smallRoom:{type: Number, required: false},
+        largeRoom:{type: Number, required: false},
+        toilet:{type: Number, required: false}
+      },
+      furniture:{
+        smallRoom:{type: Number, required: false},
+        largeRoom:{type: Number, required: false},
+        toilet:{type: Number, required: false}
+      },
+      industrialСleaning:{
+        smallRoom:{type: Number, required: false},
+        largeRoom:{type: Number, required: false},
+        toilet:{type: Number, required: false}
+      },
+      pool:{
+        smallRoom:{type: Number, required: false},
+        largeRoom:{type: Number, required: false},
+        toilet:{type: Number, required: false}
+      },
+    },
     orders:[{type: mongoose.Schema.Types.ObjectId, ref: 'Order', required: false}],
     password: { type: String, required: true, select: true },
     role: { type: String, required: false, lowercase: true },

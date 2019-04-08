@@ -183,7 +183,7 @@ export const loadExecutor = () => (dispatch,getState) => {
 };
 
 //register executor
-export const registerExecutor = ({ name, email, phone, password }) => dispatch => {
+export const registerExecutor = (executor) => dispatch => {
     //headers
     const config = {
         headers: {
@@ -192,12 +192,7 @@ export const registerExecutor = ({ name, email, phone, password }) => dispatch =
     };
 
     //request body
-    const body =JSON.stringify({
-        name,
-        email,
-        phone,
-        password
-    });
+    const body =JSON.stringify( executor );
 
     axios
         .post('executors/register',body,config)

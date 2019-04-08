@@ -27,7 +27,7 @@ async function register(data) {
   });
   await executor.save();
 
-  const link =`http://localhost:3000/confirm?verifyToken=${token}`;
+  const link =`<a href="http://localhost:3000/confirm?verifyToken=${token}">finish registration</a>`;
   
   const output =`
     <p>You have a new contact request</p>
@@ -35,7 +35,7 @@ async function register(data) {
     <ul>
       <li>${name}</li>
     </ul>
-    <p>Follow <a>${link}</a></p>
+    <p>Follow ${link}</p>
   `;
 
   let transporter = nodemailer.createTransport({
@@ -67,12 +67,9 @@ async function register(data) {
 
 async function confirm( { verifyToken } ) {
   const executor = await Executor.findOne( { verifyToken} );
-  console.log(executor);
-  if ( executor === null ) throw new Error ( "Executor not found!!!" );
+  if ( executor === null ) throw new Error ( "Executor not found" );
   
-  console.log('executor token',executor.verifyToken);
   if(executor.verifyToken === verifyToken) {
-    console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
     await Executor.findOneAndUpdate( { verifyToken },{
       $set: {
         emailConfirmed: true
