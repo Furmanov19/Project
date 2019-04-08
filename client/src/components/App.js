@@ -16,7 +16,7 @@ import ExecutorProfilePage from './home/main/ProfilePage/ExecutorProfilePage';
 import { connect } from 'react-redux';
 
 class App extends Component {
-  componentDidMount() {
+  componentWillMount() {
     store.dispatch(loadUser());
     store.dispatch(loadExecutor());
   }
@@ -27,7 +27,7 @@ class App extends Component {
         <HeaderContainer />
         <Switch>
           <Route path="/register" component={RegistrationPage}/>
-          <Route path="/login" component={RegistrationPage}/>
+          <Route path="/login" component={LoginPage}/>
           <Route path="/confirm" component={ExecutorConfirmPage}/>
 
           {this.props.isAuth && this.props.user &&

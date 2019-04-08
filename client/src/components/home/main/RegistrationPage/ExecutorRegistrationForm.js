@@ -214,8 +214,16 @@ class ExecutorRegistrationForm extends React.Component {
             helperText={errors.password}
             error={Boolean(errors.password)}
       />
-      <ExecutorServices   handleChangeService={this.handleChangeService}/>
-      
+
+      <ExecutorServices serviceType={"standart"} serviceName={"Standart Cleaning"} handleChangeService={this.handleChangeService}/>
+      <ExecutorServices serviceType={"general"} serviceName={"General Cleaning"} handleChangeService={this.handleChangeService}/>
+      <ExecutorServices serviceType={"afterRepair"} serviceName={"Cleaning after repair"} handleChangeService={this.handleChangeService}/>
+      <ExecutorServices serviceType={"carpetDryCleaning"} serviceName={"Carpet Dry-Cleaning"} handleChangeService={this.handleChangeService}/>
+      <ExecutorServices serviceType={"office"} serviceName={"Office Cleaning"} handleChangeService={this.handleChangeService}/>
+      <ExecutorServices serviceType={"industrialCleaning"} serviceName={"Industrial Cleaning"} handleChangeService={this.handleChangeService}/>
+      <ExecutorServices serviceType={"furniture"} serviceName={"Furniture Cleaning"} handleChangeService={this.handleChangeService}/>
+      <ExecutorServices serviceType={"pool"} serviceName={"Pool Cleaning"} handleChangeService={this.handleChangeService}/>
+
       {this.state.isSended && (
         <Typography>
           <h3> Register success!Visit Your Email :) </h3>

@@ -39,7 +39,7 @@ module.exports.signinExecutor = (req, res, next) => {
 
 module.exports.getExecutors = (req, res, next) => {
   executorService
-      .get()
+      .get(req.query)
       .then(executors => {
         executors
           ? res.json(executors)

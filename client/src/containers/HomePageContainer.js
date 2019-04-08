@@ -4,7 +4,7 @@ import Main from '../components/home/main/Main'
 
 const mapStateToProps = state => ({
     error: state.error,
-    executors:state.executors.executors
+    executors:state.executors.executors.docs
 });
 
 

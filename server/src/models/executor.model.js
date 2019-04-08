@@ -1,10 +1,11 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+const mongoosePaginate = require('mongoose-paginate');
 
 const schema = new mongoose.Schema(
   {
     logo:{type: String, required: false },
-    name: { type: String, required: true ,unique:false},
+    name: { type: String, required: true ,unique:false, select:true},
     email: { type: String, required: false },
     emailConfirmed:{type:Boolean, required: false},
     verifyToken:{type:String, required: false},
@@ -53,7 +54,7 @@ const schema = new mongoose.Schema(
       },
     },
     orders:[{type: mongoose.Schema.Types.ObjectId, ref: 'Order', required: false}],
-    password: { type: String, required: true, select: true },
+    password: { type: String, required: true},//, select: true 
     role: { type: String, required: false, lowercase: true },
     rate:[{
       customer_id:{type: mongoose.Schema.Types.ObjectId, ref: 'Order', required: false},
@@ -123,5 +124,7 @@ schema.set("toObject", {
     delete ret.__v;
   }
 });
+
+schema.plugin(mongoosePaginate);
 
 module.exports = mongoose.model("Executor", schema);

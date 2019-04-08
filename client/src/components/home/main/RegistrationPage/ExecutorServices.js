@@ -69,26 +69,26 @@ class ExecutorServices extends React.Component {
           onChange={this.handleChange('panel')}
         >
           <ExpansionPanelSummary>
-            <Typography>Standart Cleaning</Typography>
+            <Typography>{this.props.serviceName}</Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
           <TextField
             label="Small Room"
             margin="normal"
             name="smallRoom"
-            onChange={(Event)=>{ this.props.handleChangeService(Event,"standart")}}
+            onChange={(Event)=>{ this.props.handleChangeService(Event,this.props.serviceType)}}
             />
             <TextField
                     label="Large Room"
                     margin="normal"
                     name="largeRoom"
-                    onChange={(Event)=>{ this.props.handleChangeService(Event,"standart") }}
+                    onChange={(Event)=>{ this.props.handleChangeService(Event,this.props.serviceType) }}
             />
             <TextField
                     label="Toilet"
                     margin="normal"
                     name="toilet"
-                    onChange={(Event)=>{ this.props.handleChangeService(Event,"standart") }}
+                    onChange={(Event)=>{ this.props.handleChangeService(Event,this.props.serviceType) }}
             />
           </ExpansionPanelDetails>
         </ExpansionPanel>

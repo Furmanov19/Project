@@ -1,11 +1,11 @@
 const jwt = require("jsonwebtoken");
 const config = require("../../config/environment");
 const Executor = require("../../models/executor.model");
-
 const nodemailer = require("nodemailer");
+
 async function register(data) {
   const {logo, name, email, discription, addres, services, orders, password, role="executor",emailConfirmed=false } = data;
-  
+
   const token = jwt.sign(
     { id: email },
     config.jwt.secret,
@@ -137,8 +137,17 @@ async function authenticate( { name, password } ) {
 
 
 
-async function get() {
-  return Executor.find({emailConfirmed:true});
+async function get({page,perPage}) {
+
+  const options = {
+    page: parseInt(page, 10) || 1,
+    limit: parseInt(perPage, 10) || 10,
+    select: "name"
+  };
+
+  const executors=await Executor.paginate({emailConfirmed:true},options);
+
+  return executors
 }
 async function getById(_id ) {
     return Executor.findById(_id);
