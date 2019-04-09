@@ -9,6 +9,7 @@ import { fade } from '@material-ui/core/styles/colorManipulator';
 import { withStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
+import SearchSelect from './SearchSelect';
 
 const styles = theme => ({
   root: {
@@ -17,6 +18,11 @@ const styles = theme => ({
   },
   appBar:{
     borderRadius: theme.shape.borderRadius
+  },
+  toolBar:{
+    display:"flex",
+    alignItems:"center",
+    justifyContent:"space-between"
   },
   search: {
     position: 'relative',
@@ -66,7 +72,7 @@ function SearchPanel(props) {
   return (
     <div className={classes.root}>
       <AppBar className={classes.appBar} position="static">
-        <Toolbar>
+        <Toolbar className={classes.toolBar}>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
@@ -81,6 +87,8 @@ function SearchPanel(props) {
               onChange={(e)=>{props.handleSearchChange(e)}}
             />
           </div>
+          
+          <SearchSelect/>
         </Toolbar>
       </AppBar>
     </div>

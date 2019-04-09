@@ -148,7 +148,8 @@ async function get({page,perPage,search}) {
   const options = {
     page: parseInt(page, 10) || 1,
     limit: parseInt(perPage, 10) || 1,
-    select: "name"
+    select: "name",
+    sort:{name:1}
   };
 
   const executors=await Executor.paginate(query,options);

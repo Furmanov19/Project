@@ -15,7 +15,9 @@ const theme = createMuiTheme({
 const styles = theme => ({
     root: {
         width:"50%",
-        margin:"0 auto"
+        margin:"0 auto",
+        display:"flex",
+        justifyContent:"center"
     },
   });
 
