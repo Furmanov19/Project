@@ -8,13 +8,15 @@ import {
 } from './types';
 
 
-export const getExecutors = () => dispatch => {
+export const getExecutors = (offset=0) => dispatch => {
     //executors loading
+    console.log("offset",offset);
     dispatch({type:EXECUTORS_LOADING});
-    
+    let page=++offset;
+    console.log("page",page);
     //get executors
     axios
-        .get('http://localhost:3001/api/executors')
+        .get(`executors?page=${page}`)
         .then(res =>
             dispatch({
                 type:EXECUTORS_LOADED,
