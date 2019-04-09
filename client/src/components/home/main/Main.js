@@ -5,14 +5,35 @@ import SearchPanel from './SearchPanel';
 import Pagination from "./Pagination";
 
 class Main extends Component {
-  componentDidMount(){
-    this.props.getExecutors();
+  constructor(props){
+    super(props);
+    this.state={
+      offset:0,
+      searchValue:""
+    }
+    this.handlePaginateClick=this.handlePaginateClick.bind(this);
+    this.handleSearchChange=this.handleSearchChange.bind(this);
   }
-
+  handlePaginateClick(offset) {
+    this.setState({offset},()=>{
+      this.props.getExecutors(this.state.offset,this.state.searchValue);
+    });
+    
+  }
+  handleSearchChange(e) {
+    this.setState({[e.target.name]:e.target.value},()=>{
+      console.log(this.state.searchValue);
+      this.props.getExecutors(this.state.offset,this.state.searchValue);
+    });
+    
+  }
+  componentDidMount(){
+    this.props.getExecutors(this.state.offset,this.state.searchValue);
+  }
   render() {
     return (
       <>
-        <SearchPanel />
+        <SearchPanel handleSearchChange={this.handleSearchChange}/>
         {
           (this.props.executors === undefined)?
           <Load/>:
@@ -20,7 +41,7 @@ class Main extends Component {
               {this.props.executors.map(executor =>
                 <ExecutorPaper key={executor._id} name={executor.name} />
               )}
-              <Pagination />
+              <Pagination handlePaginateClick={this.handlePaginateClick} offset={this.state.offset}/>
             </div>
           )
         }

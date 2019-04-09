@@ -20,24 +20,15 @@ const styles = theme => ({
   });
 
 class PaginationPaper extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { offset: 0 };
-  }
-  handleClick(offset) {
-    this.setState({ offset });
-    console.log(offset);
-    this.props.getExecutors(offset);
-  }
   render() {
     return (
         <MuiThemeProvider theme={theme}>
             <Pagination
             className={this.props.classes.root}
             limit={this.props.limit}
-            offset={this.state.offset}
+            offset={this.props.offset}
             total={this.props.total}
-            onClick={(e, offset) => this.handleClick(offset)}
+            onClick={(e, offset) => this.props.handlePaginateClick(offset)}
             />
         </MuiThemeProvider>
     );

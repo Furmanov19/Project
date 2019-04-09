@@ -133,15 +133,25 @@ async function authenticate( { name, password } ) {
   };
 }
 
-async function get({page,perPage}) {
+async function get({page,perPage,search}) {
+  let reg ="";
+  if (search === "" || search === null || search === undefined) {
+    reg = ".*";
+  } else {
+    reg = `.*${search}.*`;
+  }
 
+  const query={
+    emailConfirmed:true,
+    name:{ $regex: reg, $options: 'i'}
+  }
   const options = {
     page: parseInt(page, 10) || 1,
     limit: parseInt(perPage, 10) || 1,
     select: "name"
   };
 
-  const executors=await Executor.paginate({emailConfirmed:true},options);
+  const executors=await Executor.paginate(query,options);
 
   return executors
 }

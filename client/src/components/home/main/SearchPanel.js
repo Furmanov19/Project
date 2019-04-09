@@ -77,6 +77,8 @@ function SearchPanel(props) {
                 root: classes.inputRoot,
                 input: classes.inputInput,
               }}
+              name="searchValue"
+              onChange={(e)=>{props.handleSearchChange(e)}}
             />
           </div>
         </Toolbar>
