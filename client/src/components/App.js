@@ -16,7 +16,7 @@ import ExecutorProfilePage from './home/main/ProfilePage/ExecutorProfilePage';
 import { connect } from 'react-redux';
 
 class App extends Component {
-  componentWillMount() {
+  componentDidMount() {
     store.dispatch(loadUser());
     store.dispatch(loadExecutor());
   }

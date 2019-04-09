@@ -133,10 +133,6 @@ async function authenticate( { name, password } ) {
   };
 }
 
-
-
-
-
 async function get({page,perPage}) {
 
   const options = {

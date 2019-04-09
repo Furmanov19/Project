@@ -32,6 +32,9 @@ const validationSchema = object().shape({
   email: string()
     .required("Email is require")
     .matches(/.+@.+\..+/i,"Incorrect email!"),
+  discription: string()
+  .required("You must fill discription to represent your services"),
+  
 });
 
 const styles = theme => ({
@@ -40,7 +43,7 @@ const styles = theme => ({
     display: 'flex',
     flexWrap:'wrap',
     flexDirection:'column',
-    width:'50%',
+    width:'100%',
     margin:'16px auto',
     justifyContent:'center',
     alignItems:'center'
@@ -58,7 +61,6 @@ const styles = theme => ({
     alignItems:'center',
     padding:'2%'
   }
-
 });
 
 
@@ -111,19 +113,18 @@ class ExecutorRegistrationForm extends React.Component {
             }
           }  
         };
-      // handleChangeService () {}
       this.handleChangeService=this.handleChangeService.bind(this);
     }
 
     handleChangeService(e,service){
-        
+
       this.setState({
       ...this.state,
       "services":{
         ...this.state.services,
         [service]: {
             ...this.state.services[service],
-            [e.target.name]: e.target.value
+            [e.target.name]:e.target.value
         }
       }
       })
@@ -137,7 +138,6 @@ class ExecutorRegistrationForm extends React.Component {
           onSubmit={(values, { setFieldError }) => {
               try{
                 this.setState({disabled:true,isSended:true});
-                console.log(object);
                 const newExecutor={
                   name:values.name,
                   email:values.email,
@@ -214,19 +214,18 @@ class ExecutorRegistrationForm extends React.Component {
             helperText={errors.password}
             error={Boolean(errors.password)}
       />
-
-      <ExecutorServices serviceType={"standart"} serviceName={"Standart Cleaning"} handleChangeService={this.handleChangeService}/>
-      <ExecutorServices serviceType={"general"} serviceName={"General Cleaning"} handleChangeService={this.handleChangeService}/>
-      <ExecutorServices serviceType={"afterRepair"} serviceName={"Cleaning after repair"} handleChangeService={this.handleChangeService}/>
-      <ExecutorServices serviceType={"carpetDryCleaning"} serviceName={"Carpet Dry-Cleaning"} handleChangeService={this.handleChangeService}/>
-      <ExecutorServices serviceType={"office"} serviceName={"Office Cleaning"} handleChangeService={this.handleChangeService}/>
-      <ExecutorServices serviceType={"industrialCleaning"} serviceName={"Industrial Cleaning"} handleChangeService={this.handleChangeService}/>
-      <ExecutorServices serviceType={"furniture"} serviceName={"Furniture Cleaning"} handleChangeService={this.handleChangeService}/>
-      <ExecutorServices serviceType={"pool"} serviceName={"Pool Cleaning"} handleChangeService={this.handleChangeService}/>
-
+        <ExecutorServices disabled = {(this.state.disabled)? true : false} serviceType={"standart"}  serviceName={"Standart Cleaning"} handleChangeService={this.handleChangeService}/>
+        <ExecutorServices disabled = {(this.state.disabled)? true : false} serviceType={"general"} serviceName={"General Cleaning"} handleChangeService={this.handleChangeService}/>
+        <ExecutorServices disabled = {(this.state.disabled)? true : false} serviceType={"afterRepair"} serviceName={"Cleaning after repair"} handleChangeService={this.handleChangeService}/>
+        <ExecutorServices disabled = {(this.state.disabled)? true : false} serviceType={"carpetDryCleaning"} serviceName={"Carpet Dry-Cleaning"} handleChangeService={this.handleChangeService}/>
+        <ExecutorServices disabled = {(this.state.disabled)? true : false} serviceType={"office"} serviceName={"Office Cleaning"} handleChangeService={this.handleChangeService}/>
+        <ExecutorServices disabled = {(this.state.disabled)? true : false} serviceType={"industrialCleaning"} serviceName={"Industrial Cleaning"} handleChangeService={this.handleChangeService}/>
+        <ExecutorServices disabled = {(this.state.disabled)? true : false} serviceType={"furniture"} serviceName={"Furniture Cleaning"} handleChangeService={this.handleChangeService}/>
+        <ExecutorServices disabled = {(this.state.disabled)? true : false} serviceType={"pool"} serviceName={"Pool Cleaning"} handleChangeService={this.handleChangeService}/>
+      
       {this.state.isSended && (
-        <Typography>
-          <h3> Register success!Visit Your Email :) </h3>
+        <Typography variant={"h6"}>
+          Register success!Visit Your Email :)
         </Typography>
       )}
       {!this.state.isSended && (
@@ -249,7 +248,6 @@ class ExecutorRegistrationForm extends React.Component {
 
 ExecutorRegistrationForm.propTypes = {
   classes: PropTypes.object.isRequired,
-  error: PropTypes.object.isRequired,
   registerExecutor: PropTypes.func.isRequired,
 };
 

@@ -5,52 +5,52 @@ const mongoosePaginate = require('mongoose-paginate');
 const schema = new mongoose.Schema(
   {
     logo:{type: String, required: false },
-    name: { type: String, required: true ,unique:false, select:true},
-    email: { type: String, required: false },
-    emailConfirmed:{type:Boolean, required: false},
-    verifyToken:{type:String, required: false},
-    discription:{type: String, required: false },
+    name: { type: String, required: true , unique:true, select:true},
+    email: { type: String, required: false, unique:true,},
+    emailConfirmed:{type:Boolean, required: true},
+    verifyToken:{type:String, required: true},
+    discription:{type: String, required: true },
     addres:{type: String, required: false },
     services:{
       standart:{
-        smallRoom:{type: Number, required: false},
-        largeRoom:{type: Number, required: false},
-        toilet:{type: Number, required: false}
+        smallRoom:{type: Number, required: false, default: 0 },
+        largeRoom:{type: Number, required: false, default: 0 },
+        toilet:{type: Number, required: false, default: 0 }
       },
       general:{
-        smallRoom:{type: Number, required: false},
-        largeRoom:{type: Number, required: false},
-        toilet:{type: Number, required: false}
+        smallRoom:{type: Number, required: false, default: 0 },
+        largeRoom:{type: Number, required: false, default: 0 },
+        toilet:{type: Number, required: false, default: 0 }
       },
       afterRepair:{
-        smallRoom:{type: Number, required: false},
-        largeRoom:{type: Number, required: false},
-        toilet:{type: Number, required: false}
+        smallRoom:{type: Number, required: false, default: 0 },
+        largeRoom:{type: Number, required: false, default: 0 },
+        toilet:{type: Number, required: false, default: 0 }
       },
       carpetDryCleaning:{
-        smallRoom:{type: Number, required: false},
-        largeRoom:{type: Number, required: false},
-        toilet:{type: Number, required: false}
+        smallRoom:{type: Number, required: false, default: 0 },
+        largeRoom:{type: Number, required: false, default: 0 },
+        toilet:{type: Number, required: false, default: 0 }
       },
       office:{
-        smallRoom:{type: Number, required: false},
-        largeRoom:{type: Number, required: false},
-        toilet:{type: Number, required: false}
+        smallRoom:{type: Number, required: false, default: 0 },
+        largeRoom:{type: Number, required: false, default: 0 },
+        toilet:{type: Number, required: false, default: 0 }
       },
       furniture:{
-        smallRoom:{type: Number, required: false},
-        largeRoom:{type: Number, required: false},
-        toilet:{type: Number, required: false}
+        smallRoom:{type: Number, required: false, default: 0 },
+        largeRoom:{type: Number, required: false, default: 0 },
+        toilet:{type: Number, required: false, default: 0 }
       },
       industrialСleaning:{
-        smallRoom:{type: Number, required: false},
-        largeRoom:{type: Number, required: false},
-        toilet:{type: Number, required: false}
+        smallRoom:{type: Number, required: false, default: 0 },
+        largeRoom:{type: Number, required: false, default: 0 },
+        toilet:{type: Number, required: false, default: 0 }
       },
       pool:{
-        smallRoom:{type: Number, required: false},
-        largeRoom:{type: Number, required: false},
-        toilet:{type: Number, required: false}
+        smallRoom:{type: Number, required: false, default: 0 },
+        largeRoom:{type: Number, required: false, default: 0 },
+        toilet:{type: Number, required: false, default: 0 }
       },
     },
     orders:[{type: mongoose.Schema.Types.ObjectId, ref: 'Order', required: false}],
@@ -112,6 +112,30 @@ schema.methods.AverageRate=function(rateArray){
       },0) / rateArray.length;
 
       return resolve(averageRate);
+      
+    }catch(err){
+      return reject(err);
+    }
+  });
+};
+schema.methods.AveragePrice=function(services){
+  return new Promise((resolve, reject) => {
+    try{
+      let acc=0;
+      getProp(obj);
+      function getProp(o) {
+        for(var prop in o) {
+            if(typeof(o[prop]) === 'object') {
+                getProp(o[prop]);
+            } else {
+            		if(typeof o[prop] === "number") {
+                    acc+=o[prop];
+                }
+            }
+        }
+      }
+      return resolve(acc);
+      
     }catch(err){
       return reject(err);
     }

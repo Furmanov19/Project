@@ -58,6 +58,12 @@ class ExecutorServices extends React.Component {
       expanded: expanded ? panel : false,
     });
   };
+  handleCheck = e =>{
+    let reg=/[-, ;":'a-zA-Zа-яА-Я]/; 
+    if(reg.test(e.target.value)) 
+    e.target.value=e.target.value.substring(0, e.target.value.length - 1) ;
+  
+  }
 
   render() {
     const { expanded } = this.state;
@@ -73,23 +79,26 @@ class ExecutorServices extends React.Component {
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
           <TextField
+            disabled={this.props.disabled}
             label="Small Room"
             margin="normal"
             name="smallRoom"
             onChange={(Event)=>{ this.props.handleChangeService(Event,this.props.serviceType)}}
             />
-            <TextField
-                    label="Large Room"
-                    margin="normal"
-                    name="largeRoom"
-                    onChange={(Event)=>{ this.props.handleChangeService(Event,this.props.serviceType) }}
-            />
-            <TextField
-                    label="Toilet"
-                    margin="normal"
-                    name="toilet"
-                    onChange={(Event)=>{ this.props.handleChangeService(Event,this.props.serviceType) }}
-            />
+          <TextField
+            disabled={this.props.disabled}
+            label="Large Room"
+            margin="normal"
+            name="largeRoom"
+            onChange={(Event)=>{ this.props.handleChangeService(Event,this.props.serviceType) }}
+          />
+          <TextField
+            disabled={this.props.disabled}
+            label="Toilet"
+            margin="normal"
+            name="toilet"
+            onChange={(Event)=>{ this.props.handleChangeService(Event,this.props.serviceType) }}
+          />
           </ExpansionPanelDetails>
         </ExpansionPanel>
       </>
