@@ -10,7 +10,10 @@ import { fade } from '@material-ui/core/styles/colorManipulator';
 import { withStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
-import SearchSelect from './SearchSelect';
+import PriceSelect from './PriceSelect';
+import AddressSelect from './AddressSelect';
+import PopularitySelect from './PopularitySelect';
+import RateSelect from './RateSelect';
 import { searchInputChange } from '../../../actions/searchActions';
 import { getExecutors } from '../../../actions/executorsActions';
 
@@ -22,13 +25,19 @@ const styles = theme => ({
   appBar:{
     borderRadius: theme.shape.borderRadius
   },
+  selects:{
+    display:"flex",
+    padding:5
+  },
   toolBar:{
     display:"flex",
+    flexWrap:"wrap",
     alignItems:"center",
     justifyContent:"space-between"
   },
   search: {
     position: 'relative',
+    margin:5,
     borderRadius: theme.shape.borderRadius,
     backgroundColor: fade(theme.palette.common.white, 0.15),
     '&:hover': {
@@ -90,8 +99,12 @@ function SearchPanel(props) {
               onChange={(e)=>{props.searchInputChange(e.target.value);props.getExecutors()}}
             />
           </div>
-          
-          {/* <SearchSelect handlePriceChange={props.handlePriceChange}/> */}
+          <div className={classes.selects}>
+            <PriceSelect/>
+            <AddressSelect />
+            <PopularitySelect />
+            <RateSelect />
+          </div>
         </Toolbar>
       </AppBar>
     </div>

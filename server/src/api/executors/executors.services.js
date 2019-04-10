@@ -3,9 +3,10 @@ const config = require("../../config/environment");
 const Executor = require("../../models/executor.model");
 const nodemailer = require("nodemailer");
 const service = require('../../services/averageRate.service');
+
 async function register(data) {
-  const {logo, name, email, discription, addres, services, orders, password, role="executor",emailConfirmed=false,} = data;
-  let averagePrice=service.averageRate(services);
+  const {logo, name, email, discription, addres, services, orders, password, role="executor",emailConfirmed=false} = data;
+  let averagePrice=service.averagePrice(services);
 
   const token = jwt.sign(
     { id: email },
@@ -137,14 +138,14 @@ async function authenticate( { name, password } ) {
   };
 }
 
-async function get({page,perPage,search}) {
+async function get({page,perPage,search,sortByPrice}) {
   let reg ="";
   if (search === "" || search === null || search === undefined) {
     reg = ".*";
   } else {
     reg = `.*${search}.*`;
   }
-
+  let averagePrice=(sortByPrice!=="")?sortByPrice:0;
   const query={
     emailConfirmed:true,
     name:{ $regex: reg, $options: 'i'}
@@ -153,15 +154,12 @@ async function get({page,perPage,search}) {
     page: parseInt(page, 10) || 1,
     limit: parseInt(perPage, 10) || 1,
     select: "name",
-    sort:{averagePrice:1}
+    sort:{averagePrice:averagePrice}
   };
 
   const executors=await Executor.paginate(query,options);
 
   return executors
-}
-async function getById(_id ) {
-    return Executor.findById(_id);
 }
 
 async function updateById(_id,data) {
@@ -184,39 +182,6 @@ async function deleteById(_id) {
 
 
 
-async function logout({ token }) {
-  return true;
-}
-
-
-async function setExecutorRate(data,executor_id) {
-  return await Executor.findOneAndUpdate({_id:executor_id},{$push:{rate:data}}, { upsert: true, new: true });
-}
-
-
-
-
-async function getExecutorAvPrice(executor_id) {
-  const executor = await Executor.findOne({_id:executor_id});
-  const services = await Executor.findOne({_id:executor_id},{services:1}).then((obj)=>{  return obj.services});
-  const avPrice=executor.AveragePrice(services);
-  console.log(avPrice);
-  return avPrice;
-}
-
-
-
-
-
-async function takeExecutorRate(executor_id) {
-  const executor = await Executor.findOne({_id:executor_id});
-  console.log(executor);
-  // let arrRates= await Executor.find({_id:executor_id},{'rate.rate':1}).then((obj)=>{ console.log(obj); return obj[0].rate});
-  // let averageRate=executor.AverageRate(arrRates);
-  // console.log(averageRate);
-  return averageRate;
-}
-
 async function setExecutorComment(data,executor_id) {
   return await Executor.findOneAndUpdate({_id:executor_id},{$push:{comments:data}}, { upsert: true, new: true });
 }
@@ -228,17 +193,12 @@ async function takeExecutorComments(executor_id) {
 
 module.exports = {
   get,
-  getExecutorAvPrice,
   authenticate,
   loadExecutor,
-  logout,
   register,
   confirm,
-  getById,
   updateById,
   deleteById,
-  setExecutorRate,
-  takeExecutorRate,
   setExecutorComment,
   takeExecutorComments
 };

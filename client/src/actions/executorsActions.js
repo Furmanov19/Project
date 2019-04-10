@@ -10,21 +10,21 @@ import {
 
 export const getExecutors = () => (dispatch,getState) => {
     //get params
-    let page=getState().search.offset;
+    let offset=getState().search.offset;
     let search=getState().search.searchInput;
-    console.log("page",page);
-    console.log("search",search)
     let price =getState().search.price;
     //executors loading
     dispatch({type:EXECUTORS_LOADING});
-    //get executors
+    //get executors &sortByPrice=${price}
     axios
-        .get(`executors?page=${++page}&search=${search}`)
+        .get(`executors?page=${++offset}&search=${search}&sortByPrice=${price}`)
         .then(res =>
-            dispatch({
+            {dispatch({
                 type:EXECUTORS_LOADED,
                 payload:res.data
             })
+            getState().search.offset=0;
+            }
         )
         .catch (err =>{
                 dispatch(returnErrors(err.response.data,err.response.status));

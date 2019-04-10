@@ -9,7 +9,7 @@ async function authenticate({username,password }) {
       .select("+password")
       .exec();
 
-    if (admin === null) throw "User not found";
+    if (admin === null) throw "Admin not found";
 
     let success = await admin.comparePassword(password);
 
@@ -35,8 +35,8 @@ async function authenticate({username,password }) {
 }
 
 async function register(data) {
-    const { firstname, lastname, username, password,role="admin"} = data;
-    const admin = new Admin({ firstname, lastname, username, password, role });
+    const { name, password,role="admin"} = data;
+    const admin = new Admin({ name, password, role });
     return admin.save().then(({ _id }) => Admin.findById(_id));
 }
 module.exports = {

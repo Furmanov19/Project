@@ -5,6 +5,7 @@ import MuiExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import MuiExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
+import InputAdornment from '@material-ui/core/InputAdornment';
 
 const ExpansionPanel = withStyles({
   root: {
@@ -83,6 +84,9 @@ class ExecutorServices extends React.Component {
             label="Small Room"
             margin="normal"
             name="smallRoom"
+            InputProps={{
+            startAdornment: <InputAdornment position="start">$</InputAdornment>,
+            }}
             onChange={(Event)=>{ this.props.handleChangeService(Event,this.props.serviceType)}}
             />
           <TextField
@@ -90,6 +94,9 @@ class ExecutorServices extends React.Component {
             label="Large Room"
             margin="normal"
             name="largeRoom"
+            InputProps={{
+            startAdornment: <InputAdornment position="start">$</InputAdornment>,
+            }}
             onChange={(Event)=>{ this.props.handleChangeService(Event,this.props.serviceType) }}
           />
           <TextField
@@ -97,6 +104,9 @@ class ExecutorServices extends React.Component {
             label="Toilet"
             margin="normal"
             name="toilet"
+            InputProps={{
+            startAdornment: <InputAdornment position="start">$</InputAdornment>,
+            }}
             onChange={(Event)=>{ this.props.handleChangeService(Event,this.props.serviceType) }}
           />
           </ExpansionPanelDetails>

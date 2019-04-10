@@ -84,31 +84,7 @@ module.exports.getExecutorById = (req, res, next) => {
   };
   
   
-  module.exports.getExecutorAvPrice = (req, res, next) => {
-    executorService
-      .getExecutorAvPrice(req.params.id)
-      .then((data) => {
-        res.status(httpStatus.CREATED).json(data);
-      })
-      .catch(err => next(err));
-  };
 
-  module.exports.postExecutorRate = (req, res, next) => {
-    executorService
-      .setExecutorRate(req.body,req.params.id)
-      .then(() => {
-        res.status(httpStatus.CREATED).json("Created");
-      })
-      .catch(err => next(err));
-  };
-  module.exports.getExecutorRate = (req, res, next) => {
-    executorService
-      .takeExecutorRate(req.params.id)
-      .then((data) => {
-        res.status(httpStatus.CREATED).json(data);
-      })
-      .catch(err => next(err));
-  };
 
   module.exports.postExecutorComment = (req, res, next) => {
     executorService

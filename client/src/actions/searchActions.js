@@ -1,10 +1,12 @@
 import axios from 'axios';
-import {getExecutors} from './executorsActions';
 
 import {
     SEARCH_INPUT_CHANGE,
     PRICE_SELECT_CHANGE,
-    PAGINATION_PAGE_CHANGE
+    PAGINATION_PAGE_CHANGE,
+    ADDRESS_SELECT_CHANGE,
+    RATE_SELECT_CHANGE,
+    POPULARITY_SELECT_CHANGE
 } from './types';
 
 export const searchInputChange =(inputValue) => (dispatch) =>{
@@ -18,12 +20,28 @@ export const priceSelectChange =(priceValue) => (dispatch) =>{
         type:PRICE_SELECT_CHANGE,
         payload:priceValue
     });
-    getExecutors();
 }
-export const pageChange =(priceSelectChange) => (dispatch) =>{
+export const pageChange = (page) => (dispatch) =>{
     dispatch({
         type:PAGINATION_PAGE_CHANGE,
-        payload:priceSelectChange
+        payload:page
     });
-    getExecutors();
+}
+export const addressSelectChange =(address) => (dispatch) =>{
+    dispatch({
+        type:ADDRESS_SELECT_CHANGE,
+        payload:address
+    });
+}
+export const rateSelectChange =(rate) => (dispatch) =>{
+    dispatch({
+        type:RATE_SELECT_CHANGE,
+        payload:rate
+    });
+}
+export const popularitySelectChange =(popularity) => (dispatch) =>{
+    dispatch({
+        type:POPULARITY_SELECT_CHANGE,
+        payload:popularity
+    });
 }

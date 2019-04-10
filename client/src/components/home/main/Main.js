@@ -12,26 +12,6 @@ class Main extends Component {
       searchValue:"",
       price:""
     }
-    this.handlePaginateClick=this.handlePaginateClick.bind(this);
-    this.handleSearchChange=this.handleSearchChange.bind(this);
-    this.handlePriceChange=this.handlePriceChange.bind(this);
-  }
-  handlePaginateClick(offset) {
-    this.setState({offset},()=>{
-      this.props.getExecutors(this.state.offset,this.state.searchValue);
-    });
-    
-  }
-  handleSearchChange(e) {
-    this.setState({[e.target.name]:e.target.value},()=>{
-      this.props.getExecutors(this.state.offset,this.state.searchValue);
-    });
-  }
-  handlePriceChange(e) {
-    this.setState({[e.target.name]:e.target.value},()=>{
-      console.log("price",this.state.price);
-      this.props.getExecutors(this.state.offset,this.state.searchValue);
-    });
   }
   componentDidMount(){
     this.props.getExecutors();
@@ -39,15 +19,16 @@ class Main extends Component {
   render() {
     return (
       <>
-        <SearchPanel handleSearchChange={this.handleSearchChange} handlePriceChange={this.handlePriceChange}/>
+        <SearchPanel />
         {
           (this.props.executors === undefined)?
           <Load/>:
-          (<div>
+          (
+            <div>
               {this.props.executors.map(executor =>
                 <ExecutorPaper key={executor._id} name={executor.name} />
               )}
-              <Pagination handlePaginateClick={this.handlePaginateClick} offset={this.state.offset}/>
+              <Pagination />
             </div>
           )
         }

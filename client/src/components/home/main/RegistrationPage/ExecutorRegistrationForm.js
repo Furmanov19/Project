@@ -24,11 +24,18 @@ const validationSchema = object().shape({
       /^[a-zA-Z][a-zA-Z0-9-_.]{1,9}$/,
       "The username can contain letters, numbers, -, ., _"
     ),
+  address: string()
+    .required("Enter your town"),
   password: string()
     .required("Enter your password")
     .min(5, "Password must contain atleast 5 characters")
     .max(18, "Password must contain less then 18 characters")
     .matches(/^[\S]{5,18}$/, "The password cannot contain spaces"),
+  confirmPassword: string()
+  .required('Password confirm is required')
+  .test("password-match","Passport should match",function(value){
+    return this.parent.password === value;
+  }),
   email: string()
     .required("Email is require")
     .matches(/.+@.+\..+/i,"Incorrect email!"),
@@ -133,7 +140,7 @@ class ExecutorRegistrationForm extends React.Component {
   render() {
     return (
       <Formik
-          initialValues={{ name: "", email:"", discription:"", password: ""}}
+          initialValues={{ name: "", email:"", discription:"", password: "",confirmPassword:"",address:""}}
           validationSchema={validationSchema}
           onSubmit={(values, { setFieldError }) => {
               try{
@@ -202,6 +209,20 @@ class ExecutorRegistrationForm extends React.Component {
             error={Boolean(errors.email)}
       />
       <TextField
+            label="Adress"
+            autoComplete="address"
+            className={classes.textField}
+            disabled = {(this.state.disabled)? true : false}
+            margin="normal"
+            variant="outlined"
+            name="address"
+            placeholder="Enter town"
+            onChange={handleChange}
+            value={values.address}
+            helperText={errors.address}
+            error={Boolean(errors.address)}
+      />
+      <TextField
             label="Password"
             autoComplete="password"
             className={classes.textField}
@@ -213,6 +234,20 @@ class ExecutorRegistrationForm extends React.Component {
             value={values.password}
             helperText={errors.password}
             error={Boolean(errors.password)}
+            type={'password'}
+      />
+      <TextField
+            label="Confirm Password"
+            className={classes.textField}
+            disabled = {(this.state.disabled)? true : false}
+            margin="normal"
+            variant="outlined"
+            name="confirmPassword"
+            onChange={handleChange}
+            value={values.confirmPassword}
+            helperText={errors.confirmPassword}
+            error={Boolean(errors.confirmPassword)}
+            type={'password'}
       />
         <ExecutorServices disabled = {(this.state.disabled)? true : false} serviceType={"standart"}  serviceName={"Standart Cleaning"} handleChangeService={this.handleChangeService}/>
         <ExecutorServices disabled = {(this.state.disabled)? true : false} serviceType={"general"} serviceName={"General Cleaning"} handleChangeService={this.handleChangeService}/>

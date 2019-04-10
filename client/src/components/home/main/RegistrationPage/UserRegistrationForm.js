@@ -27,6 +27,11 @@ const validationSchema = object().shape({
     .min(5, "Password must contain atleast 5 characters")
     .max(18, "Password must contain less then 18 characters")
     .matches(/^[\S]{5,18}$/, "The password cannot contain spaces"),
+  confirmPassword: string()
+    .required('Password confirm is required')
+    .test("password-match","Passport should match",function(value){
+      return this.parent.password === value;
+    }),
   email: string()
     .required("Email is require")
     .matches(/.+@.+\..+/i,"Incorrect email!"),
@@ -61,18 +66,17 @@ const styles = theme => ({
 
 
 class UserRegistrationForm extends React.Component {
-    constructor(props){
-        super(props);
-        this.state = {
-          disabled:false,
-          isSended:false
-        };
-       
-    }
+  constructor(props){
+      super(props);
+      this.state = {
+        disabled:false,
+        isSended:false,
+      };
+  }
   render() {
     return (
       <Formik
-          initialValues={{ name: "", email:"", phone:"", password: ""}}
+          initialValues={{ name: "", email:"", phone:"", password: "",confirmPassword:""}}
           validationSchema={validationSchema}
           onSubmit={(values, { setFieldError }) => {
               try{
@@ -146,6 +150,20 @@ class UserRegistrationForm extends React.Component {
             value={values.password}
             helperText={errors.password}
             error={Boolean(errors.password)}
+            type={'password'}
+      />
+      <TextField
+            label="Confirm Password"
+            className={classes.textField}
+            disabled = {(this.state.disabled)? true : false}
+            margin="normal"
+            variant="outlined"
+            name="confirmPassword"
+            onChange={handleChange}
+            value={values.confirmPassword}
+            helperText={errors.confirmPassword}
+            error={Boolean(errors.confirmPassword)}
+            type={'password'}
       />
       {this.state.isSended && (
         <ConfirmFormContainer 
