@@ -10,8 +10,23 @@ const schema = new mongoose.Schema(
     emailConfirmed:{type:Boolean, required: true},
     verifyToken:{type:String, required: true},
     discription:{type: String, required: true },
-    addres:{type: String, required: false },
+    address:{type: String, required: false },
     averagePrice:{type: Number,required: true},
+    averageRate:{type: Number,required: true},
+    orders:[{type: mongoose.Schema.Types.ObjectId, ref: 'Order', required: false}],
+    password: { type: String, required: true},//, select: true 
+    role: { type: String, required: false, lowercase: true },
+    rate:[{
+      customer_id:{type: mongoose.Schema.Types.ObjectId, ref: 'Order', required: false},
+      rate:{type: Number, required: false }
+    }],
+    comments:[{
+      customer_id:{type: mongoose.Schema.Types.ObjectId, ref: 'Order', required: false},
+      comment:{type: String, required: false }
+    }],
+    popularity: {
+      type: Number, required: false, default: 0 
+    },
     services:{
       standart:{
         smallRoom:{type: Number, required: false, default: 0 },
@@ -53,18 +68,7 @@ const schema = new mongoose.Schema(
         largeRoom:{type: Number, required: false, default: 0 },
         toilet:{type: Number, required: false, default: 0 }
       },
-    },
-    orders:[{type: mongoose.Schema.Types.ObjectId, ref: 'Order', required: false}],
-    password: { type: String, required: true},//, select: true 
-    role: { type: String, required: false, lowercase: true },
-    rate:[{
-      customer_id:{type: mongoose.Schema.Types.ObjectId, ref: 'Order', required: false},
-      rate:{type: Number, required: false }
-    }],
-    comments:[{
-      customer_id:{type: mongoose.Schema.Types.ObjectId, ref: 'Order', required: false},
-      comment:{type: String, required: false }
-    }]
+    }
   },
   {
     timestamps: { createdAt: "created_at", updatedAt: "updated_at" }

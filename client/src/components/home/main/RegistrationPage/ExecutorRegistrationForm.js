@@ -150,7 +150,8 @@ class ExecutorRegistrationForm extends React.Component {
                   email:values.email,
                   discription:values.discription,
                   password:values.password,
-                  services:this.state.services
+                  services:this.state.services,
+                  address:values.address
                 }
                 console.log(newExecutor);
                 this.props.registerExecutor(newExecutor);

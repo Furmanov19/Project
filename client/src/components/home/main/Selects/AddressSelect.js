@@ -6,8 +6,8 @@ import { withStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
-import { popularitySelectChange } from '../../../actions/searchActions';
-import { getExecutors } from '../../../actions/executorsActions';
+import { addressSelectChange } from '../../../../actions/searchActions';
+import { getExecutors } from '../../../../actions/executorsActions';
 
 const styles = theme => ({
   root: {
@@ -30,42 +30,46 @@ const styles = theme => ({
   },
 });
 
-class PopularitySelect extends React.Component {
+class AddressSelect extends React.Component {
 
   render() {
     const { classes } = this.props;
 
     return (
       <div className={classes.root}>
-          <InputLabel className={classes.label} htmlFor="price">Popularity</InputLabel>
+          <InputLabel className={classes.label} htmlFor="address">Address</InputLabel>
           <Select
             className={classes.select}
-            value={this.props.popularity}
-            onChange={(e)=>{this.props.popularitySelectChange(e.target.value);this.props.getExecutors()}}
+            value={this.props.address}
+            onChange={(e)=>{this.props.addressSelectChange(e.target.value);this.props.getExecutors()}}
             inputProps={{
-              name: 'popularity',
-              id: 'popularity',
+              name: 'address',
+              id: 'address',
             }}
           >
             <MenuItem value="" >
               <em>None</em>
             </MenuItem>
-            <MenuItem value={-1} >High</MenuItem>
-            <MenuItem value={1} >High</MenuItem>
+            <MenuItem value={"mogilev"} >Mogilev</MenuItem>
+            <MenuItem value={"minsk"} >Minsk</MenuItem>
+            <MenuItem value={"grodno"} >Grodno</MenuItem>
+            <MenuItem value={"brest"} >Brest</MenuItem>
+            <MenuItem value={"vitebsk"} >Vitebsk</MenuItem>
+            <MenuItem value={"gomel"} >Gomel</MenuItem>
           </Select>
       </div>
     );
   }
 }
 
-PopularitySelect.propTypes = {
+AddressSelect.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 const mapStateToProps = state => ({
-    popularity:state.search.popularity
+  address:state.search.address
 });
 
 export default connect(
   mapStateToProps,
-  {popularitySelectChange,getExecutors}
-)(withStyles(styles)(PopularitySelect));
+  {addressSelectChange,getExecutors}
+)(withStyles(styles)(AddressSelect));

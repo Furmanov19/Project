@@ -2,7 +2,7 @@ module.exports.averagePrice =(services) =>{
     let acc=0;
     let count=0;
     getProp(services);
-    return (acc/count).toFixed(2);
+    return ((acc/count).toFixed(2)!= "NaN")?(acc/count).toFixed(2):0;
     function getProp(o) {
         for(let prop in o) {
             if(typeof(o[prop]) === 'object') {
@@ -20,7 +20,7 @@ module.exports.averageRate =(rate) =>{//create validation on NaN
     let acc=0;
     let count=0;
     getProp(rate);
-    return (acc/count).toFixed(2);
+    return ((acc/count).toFixed(2)!= "NaN")?(acc/count).toFixed(2):0;
     function getProp(o) {
         for(let prop in o) {
             if(typeof(o[prop]) === 'object') {

@@ -2,12 +2,10 @@ const jwt = require("jsonwebtoken");
 const config = require("../../config/environment");
 const Executor = require("../../models/executor.model");
 const nodemailer = require("nodemailer");
-const service = require('../../services/averageRate.service');
-
+const service = require('../../services/calculateValues.service');
 async function register(data) {
-  const {logo, name, email, discription, addres, services, orders, password, role="executor",emailConfirmed=false} = data;
+  const {logo, name, email, discription, address, services, orders, password, role="executor",emailConfirmed=false,averageRate=0} = data;
   let averagePrice=service.averagePrice(services);
-
   const token = jwt.sign(
     { id: email },
     config.jwt.secret,
@@ -20,8 +18,9 @@ async function register(data) {
     email,
     emailConfirmed,
     verifyToken:token,
+    averageRate,
     discription,
-    addres,
+    address,
     averagePrice,
     services,
     orders,
@@ -138,23 +137,35 @@ async function authenticate( { name, password } ) {
   };
 }
 
-async function get({page,perPage,search,sortByPrice}) {
-  let reg ="";
+async function get({page,perPage,search,sortByPrice,sortByAddress,sortByRate,sortByPopularity}) {
+  let nameReg ="";
+  let addressReg="";
+
   if (search === "" || search === null || search === undefined) {
-    reg = ".*";
+    nameReg = ".*";
   } else {
-    reg = `.*${search}.*`;
+    nameReg = `.*${search}.*`;
   }
+
+  if (sortByAddress === "") {
+    addressReg=".*";
+  }else {
+    addressReg = `.*${sortByAddress}.*`;
+  }
+
   let averagePrice=(sortByPrice!=="")?sortByPrice:0;
+  let popularity=(sortByPopularity!=="")?sortByPopularity:0;
+
   const query={
     emailConfirmed:true,
-    name:{ $regex: reg, $options: 'i'}
+    name:{ $regex: nameReg, $options: 'i'},
+    address:{ $regex: addressReg, $options: 'i'},
   }
   const options = {
     page: parseInt(page, 10) || 1,
     limit: parseInt(perPage, 10) || 1,
     select: "name",
-    sort:{averagePrice:averagePrice}
+    sort:{averagePrice:averagePrice,popularity:popularity}
   };
 
   const executors=await Executor.paginate(query,options);

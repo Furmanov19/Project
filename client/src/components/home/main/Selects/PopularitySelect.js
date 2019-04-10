@@ -6,8 +6,8 @@ import { withStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
-import { priceSelectChange } from '../../../actions/searchActions';
-import { getExecutors } from '../../../actions/executorsActions';
+import { popularitySelectChange } from '../../../../actions/searchActions';
+import { getExecutors } from '../../../../actions/executorsActions';
 
 const styles = theme => ({
   root: {
@@ -30,42 +30,42 @@ const styles = theme => ({
   },
 });
 
-class PriceSelect extends React.Component {
+class PopularitySelect extends React.Component {
 
   render() {
     const { classes } = this.props;
 
     return (
       <div className={classes.root}>
-          <InputLabel className={classes.label} htmlFor="price">Price</InputLabel>
+          <InputLabel className={classes.label} htmlFor="price">Popularity</InputLabel>
           <Select
             className={classes.select}
-            value={this.props.price}
-            onChange={(e)=>{this.props.priceSelectChange(e.target.value);this.props.getExecutors()}}
+            value={this.props.popularity}
+            onChange={(e)=>{this.props.popularitySelectChange(e.target.value);this.props.getExecutors()}}
             inputProps={{
-              name: 'price',
-              id: 'price',
+              name: 'popularity',
+              id: 'popularity',
             }}
           >
             <MenuItem value="" >
               <em>None</em>
             </MenuItem>
-            <MenuItem value={1} >Cheap</MenuItem>
-            <MenuItem value={-1} >Coast</MenuItem>
+            <MenuItem value={-1} >High</MenuItem>
+            <MenuItem value={1} >Low</MenuItem>
           </Select>
       </div>
     );
   }
 }
 
-PriceSelect.propTypes = {
+PopularitySelect.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 const mapStateToProps = state => ({
-  price:state.search.price
+    popularity:state.search.popularity
 });
 
 export default connect(
   mapStateToProps,
-  {priceSelectChange,getExecutors}
-)(withStyles(styles)(PriceSelect));
+  {popularitySelectChange,getExecutors}
+)(withStyles(styles)(PopularitySelect));

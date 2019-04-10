@@ -84,6 +84,7 @@ class ExecutorServices extends React.Component {
             label="Small Room"
             margin="normal"
             name="smallRoom"
+            onKeyUp={(e)=>this.handleCheck(e)}
             InputProps={{
             startAdornment: <InputAdornment position="start">$</InputAdornment>,
             }}
@@ -94,6 +95,7 @@ class ExecutorServices extends React.Component {
             label="Large Room"
             margin="normal"
             name="largeRoom"
+            onKeyUp={(e)=>this.handleCheck(e)}
             InputProps={{
             startAdornment: <InputAdornment position="start">$</InputAdornment>,
             }}
@@ -104,6 +106,7 @@ class ExecutorServices extends React.Component {
             label="Toilet"
             margin="normal"
             name="toilet"
+            onKeyUp={(e)=>this.handleCheck(e)}
             InputProps={{
             startAdornment: <InputAdornment position="start">$</InputAdornment>,
             }}

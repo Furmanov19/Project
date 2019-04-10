@@ -6,8 +6,8 @@ import { withStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
-import { rateSelectChange } from '../../../actions/searchActions';
-import { getExecutors } from '../../../actions/executorsActions';
+import { priceSelectChange } from '../../../../actions/searchActions';
+import { getExecutors } from '../../../../actions/executorsActions';
 
 const styles = theme => ({
   root: {
@@ -30,45 +30,42 @@ const styles = theme => ({
   },
 });
 
-class RateSelect extends React.Component {
+class PriceSelect extends React.Component {
 
   render() {
     const { classes } = this.props;
 
     return (
       <div className={classes.root}>
-          <InputLabel className={classes.label} htmlFor="price">Rate</InputLabel>
+          <InputLabel className={classes.label} htmlFor="price">Price</InputLabel>
           <Select
             className={classes.select}
-            value={this.props.rate}
-            onChange={(e)=>{this.props.rateSelectChange(e.target.value);this.props.getExecutors()}}
+            value={this.props.price}
+            onChange={(e)=>{this.props.priceSelectChange(e.target.value);this.props.getExecutors()}}
             inputProps={{
-              name: 'rate',
-              id: 'rate',
+              name: 'price',
+              id: 'price',
             }}
           >
             <MenuItem value="" >
               <em>None</em>
             </MenuItem>
-            <MenuItem value={1} >1</MenuItem>
-            <MenuItem value={2} >2</MenuItem>
-            <MenuItem value={3} >3</MenuItem>
-            <MenuItem value={4} >4</MenuItem>
-            <MenuItem value={5} >5</MenuItem>
+            <MenuItem value={1} >Cheap</MenuItem>
+            <MenuItem value={-1} >Coast</MenuItem>
           </Select>
       </div>
     );
   }
 }
 
-RateSelect.propTypes = {
+PriceSelect.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 const mapStateToProps = state => ({
-  rate:state.search.rate
+  price:state.search.price
 });
 
 export default connect(
   mapStateToProps,
-  {rateSelectChange,getExecutors}
-)(withStyles(styles)(RateSelect));
+  {priceSelectChange,getExecutors}
+)(withStyles(styles)(PriceSelect));
