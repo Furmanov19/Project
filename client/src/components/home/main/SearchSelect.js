@@ -33,17 +33,6 @@ const styles = theme => ({
 });
 
 class SearchSelect extends React.Component {
-  state = {
-    price: '',
-    name: 'price',
-    labelWidth: 0,
-  };
-  handleChange = event => {
-    this.setState({ [event.target.name]: event.target.value },()=>{
-        console.log(this.state.price);
-    });
-    
-  };
 
   render() {
     const { classes } = this.props;
@@ -54,7 +43,7 @@ class SearchSelect extends React.Component {
           <Select
             className={classes.select}
             value={this.state.price}
-            onChange={(e)=>this.handleChange(e)}
+            onChange={(e)=>this.props.handlePriceChange(e)}
             inputProps={{
               name: 'price',
               id: 'price',
@@ -64,7 +53,7 @@ class SearchSelect extends React.Component {
               <em>None</em>
             </MenuItem>
             <MenuItem value={10} >Cheap</MenuItem>
-            <MenuItem value={20} >Coast</MenuItem>
+            <MenuItem value={-10} >Coast</MenuItem>
           </Select>
       </div>
     );

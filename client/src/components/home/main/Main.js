@@ -9,10 +9,12 @@ class Main extends Component {
     super(props);
     this.state={
       offset:0,
-      searchValue:""
+      searchValue:"",
+      price:""
     }
     this.handlePaginateClick=this.handlePaginateClick.bind(this);
     this.handleSearchChange=this.handleSearchChange.bind(this);
+    this.handlePriceChange=this.handlePriceChange.bind(this);
   }
   handlePaginateClick(offset) {
     this.setState({offset},()=>{
@@ -22,18 +24,22 @@ class Main extends Component {
   }
   handleSearchChange(e) {
     this.setState({[e.target.name]:e.target.value},()=>{
-      console.log(this.state.searchValue);
       this.props.getExecutors(this.state.offset,this.state.searchValue);
     });
-    
+  }
+  handlePriceChange(e) {
+    this.setState({[e.target.name]:e.target.value},()=>{
+      console.log("price",this.state.price);
+      this.props.getExecutors(this.state.offset,this.state.searchValue);
+    });
   }
   componentDidMount(){
-    this.props.getExecutors(this.state.offset,this.state.searchValue);
+    this.props.getExecutors();
   }
   render() {
     return (
       <>
-        <SearchPanel handleSearchChange={this.handleSearchChange}/>
+        <SearchPanel handleSearchChange={this.handleSearchChange} handlePriceChange={this.handlePriceChange}/>
         {
           (this.props.executors === undefined)?
           <Load/>:

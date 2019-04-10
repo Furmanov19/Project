@@ -11,6 +11,7 @@ const schema = new mongoose.Schema(
     verifyToken:{type:String, required: true},
     discription:{type: String, required: true },
     addres:{type: String, required: false },
+    averagePrice:{type: Number,required: true},
     services:{
       standart:{
         smallRoom:{type: Number, required: false, default: 0 },
@@ -122,19 +123,21 @@ schema.methods.AveragePrice=function(services){
   return new Promise((resolve, reject) => {
     try{
       let acc=0;
-      getProp(obj);
+      let count=0;
+      getProp(services);
       function getProp(o) {
-        for(var prop in o) {
+        for(let prop in o) {
             if(typeof(o[prop]) === 'object') {
                 getProp(o[prop]);
             } else {
             		if(typeof o[prop] === "number") {
                     acc+=o[prop];
+                    ++count;
                 }
             }
         }
       }
-      return resolve(acc);
+      return resolve(acc/count);
       
     }catch(err){
       return reject(err);

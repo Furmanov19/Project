@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -10,6 +11,8 @@ import { withStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import SearchSelect from './SearchSelect';
+import { searchInputChange } from '../../../actions/searchActions';
+import { getExecutors } from '../../../actions/executorsActions';
 
 const styles = theme => ({
   root: {
@@ -84,11 +87,11 @@ function SearchPanel(props) {
                 input: classes.inputInput,
               }}
               name="searchValue"
-              onChange={(e)=>{props.handleSearchChange(e)}}
+              onChange={(e)=>{props.searchInputChange(e.target.value);props.getExecutors()}}
             />
           </div>
           
-          <SearchSelect/>
+          {/* <SearchSelect handlePriceChange={props.handlePriceChange}/> */}
         </Toolbar>
       </AppBar>
     </div>
@@ -99,4 +102,13 @@ SearchPanel.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(SearchPanel);
+const mapStateToProps = state => ({
+  total:state.executors.executors.total,
+  limit:state.executors.executors.limit,
+  offset:state.search.page
+});
+
+export default connect(
+  mapStateToProps,
+  {searchInputChange,getExecutors}
+)(withStyles(styles)(SearchPanel));

@@ -8,15 +8,18 @@ import {
 } from './types';
 
 
-export const getExecutors = (offset=0,search="") => dispatch => {
-    //executors loading
-    console.log("offset",offset);
-    dispatch({type:EXECUTORS_LOADING});
-    let page=++offset;
+export const getExecutors = () => (dispatch,getState) => {
+    //get params
+    let page=getState().search.offset;
+    let search=getState().search.searchInput;
     console.log("page",page);
+    console.log("search",search)
+    let price =getState().search.price;
+    //executors loading
+    dispatch({type:EXECUTORS_LOADING});
     //get executors
     axios
-        .get(`executors?page=${page}&search=${search}`)
+        .get(`executors?page=${++page}&search=${search}`)
         .then(res =>
             dispatch({
                 type:EXECUTORS_LOADED,

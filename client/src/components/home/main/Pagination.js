@@ -5,6 +5,7 @@ import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 import Pagination from "material-ui-flat-pagination";
 import { withStyles } from '@material-ui/core/styles';
 import Load from '../../common/load'
+import { pageChange } from '../../../actions/searchActions';
 import {getExecutors } from '../../../actions/executorsActions';
 
 const theme = createMuiTheme({
@@ -30,7 +31,7 @@ class PaginationPaper extends React.Component {
             limit={this.props.limit}
             offset={this.props.offset}
             total={this.props.total}
-            onClick={(e, offset) => this.props.handlePaginateClick(offset)}
+            onClick={(e, offset) => {this.props.pageChange(offset);this.props.getExecutors()}}
             />
         </MuiThemeProvider>
     );
@@ -39,10 +40,11 @@ class PaginationPaper extends React.Component {
 
 const mapStateToProps = state => ({
     total:state.executors.executors.total,
-    limit:state.executors.executors.limit
+    limit:state.executors.executors.limit,
+    offset:state.search.offset
 });
 
 export default connect(
     mapStateToProps,
-    {getExecutors}
+    {pageChange,getExecutors}
 )(withStyles(styles)(PaginationPaper));
