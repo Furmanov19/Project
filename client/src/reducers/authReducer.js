@@ -1,4 +1,11 @@
 import {
+    ADMIN_LOADING,
+    ADMIN_LOADED,
+    ADMIN_LOADING_FAIL,
+    ADMIN_LOGIN_SUCCESS,
+    ADMIN_LOGIN_FAIL,
+    ADMIN_REGISTER_SUCCESS,
+    ADMIN_REGISTER_FAIL,
     USER_LOADING,
     USER_LOADED,
     USER_LOADING_FAIL,
@@ -26,42 +33,69 @@ const initialState ={
     isAuthenticated: null,
     isLoading: false,
     user : null,
-    executor:null
+    executor:null,
+    admin:null
 }
 
 export default function (state = initialState, action) {
     switch (action.type) {
+        case ADMIN_LOADING:
         case USER_LOADING:
         case EXECUTOR_LOADING:
             return {
                 ...state,
                 isLoading:true
             };
+        case ADMIN_LOADED:
+            return {
+                ...state,
+                isAuthenticated: true,
+                isLoading: false,
+                user: null,
+                executor:null,
+                admin:action.payload
+            }
         case USER_LOADED:
             return {
                 ...state,
                 isAuthenticated: true,
                 isLoading: false,
                 user: action.payload,
-                executor:null
+                executor:null,
+                admin:null
             }
-        case USER_LOADING_FAIL:
-            return {
-                ...state,
-                user: null
-            };
         case EXECUTOR_LOADED:
             return {
                 ...state,
                 isAuthenticated: true,
                 isLoading: false,
                 user: null,
-                executor: action.payload
+                executor: action.payload,
+                admin:null
             }
+        case ADMIN_LOADING_FAIL:
+            return {
+                ...state,
+                admin: null
+            };
+        case USER_LOADING_FAIL:
+            return {
+                ...state,
+                user: null
+            };
         case EXECUTOR_LOADING_FAIL:
             return {
                 ...state,
                 executor: null
+            };
+        case ADMIN_REGISTER_SUCCESS:
+            return {
+                ...state,
+                isAuthenticated:false,
+                isLoading:false,
+                user:null,
+                executor:null,
+                admin:action.payload,
             };
         case USER_REGISTER_SUCCESS:
             return {
@@ -69,7 +103,8 @@ export default function (state = initialState, action) {
                 isAuthenticated:false,
                 isLoading:false,
                 user:action.payload,
-                executor:null
+                executor:null,
+                admin:null
             };
         case EXECUTOR_REGISTER_SUCCESS:
         return {
@@ -77,8 +112,18 @@ export default function (state = initialState, action) {
             isAuthenticated: false,
             isLoading: false,
             user: null,
-            executor: action.payload
+            executor: action.payload,
+            admin:null
         };
+        case ADMIN_LOGIN_SUCCESS:
+            localStorage.setItem('token',action.payload.token);
+            return {
+                ...state,
+                isAuthenticated: true,
+                user: null,
+                executor: null,
+                admin:action.payload.admin
+            };
         case USER_LOGIN_SUCCESS:
         case USER_REGISTER_CONFIRM_SUCCESS:
             localStorage.setItem('token',action.payload.token);
@@ -86,7 +131,8 @@ export default function (state = initialState, action) {
                 ...state,
                 isAuthenticated: true,
                 user: action.payload.user,
-                executor: null
+                executor: null,
+                admin:null
             };
         case EXECUTOR_LOGIN_SUCCESS:
         case EXECUTOR_REGISTER_CONFIRM_SUCCESS:
@@ -95,9 +141,11 @@ export default function (state = initialState, action) {
                 ...state,
                 isAuthenticated: true,
                 user: null,
-                executor: action.payload.executor
+                executor: action.payload.executor,
+                admin:null
             };
         case AUTH_ERROR:
+        case ADMIN_LOGIN_FAIL:
         case USER_LOGIN_FAIL:
         case EXECUTOR_LOGIN_FAIL:
         case LOGOUT_SUCCESS:
@@ -105,12 +153,13 @@ export default function (state = initialState, action) {
         case USER_REGISTER_CONFIRM_FAIL:
         case EXECUTOR_REGISTER_FAIL:
         case EXECUTOR_REGISTER_CONFIRM_FAIL:
-            localStorage.removeItem('token');//тк загружается сразу 2 юзера и происходит удаление токена тк на одного из низ выбрасывает ошибку
+            localStorage.removeItem('token');//тк загружается сразу 2 юзера и происходит удаление токена то на одного из низ выбрасывает ошибку
             return {
                 ...state,
                 token:null,
                 user:null,
                 executor:null,
+                admin:null,
                 isAuthenticated:false,
                 isLoading:false
             }

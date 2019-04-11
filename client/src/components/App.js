@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import {Route,Switch} from 'react-router-dom';
-import {loadUser,loadExecutor} from '../actions/authActions'
+import {loadUser,loadExecutor,loadAdmin} from '../actions/authActions'
 import CssBaseline from '@material-ui/core/CssBaseline';
 import store from '../store';
 import HeaderContainer from '../containers/HeaderContainer';
@@ -17,6 +17,7 @@ import { connect } from 'react-redux';
 
 class App extends Component {
   componentDidMount() {
+    store.dispatch(loadAdmin());
     store.dispatch(loadUser());
     store.dispatch(loadExecutor());
   }

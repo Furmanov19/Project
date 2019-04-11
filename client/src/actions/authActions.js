@@ -7,6 +7,8 @@ import {
     ADMIN_LOADING_FAIL,
     ADMIN_LOGIN_SUCCESS,
     ADMIN_LOGIN_FAIL,
+    ADMIN_REGISTER_SUCCESS,
+    ADMIN_REGISTER_FAIL,
     USER_LOADING,
     USER_LOADED,
     USER_LOADING_FAIL,
@@ -28,6 +30,104 @@ import {
     LOGOUT_SUCCESS,
     AUTH_ERROR
 } from './types';
+
+// check token & load admin
+export const loadAdmin = () => (dispatch,getState) => {
+    //user loading
+    dispatch({type: ADMIN_LOADING});
+
+    axios
+        .get('admins/current',tokenConfig(getState))       
+        .then( res =>
+            {
+                dispatch(clearErrors());
+                dispatch({
+                    type: ADMIN_LOADED,
+                    payload:res.data
+                });
+            }
+        )
+        .then(() => {
+            dispatch(push('/profile'));
+        })
+        .catch( err => {
+            dispatch(returnErrors(err.response.data, err.response.status));
+            dispatch({type:ADMIN_LOADING_FAIL});
+        });
+};
+
+//register user
+export const registerAdmin = ({ name,  password }) => dispatch => {
+    //headers
+    const config = {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+
+    //request body
+    const body =JSON.stringify({
+        name,
+        password
+    });
+
+    axios
+        .post('admins/register',body,config)
+        .then(res => 
+            {
+                dispatch(clearErrors());
+                dispatch({
+                    type:ADMIN_REGISTER_SUCCESS,
+                    payload:res.data
+                });
+            }
+        )
+        .catch(err => {
+                console.log(err);
+            dispatch(
+                returnErrors(
+                    err.response.data,
+                    err.response.status,
+                    'ADMIN_REGISTER_FAIL'
+                )
+            );
+            dispatch({
+                type:ADMIN_REGISTER_FAIL
+            });
+        });
+};
+
+export const loginAdmin = (obj) => dispatch => {
+    //headers
+    const config = {
+        headers : {
+            'Content-Type': 'application/json'
+        }
+    }
+
+    axios
+        .post('admins/signin',obj,config)
+        .then(res => 
+            {
+                dispatch(clearErrors());
+                dispatch({
+                    type:ADMIN_LOGIN_SUCCESS,
+                    payload:res.data
+                });
+            }
+        )
+        .then(() => {
+            dispatch(push('/profile'));
+        })
+        .catch(err =>{
+            dispatch(
+                returnErrors(err.response.data,err.response.status,'ADMIN_LOGIN_FAIL')
+            );
+            dispatch({
+                type:ADMIN_LOGIN_FAIL
+            });
+        });
+}
 
 // check token & load user
 export const loadUser = () => (dispatch,getState) => {
