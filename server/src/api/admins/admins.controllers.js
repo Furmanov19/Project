@@ -4,8 +4,16 @@ const adminService = require("./admins.services");
 module.exports.registerAdmin = (req, res, next) => {
   adminService
       .register(req.body)
-      .then(() => {
-        res.status(httpStatus.CREATED).json("Created");
+      .then((admin) => {
+        res.json(admin);
+      })
+      .catch(err => next(err));
+  };
+  module.exports.loadAdmin = (req, res, next) => {
+    adminService
+      .loadExecutor(req.admin)
+      .then((admin)=>{
+        res.json(admin);
       })
       .catch(err => next(err));
   };
@@ -13,11 +21,7 @@ module.exports.registerAdmin = (req, res, next) => {
     adminService
       .authenticate(req.body)
       .then(admin => {
-        admin
-          ? res.json(admin)
-          : res
-              .status(httpStatus.UNAUTHORIZED)
-              .json({ message: "Username or password is incorrect" });
+        res.json(admin);
       })
       .catch(err => next(err));
   };

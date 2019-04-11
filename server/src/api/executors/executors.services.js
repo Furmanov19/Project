@@ -3,6 +3,8 @@ const config = require("../../config/environment");
 const Executor = require("../../models/executor.model");
 const nodemailer = require("nodemailer");
 const service = require('../../services/calculateValues.service');
+
+
 async function register(data) {
   const {logo, name, email, discription, address, services, orders, password, role="executor",emailConfirmed=false,averageRate=0} = data;
   let averagePrice=service.averagePrice(services);
@@ -154,7 +156,7 @@ async function get({page,perPage,search,sortByPrice,sortByAddress,sortByRate,sor
   }
 
   let averagePrice=(sortByPrice!=="")?sortByPrice:0;
-  let popularity=(sortByPopularity!=="")?sortByPopularity:0;
+  let popularity=(sortByPopularity!=="")?sortByPopularity:0;//доделать
 
   const query={
     emailConfirmed:true,

@@ -2,6 +2,11 @@ import axios from 'axios';
 import {returnErrors,clearErrors} from './errorActions';
 import {push} from 'connected-react-router';
 import {
+    ADMIN_LOADING,
+    ADMIN_LOADED,
+    ADMIN_LOADING_FAIL,
+    ADMIN_LOGIN_SUCCESS,
+    ADMIN_LOGIN_FAIL,
     USER_LOADING,
     USER_LOADED,
     USER_LOADING_FAIL,

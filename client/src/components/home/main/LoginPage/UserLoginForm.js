@@ -50,7 +50,7 @@ const styles = theme => ({
 });
 
 
-class UserRegistrationForm extends React.Component {
+class UserLoginForm extends React.Component {
     constructor(props){
         super(props);
         this.state = {
@@ -128,4 +128,4 @@ class UserRegistrationForm extends React.Component {
 //   register: PropTypes.func.isRequired,
 // };
 
-export default withStyles(styles)(UserRegistrationForm);
+export default withStyles(styles)(UserLoginForm);
