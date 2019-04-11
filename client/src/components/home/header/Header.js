@@ -7,6 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import UserProfileMenu from './UserProfileMenu';
 import ExecutorProfileMenu from './ExecutorProfileMenu';
+import AdminProfileMenu from './AdminProfileMenu';
 import { RegLink, LogLink, Logo } from './Links';
 const styles = {
   root: {
@@ -70,6 +71,9 @@ class Header extends React.Component {
             }
             { this.props.executor && this.props.isAuth &&
               <ExecutorProfileMenu logout={this.props.logout}/>
+            }
+            { this.props.admin && this.props.isAuth &&
+              <AdminProfileMenu logout={this.props.logout}/>
             }
           </Toolbar>
         </AppBar>

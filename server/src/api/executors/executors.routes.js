@@ -7,7 +7,7 @@ const Role = require("../../enums/roles.enum");
 
 router.post("/register", controller.registerExecutor);
 router.post("/register/confirm", controller.confirmExecutor);
-router.get("/current",permit(),controller.loadExecutor);
+router.get("/current",permit(Role.Executor),controller.loadExecutor);
 router.post("/signin", controller.signinExecutor);
 router.get("/", controller.getExecutors);
 

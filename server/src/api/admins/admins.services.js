@@ -30,6 +30,7 @@ async function authenticate({ name,password }) {
     };
 }
 async function loadAdmin( admin ) {
+  console.log(admin);
   return {
     _id: admin._id,
     role: admin.role

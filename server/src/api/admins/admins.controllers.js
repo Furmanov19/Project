@@ -11,7 +11,7 @@ module.exports.registerAdmin = (req, res, next) => {
   };
   module.exports.loadAdmin = (req, res, next) => {
     adminService
-      .loadExecutor(req.admin)
+      .loadAdmin(req.user)
       .then((admin)=>{
         res.json(admin);
       })

@@ -102,6 +102,7 @@ async function confirm( { code, email } ) {
 }
 
 async function loadUser( user ) {
+  console.log(user);
   return {
     _id: user._id,
     role: user.role

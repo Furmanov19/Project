@@ -9,6 +9,12 @@ import RegistrationPage from './home/main/RegistrationPage/RegistrationPage';
 import LoginPage from './home/main/LoginPage/LoginPage';
 import ExecutorConfirmPage from './home/main/LoginPage/ExecutorConfirmPage';
 
+import AdminProfilePage from './home/main/ProfilePage/AdminProfilePage';
+
+import ListOfExecutors from './home/main/AdminPage/ListOfExecutors';
+import ListOfExecutorsContainer from '../containers/ListOfExecutorsContainer';
+
+import ListOfUsers from './home/main/AdminPage/ListOfUsers';
 import UserOrderPage from './home/main/OrdersPage/UserOrderPage';
 import UserProfilePage from './home/main/ProfilePage/UserProfilePage';
 import ExecutorOrderPage from './home/main/OrdersPage/ExecutorOrderPage';
@@ -30,7 +36,16 @@ class App extends Component {
           <Route path="/register" component={RegistrationPage}/>
           <Route path="/login" component={LoginPage}/>
           <Route path="/confirm" component={ExecutorConfirmPage}/>
-
+          
+          {this.props.isAuth && this.props.admin &&
+            <Route path="/profile" component={AdminProfilePage}/>//admin profile page
+          }
+          {this.props.isAuth && this.props.admin &&
+            <Route path="/users" component={ListOfUsers}/>//admin list of users page
+          }
+          {this.props.isAuth && this.props.admin &&
+            <Route path="/executors" component={ListOfExecutorsContainer}/>//admin list of executors page
+          }
           {this.props.isAuth && this.props.user &&
             <Route path="/profile" component={UserProfilePage}/>//user profile page
           }
@@ -54,7 +69,8 @@ const mapStateToProps = state => ({
   error: state.error,
   isAuth:state.auth.isAuthenticated,
   user:state.auth.user,
-  executor:state.auth.executor
+  executor:state.auth.executor,
+  admin:state.auth.admin
 });
 
 export default connect(

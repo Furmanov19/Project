@@ -8,7 +8,8 @@ const mapStateToProps = state => ({
     error: state.error,
     isAuth:state.auth.isAuthenticated,
     user:state.auth.user,
-    executor:state.auth.executor
+    executor:state.auth.executor,
+    admin:state.auth.admin
 });
 
 export default connect(

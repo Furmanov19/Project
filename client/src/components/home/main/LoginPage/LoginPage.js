@@ -6,6 +6,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
+import AdminLoginContainer from '../../../../containers/AdminLoginContainer';
 import UserLoginContainer from '../../../../containers/UserLoginContainer';
 import ExecutorLoginContainer from '../../../../containers/ExecutorLoginContainer';
 
@@ -53,6 +54,7 @@ class LoginPage extends React.Component {
           >
             <Tab label="USER" />
             <Tab label="EXECUTOR" />
+            <Tab label="ADMIN" />
           </Tabs>
         </AppBar>
         <SwipeableViews
@@ -62,6 +64,7 @@ class LoginPage extends React.Component {
         >
           <TabContainer dir={theme.direction} component={UserLoginContainer}>Item One</TabContainer>
           <TabContainer dir={theme.direction} component={ExecutorLoginContainer}>Item Two</TabContainer>
+          <TabContainer dir={theme.direction} component={AdminLoginContainer}>Item Two</TabContainer>
         </SwipeableViews>
       </div>
     );

@@ -5,8 +5,8 @@ const executorService = require("./executors.services");
 module.exports.registerExecutor = (req, res, next) => {
   executorService
     .register(req.body)
-    .then((user) => {
-      res.json(user);
+    .then((executor) => {
+      res.json(executor);
     })
     .catch(err => next(err));
 };
@@ -20,7 +20,7 @@ module.exports.confirmExecutor = (req, res, next) => {
 };
 module.exports.loadExecutor = (req, res, next) => {
   executorService
-    .loadExecutor(req.executor)
+    .loadExecutor(req.user)
     .then((executor)=>{
       res.json(executor);
     })
