@@ -10,11 +10,10 @@ import LoginPage from './home/main/LoginPage/LoginPage';
 import ExecutorConfirmPage from './home/main/LoginPage/ExecutorConfirmPage';
 
 import AdminProfilePage from './home/main/ProfilePage/AdminProfilePage';
-
-import ListOfExecutors from './home/main/AdminPage/ListOfExecutors';
+import BlockExecutorFormContainer from '../containers/BlockExecutorFormContainer';
+import ListOfUsersContainer from '../containers/ListOfUsersContainer';
 import ListOfExecutorsContainer from '../containers/ListOfExecutorsContainer';
 
-import ListOfUsers from './home/main/AdminPage/ListOfUsers';
 import UserOrderPage from './home/main/OrdersPage/UserOrderPage';
 import UserProfilePage from './home/main/ProfilePage/UserProfilePage';
 import ExecutorOrderPage from './home/main/OrdersPage/ExecutorOrderPage';
@@ -41,10 +40,13 @@ class App extends Component {
             <Route path="/profile" component={AdminProfilePage}/>//admin profile page
           }
           {this.props.isAuth && this.props.admin &&
-            <Route path="/users" component={ListOfUsers}/>//admin list of users page
+            <Route path="/users" component={ListOfUsersContainer}/>//admin list of users page
           }
           {this.props.isAuth && this.props.admin &&
             <Route path="/executors" component={ListOfExecutorsContainer}/>//admin list of executors page
+          }
+          {this.props.isAuth && this.props.admin &&
+            <Route path="/block" component={BlockExecutorFormContainer}/>//admin list of executors page
           }
           {this.props.isAuth && this.props.user &&
             <Route path="/profile" component={UserProfilePage}/>//user profile page

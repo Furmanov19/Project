@@ -33,7 +33,18 @@ module.exports.signinUser = (req, res, next) => {
     })
     .catch(err => next(err));
 };
-
+module.exports.getUsers = (req, res, next) => {
+  userService
+      .get(req.query)
+      .then(users => {
+        users
+          ? res.json(users)
+          : res
+              .status(httpStatus.UNAUTHORIZED)
+              .json({ message: "Error" });
+      })
+      .catch(err => next(err));
+};
 
 
 

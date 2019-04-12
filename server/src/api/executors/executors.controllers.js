@@ -34,9 +34,6 @@ module.exports.signinExecutor = (req, res, next) => {
     })
     .catch(err => next(err));
 };
-
-
-
 module.exports.getExecutors = (req, res, next) => {
   executorService
       .get(req.query)
@@ -48,7 +45,32 @@ module.exports.getExecutors = (req, res, next) => {
               .json({ message: "Error" });
       })
       .catch(err => next(err));
-  };
+};
+module.exports.blockExecutor = (req, res, next) => {
+  executorService
+      .blockExecutor(req.params._id, req.body)
+      .then(executor => {
+        executor
+          ? res.json(executor)
+          : res
+              .json({ message: "Error" });
+      })
+      .catch(err => next(err));
+};
+module.exports.unblockExecutor = (req, res, next) => {
+  executorService
+      .unblockExecutor(req.params._id)
+      .then(executor => {
+        executor
+          ? res.json(executor)
+          : res
+              .json({ message: "Error" });
+      })
+      .catch(err => next(err));
+};
+
+
+
 module.exports.getExecutorById = (req, res, next) => {
   executorService
       .getById(req.params._id)

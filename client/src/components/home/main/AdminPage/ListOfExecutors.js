@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import ExecutorPaper from './ExecutorPaper';
+import ExecutorPaperContainer from '../../../../containers/ExecutorPaperContailer';
 import Load from '../../../common/load'
 import Pagination from "../Pagination";
+import ExecutorsSearchPanel from './ExecutorsSearchPanel';
 
 class ListOfExecutors extends Component {
   constructor(props){
@@ -18,13 +19,14 @@ class ListOfExecutors extends Component {
   render() {
     return (
       <>
+      <ExecutorsSearchPanel /> 
         {
           (this.props.executors === undefined)?
           <Load/>:
           (
             <div>
               {this.props.executors.map(executor =>
-                <ExecutorPaper key={executor._id} name={executor.name} />
+                <ExecutorPaperContainer key={executor._id} executorInfo={executor}/>
               )}
               <Pagination />
             </div>

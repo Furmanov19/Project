@@ -9,6 +9,8 @@ router.post("/register", controller.registerExecutor);
 router.post("/register/confirm", controller.confirmExecutor);
 router.get("/current",permit(Role.Executor),controller.loadExecutor);
 router.post("/signin", controller.signinExecutor);
+router.put("/block/:_id", controller.blockExecutor);
+router.put("/unblock/:_id", controller.unblockExecutor);
 router.get("/", controller.getExecutors);
 
 

@@ -4,7 +4,8 @@ import {returnErrors} from './errorActions';
 import {
     EXECUTORS_LOADING,
     EXECUTORS_LOADED,
-    EXECUTORS_LOADING_FAIL
+    EXECUTORS_LOADING_FAIL,
+    SELECT_EXECUTOR
 } from './types';
 
 
@@ -16,9 +17,11 @@ export const getExecutors = () => (dispatch,getState) => {
     let address =getState().search.address;
     let rate =getState().search.rate;
     let popularity =getState().search.popularity;
+    
     //executors loading
     dispatch({type:EXECUTORS_LOADING});
-    //get executors &sortByPrice=${price}
+    
+    //get executors 
     axios
         .get(`executors?page=${++offset}&search=${search}&sortByPrice=${price}&sortByAddress=${address}&sortByRate=${rate}&sortByPopularity=${popularity}`)
         .then(res =>

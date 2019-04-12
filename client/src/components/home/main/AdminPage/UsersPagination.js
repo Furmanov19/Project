@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 import Pagination from "material-ui-flat-pagination";
 import { withStyles } from '@material-ui/core/styles';
-import { pageChange } from '../../../actions/searchActions';
-import {getExecutors } from '../../../actions/executorsActions';
+import { pageChange } from '../../../../actions/searchActions';
+import {getUsers } from '../../../../actions/usersActions';
 
 const theme = createMuiTheme({
     typography: {
@@ -38,12 +38,12 @@ class PaginationPaper extends React.Component {
 }
 
 const mapStateToProps = state => ({
-    total:state.executors.executors.total,
-    limit:state.executors.executors.limit,
+    total:state.users.users.total,
+    limit:state.users.users.limit,
     offset:state.search.offset
 });
 
 export default connect(
     mapStateToProps,
-    {pageChange,getExecutors}
+    {pageChange,getUsers}
 )(withStyles(styles)(PaginationPaper));

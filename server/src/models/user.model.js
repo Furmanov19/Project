@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+const mongoosePaginate = require('mongoose-paginate');
 
 const schema = new mongoose.Schema(
   {
@@ -55,5 +56,7 @@ schema.set("toObject", {
     delete ret.__v;
   }
 });
+
+schema.plugin(mongoosePaginate);
 
 module.exports = mongoose.model("User", schema);

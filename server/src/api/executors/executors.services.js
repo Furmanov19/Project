@@ -165,15 +165,35 @@ async function get({page,perPage,search,sortByPrice,sortByAddress,sortByRate,sor
   }
   const options = {
     page: parseInt(page, 10) || 1,
-    limit: parseInt(perPage, 10) || 1,
-    select: "name",
+    limit: parseInt(perPage, 10) || 5,
+    select: "name role _id",
     sort:{averagePrice:averagePrice,popularity:popularity}
   };
 
   const executors=await Executor.paginate(query,options);
 
-  return executors
+  return executors;
 }
+
+async function blockExecutor(_id, {reason}) {
+  return Executor.findByIdAndUpdate(_id, {$set:{'blocking.isBlocked':true,'blocking.reason':reason}},{new:true}, function(err, result){
+    if(err){
+        console.log(err);
+    }
+    console.log("RESULT: " + result);
+});
+}
+
+async function unblockExecutor(_id) {
+  return Executor.findByIdAndUpdate(_id, {$set:{'blocking.isBlocked':false,'blocking.reason':""}},{new:true}, function(err, result){
+    if(err){
+        console.log(err);
+    }
+    console.log("RESULT: " + result);
+});
+}
+
+
 
 async function updateById(_id,data) {
       return Executor.findByIdAndUpdate(_id, {$set:data},{new:true}, function(err, result){
@@ -206,6 +226,8 @@ async function takeExecutorComments(executor_id) {
 
 module.exports = {
   get,
+  blockExecutor,
+  unblockExecutor,
   authenticate,
   loadExecutor,
   register,

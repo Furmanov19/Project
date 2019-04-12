@@ -139,7 +139,30 @@ async function authenticate( { name, password } ) {
     };
 }
 
+async function get({ page,perPage,search }) {
+  let nameReg ="";
 
+  if (search === "" || search === null || search === undefined) {
+    nameReg = ".*";
+  } else {
+    nameReg = `.*${search}.*`;
+  }
+
+
+  const query={
+    emailConfirmed:true,
+    name:{ $regex: nameReg, $options: 'i'}
+  }
+  const options = {
+    page: parseInt(page, 10) || 1,
+    limit: parseInt(perPage, 10) || 1,
+    select: "name"
+  };
+
+  const users=await User.paginate(query,options);
+
+  return users;
+}
 
 
 
@@ -175,6 +198,7 @@ async function authSocialNetwork(data) {
   return data;
 }
 module.exports = {
+  get,
   loadUser,
   authSocialNetwork,
   authenticate,

@@ -8,12 +8,11 @@ const {
 
 const Role = require("../../enums/roles.enum");
 
-
 router.post("/register", controller.registerUser);
 router.post("/register/confirm", controller.confirmUser);
 router.get("/current",permit(Role.User),controller.loadUser);
 router.post("/signin", controller.signinUser);
-
+router.get("/", controller.getUsers);
 
 
 router.get("/google", authenticateGoogle());

@@ -5,7 +5,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import Button from "@material-ui/core/Button";
-import { ProfileLink, OrderLink, HomeLink } from './Links';
+import { ProfileLink, OrderLink, HomeLink } from '../../common/Links';
 
 const styles = {
   root: {

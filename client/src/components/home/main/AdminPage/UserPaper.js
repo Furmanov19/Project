@@ -4,7 +4,6 @@ import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import { BlockLink } from '../../../common/Links';
 
 const styles = theme => ({
   root: {
@@ -22,19 +21,19 @@ const styles = theme => ({
   }
 });
 
-function ExecutorPaper(props) {
+function UsersPaper(props) {
   const { classes } = props;
 
   return (
     <div>
       <Paper className={classes.root} elevation={1}>
-      <Typography variant="h5" component="h3">
-          {props.executorInfo.name }
+        <Typography variant="h5" component="h3">
+          {props.name}
         </Typography>
         <Typography component="p">
-          {props.executorInfo.role}
+          {props.role}
         </Typography>
-        <Button variant="outlined" color="primary" className={classes.button} component={BlockLink} onClick={() =>{props.SelectExecutor(props.executorInfo)}}>
+        <Button variant="outlined" color="primary" className={classes.button}>
             Block
         </Button>
       </Paper>
@@ -42,8 +41,8 @@ function ExecutorPaper(props) {
   );
 }
 
-ExecutorPaper.propTypes = {
+UsersPaper.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(ExecutorPaper);
+export default withStyles(styles)(UsersPaper);

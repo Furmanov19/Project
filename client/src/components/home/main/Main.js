@@ -26,7 +26,7 @@ class Main extends Component {
           (
             <div>
               {this.props.executors.map(executor =>
-                <ExecutorPaper key={executor._id} name={executor.name} />
+                <ExecutorPaper key={executor._id} name={executor.name} role={executor.role}/>
               )}
               <Pagination />
             </div>

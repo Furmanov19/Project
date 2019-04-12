@@ -9,6 +9,10 @@ const schema = new mongoose.Schema(
     email: { type: String, required: false, unique:true,},
     emailConfirmed:{type:Boolean, required: true},
     verifyToken:{type:String, required: true},
+    blocking:{
+      isBlocked:{ type: Boolean, required: false },
+      reason:{ type: String , required: false }
+    },
     discription:{type: String, required: true },
     address:{type: String, required: false },
     averagePrice:{type: Number,required: true},

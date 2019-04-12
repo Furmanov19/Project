@@ -8,7 +8,7 @@ import Button from "@material-ui/core/Button";
 import UserProfileMenu from './UserProfileMenu';
 import ExecutorProfileMenu from './ExecutorProfileMenu';
 import AdminProfileMenu from './AdminProfileMenu';
-import { RegLink, LogLink, Logo } from './Links';
+import { RegLink, LogLink, Logo } from '../../common/Links';
 const styles = {
   root: {
     flexGrow: 1,
