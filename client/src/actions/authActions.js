@@ -19,6 +19,7 @@ import {
     USER_REGISTER_FAIL,
     USER_REGISTER_CONFIRM_SUCCESS,
     USER_REGISTER_CONFIRM_FAIL,
+    REDIRECT_BLOCKED_USER,
     EXECUTOR_LOADING,
     EXECUTOR_LOADED,
     EXECUTOR_LOADING_FAIL,
@@ -241,18 +242,22 @@ export const loginUser = (obj) => dispatch => {
 
     axios
         .post('users/signin',obj,config)
-        .then(res => 
+        .then(async res => 
             {
-                dispatch(clearErrors());
-                dispatch({
+                if(res.data.isBlocked) {
+                    await dispatch({type:REDIRECT_BLOCKED_USER,payload:res.data});
+                    await dispatch(push('/user-blocked'));
+                }
+                else{
+                await dispatch(clearErrors());
+                await dispatch({
                     type:USER_LOGIN_SUCCESS,
                     payload:res.data
                 });
+                await dispatch(push('/profile'));
+                }
             }
         )
-        .then(() => {
-            dispatch(push('/profile'));
-        })
         .catch(err =>{
             dispatch(
                 returnErrors(err.response.data,err.response.status,'USER_LOGIN_FAIL')

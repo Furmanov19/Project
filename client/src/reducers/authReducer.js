@@ -15,6 +15,7 @@ import {
     USER_REGISTER_FAIL,
     USER_REGISTER_CONFIRM_SUCCESS,
     USER_REGISTER_CONFIRM_FAIL,
+    REDIRECT_BLOCKED_USER,
     EXECUTOR_LOADING,
     EXECUTOR_LOADED,
     EXECUTOR_LOADING_FAIL,
@@ -169,6 +170,12 @@ export default function (state = initialState, action) {
                 ...state,
                 isAuthenticated:true,
                 executor:action.payload
+            }
+        case REDIRECT_BLOCKED_USER:
+            return{
+                ...state,
+                isAuthenticated:true,
+                user:action.payload
             }
         default:
             return state;

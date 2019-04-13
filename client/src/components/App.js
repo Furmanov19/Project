@@ -22,7 +22,9 @@ import UserProfileContainer from '../containers/UserProfileContainer';
 import ExecutorOrderPage from './home/main/OrdersPage/ExecutorOrderPage';
 import ExecutorProfilePage from './home/main/ProfilePage/ExecutorProfilePage';
 
-import BlockedPageContainer from '../containers/BlockedPageContainer';
+import ExecutorBlockedPageContainer from '../containers/ExecutorBlockedPageContainer';
+import UserBlockedPageContainer from '../containers/UserBlockedPageContainer';
+
 import { connect } from 'react-redux';
 
 class App extends Component {
@@ -57,10 +59,10 @@ class App extends Component {
             <Route path="/users-blocking" component={BlockUserFormContainer}/>//admin list of executors page!!!!!!!!
           }
           {this.props.isAuth && this.props.user &&
-            <Route path="/user-blocked" component={UserProfilePage}/>//user profile page!!!!!!!!
+            <Route path="/user-blocked" component={UserBlockedPageContainer}/>//user profile page!!!!!!!!
           }
           {this.props.isAuth && this.props.executor &&
-            <Route path="/executor-blocked" component={BlockedPageContainer}/>//executor profile page!!!!!!!
+            <Route path="/executor-blocked" component={ExecutorBlockedPageContainer}/>//executor profile page!!!!!!!
           }
           {this.props.isAuth && this.props.user &&
             <Route path="/profile" component={UserProfileContainer}/>//user profile page
