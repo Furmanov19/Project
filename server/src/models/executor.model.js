@@ -18,7 +18,7 @@ const schema = new mongoose.Schema(
     averagePrice:{type: Number,required: true},
     averageRate:{type: Number,required: true},
     orders:[{type: mongoose.Schema.Types.ObjectId, ref: 'Order', required: false}],
-    password: { type: String, required: true},//, select: true 
+    password: { type: String, required: true },//, select: true 
     role: { type: String, required: false, lowercase: true },
     rate:[{
       customer_id:{type: mongoose.Schema.Types.ObjectId, ref: 'Order', required: false},

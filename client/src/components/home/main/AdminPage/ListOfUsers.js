@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import UserPaper from './UserPaper';
+import UserPaperContainer from '../../../../containers/UserPaperContainer';
 import Load from '../../../common/load'
 import Pagination from "./UsersPagination";
 import UsersSearchPanel from './UsersSearchPanel';
@@ -25,8 +25,8 @@ class ListOfUsers extends Component {
           <Load/>:
           (
             <div>
-              {this.props.users.map(executor =>
-                <UserPaper key={executor._id} name={executor.name} />
+              {this.props.users.map(user =>
+                <UserPaperContainer key={user._id} name={user.name} userInfo={user}/>
               )}
               <Pagination />
             </div>

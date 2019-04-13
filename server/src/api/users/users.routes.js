@@ -12,6 +12,8 @@ router.post("/register", controller.registerUser);
 router.post("/register/confirm", controller.confirmUser);
 router.get("/current",permit(Role.User),controller.loadUser);
 router.post("/signin", controller.signinUser);
+router.put("/block/:_id", controller.blockUser);
+router.put("/unblock/:_id", controller.unblockUser);
 router.get("/", controller.getUsers);
 
 

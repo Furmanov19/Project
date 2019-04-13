@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import { BlockLink } from '../../../common/Links';
+import { ExecutorBlockLink } from '../../../common/Links';
 
 const styles = theme => ({
   root: {
@@ -34,8 +34,8 @@ function ExecutorPaper(props) {
         <Typography component="p">
           {props.executorInfo.role}
         </Typography>
-        <Button variant="outlined" color="primary" className={classes.button} component={BlockLink} onClick={() =>{props.SelectExecutor(props.executorInfo)}}>
-            BLocking
+        <Button variant="outlined" color="primary" className={classes.button} component={ExecutorBlockLink} onClick={() =>{props.SelectExecutor(props.executorInfo)}}>
+            Blocking
         </Button>
       </Paper>
     </div>

@@ -45,6 +45,28 @@ module.exports.getUsers = (req, res, next) => {
       })
       .catch(err => next(err));
 };
+module.exports.blockUser = (req, res, next) => {
+  userService
+      .blockUser(req.params._id, req.body)
+      .then(user => {
+        user
+          ? res.json(user)
+          : res
+              .json({ message: "Error" });
+      })
+      .catch(err => next(err));
+};
+module.exports.unblockUser = (req, res, next) => {
+  userService
+      .unblockUser(req.params._id)
+      .then(user => {
+        user
+          ? res.json(user)
+          : res
+              .json({ message: "Error" });
+      })
+      .catch(err => next(err));
+};
 
 
 

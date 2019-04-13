@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import { UserBlockLink } from '../../../common/Links';
 
 const styles = theme => ({
   root: {
@@ -28,13 +29,13 @@ function UsersPaper(props) {
     <div>
       <Paper className={classes.root} elevation={1}>
         <Typography variant="h5" component="h3">
-          {props.name}
+          {props.userInfo.name}
         </Typography>
         <Typography component="p">
-          {props.role}
+          {props.userInfo.role}
         </Typography>
-        <Button variant="outlined" color="primary" className={classes.button}>
-            Block
+        <Button variant="outlined" color="primary" className={classes.button} component={UserBlockLink} onClick={() =>{props.SelectUser(props.userInfo)}}>
+            Blocking
         </Button>
       </Paper>
     </div>

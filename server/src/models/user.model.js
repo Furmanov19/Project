@@ -7,11 +7,15 @@ const schema = new mongoose.Schema(
     name: { type: String, required: true},
     email: { type: String, required: false },
     emailConfirmed:{type:Boolean, required: false},
+    blocking:{
+      isBlocked:{ type: Boolean, required: false },
+      reason:{ type: String , required: false }
+    },
     attemts:{type:Number, required: false},
     code:{type:String, required: false},
     phone:{type: String, require:false},
     googleId: { type: String, unique: true },
-    password: { type: String, required: true, select: true },
+    password: { type: String, required: true},//удалять пароль при каждом запросе
     role: { type: String, required: false, lowercase: true },
     orders:[{ type: mongoose.Schema.Types.ObjectId, ref: 'Order', required: false}]
   },

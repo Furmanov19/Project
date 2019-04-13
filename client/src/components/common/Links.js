@@ -12,4 +12,5 @@ export const HomeLink = props => <Link to="/" {...props} />
 export const UsersLink = props => <Link to="/users" {...props} />
 export const ExecutorsLink = props => <Link to="/executors" {...props} />
 
-export const BlockLink = props => <Link to="/executors-blocking"  {...props} />
+export const ExecutorBlockLink = props => <Link to="/executors-blocking"  {...props} />
+export const UserBlockLink = props => <Link to="/users-blocking"  {...props} />

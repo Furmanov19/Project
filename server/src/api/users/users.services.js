@@ -128,6 +128,13 @@ async function authenticate( { name, password } ) {
       config.jwt.secret,
       { expiresIn: config.jwt.expiration }
     );
+    if (user.blocking.isBlocked) {
+      return {
+        name:user.name,
+        isBlocked:user.blocking.isBlocked,
+        reason:user.blocking.reason
+      }
+    }
 
     return {
       token: token,
@@ -156,7 +163,7 @@ async function get({ page,perPage,search }) {
   const options = {
     page: parseInt(page, 10) || 1,
     limit: parseInt(perPage, 10) || 1,
-    select: "name"
+    select: "name _id role blocking"
   };
 
   const users=await User.paginate(query,options);
@@ -164,7 +171,23 @@ async function get({ page,perPage,search }) {
   return users;
 }
 
+async function blockUser(_id, {reason}) {
+  return User.findByIdAndUpdate(_id, {$set:{'blocking.isBlocked':true,'blocking.reason':reason}},{new:true}, function(err, result){
+    if(err){
+        console.log(err);
+    }
+    console.log("RESULT: " + result);
+});
+}
 
+async function unblockUser(_id) {
+  return User.findByIdAndUpdate(_id, {$set:{'blocking.isBlocked':false,'blocking.reason':""}},{new:true}, function(err, result){
+    if(err){
+        console.log(err);
+    }
+    console.log("RESULT: " + result);
+});
+}
 
 
 async function getById(_id ) {
@@ -200,6 +223,8 @@ async function authSocialNetwork(data) {
 module.exports = {
   get,
   loadUser,
+  blockUser,
+  unblockUser,
   authSocialNetwork,
   authenticate,
   logout,

@@ -12,6 +12,7 @@ import ExecutorConfirmPage from './home/main/LoginPage/ExecutorConfirmPage';
 import AdminProfilePage from './home/main/ProfilePage/AdminProfilePage';
 import AdminProfileContainer from '../containers/AdminProfileContainer';
 import BlockExecutorFormContainer from '../containers/BlockExecutorFormContainer';
+import BlockUserFormContainer from '../containers/BlockUserFormContainer';
 import ListOfUsersContainer from '../containers/ListOfUsersContainer';
 import ListOfExecutorsContainer from '../containers/ListOfExecutorsContainer';
 
@@ -53,7 +54,7 @@ class App extends Component {
             <Route path="/executors-blocking" component={BlockExecutorFormContainer}/>//admin list of executors page
           }
           {this.props.isAuth && this.props.admin &&
-            <Route path="/users-blocking" component={BlockExecutorFormContainer}/>//admin list of executors page!!!!!!!!
+            <Route path="/users-blocking" component={BlockUserFormContainer}/>//admin list of executors page!!!!!!!!
           }
           {this.props.isAuth && this.props.user &&
             <Route path="/user-blocked" component={UserProfilePage}/>//user profile page!!!!!!!!
