@@ -35,7 +35,7 @@ function ExecutorPaper(props) {
           {props.executorInfo.role}
         </Typography>
         <Button variant="outlined" color="primary" className={classes.button} component={BlockLink} onClick={() =>{props.SelectExecutor(props.executorInfo)}}>
-            Block
+            BLocking
         </Button>
       </Paper>
     </div>

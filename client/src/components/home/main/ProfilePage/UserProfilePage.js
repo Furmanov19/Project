@@ -4,7 +4,8 @@ export default class UserProfilePage extends Component {
   render() {
     return (
       <>
-        <h1>THERE IS USER PROFILE PAGE</h1>
+        <h1>{this.props.id}</h1>
+        <h1>{this.props.role}</h1>
       </>
     )
   }

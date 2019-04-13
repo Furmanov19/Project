@@ -10,14 +10,18 @@ import LoginPage from './home/main/LoginPage/LoginPage';
 import ExecutorConfirmPage from './home/main/LoginPage/ExecutorConfirmPage';
 
 import AdminProfilePage from './home/main/ProfilePage/AdminProfilePage';
+import AdminProfileContainer from '../containers/AdminProfileContainer';
 import BlockExecutorFormContainer from '../containers/BlockExecutorFormContainer';
 import ListOfUsersContainer from '../containers/ListOfUsersContainer';
 import ListOfExecutorsContainer from '../containers/ListOfExecutorsContainer';
 
 import UserOrderPage from './home/main/OrdersPage/UserOrderPage';
 import UserProfilePage from './home/main/ProfilePage/UserProfilePage';
+import UserProfileContainer from '../containers/UserProfileContainer';
 import ExecutorOrderPage from './home/main/OrdersPage/ExecutorOrderPage';
 import ExecutorProfilePage from './home/main/ProfilePage/ExecutorProfilePage';
+
+import BlockedPageContainer from '../containers/BlockedPageContainer';
 import { connect } from 'react-redux';
 
 class App extends Component {
@@ -37,7 +41,7 @@ class App extends Component {
           <Route path="/confirm" component={ExecutorConfirmPage}/>
           
           {this.props.isAuth && this.props.admin &&
-            <Route path="/profile" component={AdminProfilePage}/>//admin profile page
+            <Route path="/profile" component={AdminProfileContainer}/>//admin profile page
           }
           {this.props.isAuth && this.props.admin &&
             <Route path="/users" component={ListOfUsersContainer}/>//admin list of users page
@@ -46,10 +50,19 @@ class App extends Component {
             <Route path="/executors" component={ListOfExecutorsContainer}/>//admin list of executors page
           }
           {this.props.isAuth && this.props.admin &&
-            <Route path="/block" component={BlockExecutorFormContainer}/>//admin list of executors page
+            <Route path="/executors-blocking" component={BlockExecutorFormContainer}/>//admin list of executors page
+          }
+          {this.props.isAuth && this.props.admin &&
+            <Route path="/users-blocking" component={BlockExecutorFormContainer}/>//admin list of executors page!!!!!!!!
           }
           {this.props.isAuth && this.props.user &&
-            <Route path="/profile" component={UserProfilePage}/>//user profile page
+            <Route path="/user-blocked" component={UserProfilePage}/>//user profile page!!!!!!!!
+          }
+          {this.props.isAuth && this.props.executor &&
+            <Route path="/executor-blocked" component={BlockedPageContainer}/>//executor profile page!!!!!!!
+          }
+          {this.props.isAuth && this.props.user &&
+            <Route path="/profile" component={UserProfileContainer}/>//user profile page
           }
           {this.props.isAuth && this.props.executor &&
             <Route path="/profile" component={ExecutorProfilePage}/>//executor profile page

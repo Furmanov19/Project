@@ -49,6 +49,11 @@ class BlockForm extends Component  {
   }
   render(){
     const { classes } = this.props;
+    // console.log(this.props);
+    // console.log(this.props.selectedExecutor);
+    // console.log(this.props.selectedExecutor.blocking);
+    // console.log(this.props.selectedExecutor.blocking.isBlocked);
+    // console.log(this.props.selectedExecutor.blocking.reason);
     return (
       <Paper className={classes.paper}>
         <List className={classes.root}>
@@ -72,22 +77,44 @@ class BlockForm extends Component  {
               {this.props.selectedExecutor.role}
             </Typography>
           </ListItem>
+          <Divider />
+          <ListItem >
+            <ListItemText primary="Status" />
+            <Typography>
+              {this.props.selectedExecutor.blocking.isBlocked?"true":"false"}
+            </Typography>
+          </ListItem>
+          <Divider />
+          <ListItem >
+            <ListItemText primary="Reason" />
+            <Typography>
+              {this.props.selectedExecutor.blocking.reason}
+            </Typography>
+          </ListItem>
         </List>
-        <div className={classes.block}>
-          <TextField
-            id="standard-multiline-flexible"
-            name="reason"
-            label="Write a block reason"
-            multiline
-            rowsMax="4"
-            className={classes.textField}
-            onChange={this.handleChange}
-            margin="normal"
-          />
-          <Button variant="contained" color="secondary" className={classes.button} onClick={()=>{this.props.blockExecutor(this.props.selectedExecutor._id,this.state.reason)}}>
-            BLOCK
-          </Button>
-        </div>
+        {!this.props.selectedExecutor.blocking.isBlocked?
+          (<div className={classes.block}>
+            <TextField
+              id="standard-multiline-flexible"
+              name="reason"
+              label="Write a block reason"
+              multiline
+              rowsMax="4"
+              className={classes.textField}
+              onChange={this.handleChange}
+              margin="normal"
+            />
+            <Button variant="contained" color="secondary" className={classes.button} onClick={()=>{this.props.blockExecutor(this.props.selectedExecutor._id,this.state.reason)}}>
+              BLOCK
+            </Button>
+          </div>):
+          (<div className={classes.block}>
+              <Button variant="contained" color="secondary" className={classes.button} onClick={()=>{this.props.unblockExecutor(this.props.selectedExecutor._id)}}>
+                UNBLOCK
+              </Button>
+            </div>
+          )
+        }
       </Paper>
     )
   }

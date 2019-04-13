@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {returnErrors} from './errorActions';
+import {tokenConfig} from './tokenConfig';
 
 import {
     SELECT_EXECUTOR,
@@ -15,13 +16,8 @@ export const SelectExecutor =(executorId) => (dispatch) =>{
         payload:executorId
     });
 }
-export const blockExecutor =(executorId,reason) => (dispatch) =>{
-     //headers
-     const config = {
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    };
+export const blockExecutor =(executorId,reason) => (dispatch,getState) =>{
+     
 
     //request body
     const body =JSON.stringify({
@@ -29,7 +25,7 @@ export const blockExecutor =(executorId,reason) => (dispatch) =>{
     });
 
     axios
-        .put(`executors/block/${executorId}`,body,config)
+        .put(`executors/block/${executorId}`,body,tokenConfig(getState))
         .then((res) => {
             dispatch({
                 type:BLOCK_EXECUTOR,
@@ -42,9 +38,17 @@ export const blockExecutor =(executorId,reason) => (dispatch) =>{
         });
     
 }
-export const unbLockExecutor =(executorId) => (dispatch) =>{
-    dispatch({
-        type:UNBLOCK_EXECUTOR,
-        payload:executorId
-    });
+export const unblockExecutor =(executorId) => (dispatch,getState) =>{
+    axios
+        .put(`executors/unblock/${executorId}`,{},tokenConfig(getState))
+        .then((res) => {
+            dispatch({
+                type:UNBLOCK_EXECUTOR,
+                payload:res.data
+            });
+        })
+        .catch( err => {
+            dispatch(returnErrors(err.response.data, err.response.status));
+            dispatch({type:UNBLOCK_EXECUTOR_FAIL});
+        });
 }

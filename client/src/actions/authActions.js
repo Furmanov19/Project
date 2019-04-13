@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {returnErrors,clearErrors} from './errorActions';
 import {push} from 'connected-react-router';
+import {tokenConfig} from './tokenConfig';
 import {
     ADMIN_LOADING,
     ADMIN_LOADED,
@@ -27,6 +28,7 @@ import {
     EXECUTOR_REGISTER_FAIL,
     EXECUTOR_REGISTER_CONFIRM_SUCCESS,
     EXECUTOR_REGISTER_CONFIRM_FAIL,
+    REDIRECT_BLOCKED_EXECUTOR,
     LOGOUT_SUCCESS,
     AUTH_ERROR
 } from './types';
@@ -366,18 +368,22 @@ export const loginExecutor = (obj) => dispatch => {
 
     axios
         .post('executors/signin',obj,config)
-        .then(res => 
+        .then(async res => 
             {
-                dispatch(clearErrors());
-                dispatch({
+                if(res.data.isBlocked) {
+                    await dispatch({type:REDIRECT_BLOCKED_EXECUTOR,payload:res.data});
+                    await dispatch(push('/executor-blocked'));
+                }
+                else{
+                await dispatch(clearErrors());
+                await dispatch({
                     type:EXECUTOR_LOGIN_SUCCESS,
                     payload:res.data
                 });
+                await dispatch(push('/profile'));
+                }
             }
         )
-        .then(() => {
-            dispatch(push('/profile'));
-        })
         .catch(err =>{
             dispatch(
                 returnErrors(err.response.data,err.response.status,'EXECUTOR_LOGIN_FAIL')
@@ -395,22 +401,4 @@ export const logout = () => dispatch => {
 }
 
 
-// Setup config/headers and token
-export const tokenConfig = getState => {
-    // Get token from localstorage
-    const token = getState().auth.token;
 
-    // Headers
-    const config = {
-        headers: {
-            'Content-type': 'application/json'
-        }
-    };
-
-    // If token, add to headers
-    if (token) {
-        config.headers['Authorization'] ="Bearer " + token;
-    }
-
-    return config;
-};

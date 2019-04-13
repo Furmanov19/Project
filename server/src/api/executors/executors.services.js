@@ -128,12 +128,20 @@ async function authenticate( { name, password } ) {
     config.jwt.secret,
     { expiresIn: config.jwt.expiration }
   );
+  if (executor.blocking.isBlocked) {
+      return {
+        name:executor.name,
+        isBlocked:executor.blocking.isBlocked,
+        reason:executor.blocking.reason
+      }
+  }
 
   return {
     token: token,
     executor: {
       _id: executor._id,
-      role: executor.role
+      role: executor.role,
+      blocking:executor.blocking
       // emailConfirmed:executor.emailConfirmed
     }
   };
@@ -166,7 +174,7 @@ async function get({page,perPage,search,sortByPrice,sortByAddress,sortByRate,sor
   const options = {
     page: parseInt(page, 10) || 1,
     limit: parseInt(perPage, 10) || 5,
-    select: "name role _id",
+    select: "name email emailConfirmed blocking discription role _id services",
     sort:{averagePrice:averagePrice,popularity:popularity}
   };
 

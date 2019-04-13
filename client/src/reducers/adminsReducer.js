@@ -5,28 +5,24 @@ import {
 } from '../actions/types';
 
 const initialState = {
-    selectedExecutor:"",
-    isBlocked:false
+    selectedExecutor:JSON.parse(localStorage.getItem('selectedExecutor'))
+    //selectedExecutor:""
 }
 
 export default function (state = initialState, action) {
     switch(action.type) {
         case SELECT_EXECUTOR:
+            localStorage.setItem('selectedExecutor',JSON.stringify(action.payload));
             return {
-                ...state,
                 selectedExecutor:action.payload
             }
         case BLOCK_EXECUTOR:
             return {
-                ...state,
-                selectedExecutor:action.payload,
-                isBlocked:true
+                selectedExecutor:action.payload
             }
         case UNBLOCK_EXECUTOR:
             return {
-                ...state,
-                selectedExecutor:action.payload,
-                isBlocked:false
+                selectedExecutor:action.payload
             }
         default:
         return state;

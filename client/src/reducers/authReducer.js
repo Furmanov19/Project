@@ -24,6 +24,7 @@ import {
     EXECUTOR_REGISTER_FAIL,
     EXECUTOR_REGISTER_CONFIRM_SUCCESS,
     EXECUTOR_REGISTER_CONFIRM_FAIL,
+    REDIRECT_BLOCKED_EXECUTOR,
     LOGOUT_SUCCESS,
     AUTH_ERROR
 } from '../actions/types';
@@ -162,6 +163,12 @@ export default function (state = initialState, action) {
                 admin:null,
                 isAuthenticated:false,
                 isLoading:false
+            }
+        case REDIRECT_BLOCKED_EXECUTOR:
+            return{
+                ...state,
+                isAuthenticated:true,
+                executor:action.payload
             }
         default:
             return state;
