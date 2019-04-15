@@ -15,7 +15,6 @@ const Input = (props) => (
 
 const validationSchema = object().shape({
   name: string()
-    .required("Username is required")
     .min(2, "Username must contain atleast 2 characters")
     .max(9, "Username must contain less then 9 characters")
     .matches(
@@ -23,12 +22,10 @@ const validationSchema = object().shape({
       "The username can contain letters, numbers, -, ., _"
     ),
   password: string()
-    .required("Enter your password")
     .min(5, "Password must contain atleast 5 characters")
     .max(18, "Password must contain less then 18 characters")
     .matches(/^[\S]{5,18}$/, "The password cannot contain spaces"),
   confirmPassword: string()
-    .required('Password confirm is required')
     .test("password-match","Passport should match",function(value){
       return this.parent.password === value;
     })

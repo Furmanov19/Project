@@ -351,27 +351,29 @@ export const registerExecutor = executor => dispatch => {
       });
     });
 };
-export const editExecutor = ({ name, phone, password }) => (dispatch, getState) => {
+export const editExecutor = ({ name, discription, password, services, address }) => (dispatch, getState) => {
     //headers
     const config = {
       headers: {
         "Content-Type": "application/json"
       }
     };
-    const _id = getState().auth.user._id;
+    const _id = getState().auth.executor._id;
     //request body
     const body = JSON.stringify({
-      name,
-      phone,
-      password
+      name, 
+      discription, 
+      password, 
+      services, 
+      address
     });
   
     axios
-      .put(`users/edit/${_id}`, body, config)
+      .put(`executors/edit/${_id}`, body, config)
       .then(res => {
         dispatch(clearErrors());
         dispatch({
-          type: EDIT_USER,
+          type: EDIT_EXECUTOR,
           payload: res.data
         });
         dispatch(push("/profile"));
@@ -379,10 +381,10 @@ export const editExecutor = ({ name, phone, password }) => (dispatch, getState) 
       .catch(err => {
         console.log(err);
         dispatch(
-          returnErrors(err.response.data, err.response.status, "EDIT_USER_FAIL")
+          returnErrors(err.response.data, err.response.status, "EDIT_EXECUTOR_FAIL")
         );
         dispatch({
-          type: EDIT_USER_FAIL
+          type: EDIT_EXECUTOR_FAIL
         });
       });
   };

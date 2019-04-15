@@ -117,10 +117,11 @@ async function confirm({ verifyToken }) {
 }
 
 async function loadExecutor(executor) {
+  const data=executor.toObject();
+  const {password:executorPassword , ...executorWithoutPassword} =data;
+  
   return {
-    _id: executor._id,
-    role: executor.role
-    // emailConfirmed:user.emailConfirmed
+    executor: executorWithoutPassword
   };
 }
 

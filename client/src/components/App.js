@@ -21,6 +21,7 @@ import UserEditProfileContainer from '../containers/UserEditProfileContainer';
 import UserProfileContainer from '../containers/UserProfileContainer';
 import ExecutorOrderPage from './home/main/OrdersPage/ExecutorOrderPage';
 import ExecutorProfilePage from './home/main/ProfilePage/ExecutorProfilePage';
+import ExecutorEditProfileContainer from '../containers/ExecutorEditProfileContainer';
 
 import ExecutorBlockedPageContainer from '../containers/ExecutorBlockedPageContainer';
 import UserBlockedPageContainer from '../containers/UserBlockedPageContainer';
@@ -71,6 +72,9 @@ class App extends Component {
           }
           {this.props.isAuth && this.props.executor &&
             <Route path="/profile" component={ExecutorProfilePage}/>//executor profile page
+          }
+          {this.props.isAuth && this.props.executor &&
+            <Route path="/profile-edit" component={ExecutorEditProfileContainer}/>//user profile page
           }
           {this.props.isAuth && this.props.user &&
             <Route path="/orders" component={UserOrderPage}/>//user profile page

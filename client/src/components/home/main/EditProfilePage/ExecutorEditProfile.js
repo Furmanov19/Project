@@ -7,7 +7,7 @@ import Button from "@material-ui/core/Button";
 import { Formik } from "formik";
 import { string, object } from "yup";
 import InputMask from "react-input-mask";
-import ExecutorServices from "./ExecutorServices";
+import ExecutorServices from "../RegistrationPage/ExecutorServices";
 
 const Input = props => (
   <InputMask
@@ -35,30 +35,22 @@ const Input = props => (
 
 const validationSchema = object().shape({
   name: string()
-    .required("Username is required")
     .min(2, "Username must contain atleast 2 characters")
     .max(9, "Username must contain less then 9 characters")
     .matches(
       /^[a-zA-Z][a-zA-Z0-9-_.]{1,9}$/,
       "The username can contain letters, numbers, -, ., _"
     ),
-  address: string().required("Enter your town"),
+  address: string(),
   password: string()
-    .required("Enter your password")
     .min(5, "Password must contain atleast 5 characters")
     .max(18, "Password must contain less then 18 characters")
     .matches(/^[\S]{5,18}$/, "The password cannot contain spaces"),
   confirmPassword: string()
-    .required("Password confirm is required")
     .test("password-match", "Passport should match", function(value) {
       return this.parent.password === value;
     }),
-  email: string()
-    .required("Email is require")
-    .matches(/.+@.+\..+/i, "Incorrect email!"),
-  discription: string().required(
-    "You must fill discription to represent your services"
-  )
+  discription: string()
 });
 
 const styles = theme => ({
@@ -87,52 +79,50 @@ const styles = theme => ({
   }
 });
 
-class ExecutorRegistrationForm extends React.Component {
+class ExecutorEditProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      disabled: false,
-      isSended: false,
       services: {
         standart: {
-          smallRoom: "",
-          largeRoom: "",
-          toilet: ""
+          smallRoom: this.props.services.standart.smallRoom,
+          largeRoom: this.props.services.standart.largeRoom,
+          toilet: this.props.services.standart.toilet
         },
         general: {
-          smallRoom: "",
-          largeRoom: "",
-          toilet: ""
+          smallRoom: this.props.services.general.smallRoom,
+          largeRoom: this.props.services.general.largeRoom,
+          toilet: this.props.services.general.toilet
         },
         afterRepair: {
-          smallRoom: "",
-          largeRoom: "",
-          toilet: ""
+          smallRoom: this.props.services.afterRepair.smallRoom,
+          largeRoom: this.props.services.afterRepair.largeRoom,
+          toilet: this.props.services.afterRepair.toilet
         },
         carpetDryCleaning: {
-          smallRoom: "",
-          largeRoom: "",
-          toilet: ""
+          smallRoom: this.props.services.carpetDryCleaning.smallRoom,
+          largeRoom: this.props.services.carpetDryCleaning.largeRoom,
+          toilet: this.props.services.carpetDryCleaning.toilet
         },
         office: {
-          smallRoom: "",
-          largeRoom: "",
-          toilet: ""
+          smallRoom: this.props.services.office.smallRoom,
+          largeRoom: this.props.services.office.largeRoom,
+          toilet: this.props.services.office.toilet
         },
         industrialСleaning: {
-          smallRoom: "",
-          largeRoom: "",
-          toilet: ""
+          smallRoom: this.props.services.industrialСleaning.smallRoom,
+          largeRoom: this.props.services.industrialСleaning.largeRoom,
+          toilet: this.props.services.industrialСleaning.toilet
         },
         furniture: {
-          smallRoom: "",
-          largeRoom: "",
-          toilet: ""
+          smallRoom: this.props.services.furniture.smallRoom,
+          largeRoom: this.props.services.furniture.largeRoom,
+          toilet: this.props.services.furniture.toilet
         },
         pool: {
-          smallRoom: "",
-          largeRoom: "",
-          toilet: ""
+          smallRoom: this.props.services.pool.smallRoom,
+          largeRoom: this.props.services.pool.largeRoom,
+          toilet: this.props.services.pool.toilet
         }
       }
     };
@@ -156,17 +146,15 @@ class ExecutorRegistrationForm extends React.Component {
     return (
       <Formik
         initialValues={{
-          name: "",
-          email: "",
-          discription: "",
+          name: this.props.executor.name,
+          discription: this.props.executor.discription,
           password: "",
           confirmPassword: "",
-          address: ""
+          address: this.props.executor.address
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setFieldError }) => {
           try {
-            this.setState({ disabled: true, isSended: true });
             const newExecutor = {
               name: values.name,
               email: values.email,
@@ -176,7 +164,7 @@ class ExecutorRegistrationForm extends React.Component {
               address: values.address
             };
             console.log(newExecutor);
-            this.props.registerExecutor(newExecutor);
+            this.props.editExecutor(newExecutor);
           } catch (errors) {
             errors.forEach(err => {
               setFieldError(err.field, err.error);
@@ -343,13 +331,6 @@ class ExecutorRegistrationForm extends React.Component {
           serviceName={"Pool Cleaning"}
           handleChangeService={this.handleChangeService}
         />
-
-        {this.state.isSended && (
-          <Typography variant={"h6"}>
-            Register success!Visit Your Email :)
-          </Typography>
-        )}
-        {!this.state.isSended && (
           <Button
             type="submit"
             key="submit"
@@ -358,17 +339,15 @@ class ExecutorRegistrationForm extends React.Component {
             size="large"
             className={classes.button}
           >
-            REGISTER
+            EDIT
           </Button>
-        )}
       </form>
     );
   };
 }
 
-ExecutorRegistrationForm.propTypes = {
-  classes: PropTypes.object.isRequired,
-  registerExecutor: PropTypes.func.isRequired
+ExecutorEditProfile.propTypes = {
+  classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(ExecutorRegistrationForm);
+export default withStyles(styles)(ExecutorEditProfile);
