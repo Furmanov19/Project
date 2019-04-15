@@ -5,6 +5,13 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { Formik } from "formik";
 import { string, object } from "yup";
+import InputMask from 'react-input-mask';
+
+const Input = (props) => (
+  <InputMask mask="+3\75 \(99\) 999 99 99" maskChar=" " disabled={props.disabled} name={props.name} className={props.className} value={props.value} onChange={props.onChange} helperText={props.helperText} error={props.error}>
+    {(inputProps) => <TextField {...inputProps} type="tel" variant="outlined" label="Phone number"  autoComplete="phone"/>}
+  </InputMask>
+);
 
 const validationSchema = object().shape({
   name: string()
@@ -19,7 +26,12 @@ const validationSchema = object().shape({
     .required("Enter your password")
     .min(5, "Password must contain atleast 5 characters")
     .max(18, "Password must contain less then 18 characters")
-    .matches(/^[\S]{5,18}$/, "The password cannot contain spaces")
+    .matches(/^[\S]{5,18}$/, "The password cannot contain spaces"),
+  confirmPassword: string()
+    .required('Password confirm is required')
+    .test("password-match","Passport should match",function(value){
+      return this.parent.password === value;
+    })
 });
 
 const styles = theme => ({
@@ -50,27 +62,31 @@ const styles = theme => ({
 });
 
 
-class AdminRegistrationForm extends React.Component {
-    constructor(props){
-        super(props);
-        this.state = {
-          disabled:false,
-          isSended:false
-        };
-       
-    }
+class UserEditProfile extends React.Component {
+  constructor(props){
+      super(props);
+      this.state = {
+      };
+  }
   render() {
     return (
       <Formik
-          initialValues={{ name: "", password: ""}}
+          initialValues={{ name: this.props.name,  phone:this.props.phone, password: "",confirmPassword:""}}
           validationSchema={validationSchema}
           onSubmit={(values, { setFieldError }) => {
-            let admin ={
-              name:values.name,
-              password:values.password
-            }
-            console.log(admin);
-              this.props.loginAdmin(admin);
+              try{
+                const newUser={
+                  name:values.name,
+                  phone:values.phone,
+                  password:values.password
+                }
+                console.log(newUser);
+                this.props.editUser(newUser);
+              } catch (errors) {
+                errors.forEach(err => {
+                  setFieldError(err.field, err.error);
+                });
+              }
             }
           }
         component={this.form}
@@ -94,6 +110,15 @@ class AdminRegistrationForm extends React.Component {
             helperText={errors.name}
             error={Boolean(errors.name)}
       />
+      <Input
+            className={classes.textField}
+            disabled = {(this.state.disabled)? true : false}
+            name="phone"
+            onChange={handleChange}
+            value={values.phone}
+            helperText={errors.phone}
+            error={Boolean(errors.phone)}
+      />
       <TextField
             label="Password"
             autoComplete="password"
@@ -106,6 +131,20 @@ class AdminRegistrationForm extends React.Component {
             value={values.password}
             helperText={errors.password}
             error={Boolean(errors.password)}
+            type={'password'}
+      />
+      <TextField
+            label="Confirm Password"
+            className={classes.textField}
+            disabled = {(this.state.disabled)? true : false}
+            margin="normal"
+            variant="outlined"
+            name="confirmPassword"
+            onChange={handleChange}
+            value={values.confirmPassword}
+            helperText={errors.confirmPassword}
+            error={Boolean(errors.confirmPassword)}
+            type={'password'}
       />
         <Button
             type="submit"
@@ -115,17 +154,15 @@ class AdminRegistrationForm extends React.Component {
             size="large"
             className={classes.button}
           >
-          LOG IN
+          CONFIRM
         </Button>
     </form>
   );
  }
 }
 
-// UserRegistrationForm.propTypes = {
-//   classes: PropTypes.object.isRequired,
-//   error: PropTypes.object.isRequired,
-//   register: PropTypes.func.isRequired,
-// };
+UserEditProfile.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
 
-export default withStyles(styles)(AdminRegistrationForm);
+export default withStyles(styles)(UserEditProfile);

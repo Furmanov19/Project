@@ -5,7 +5,7 @@ const permit = require("../../middleware/permission");
 
 const Role = require("../../enums/roles.enum");
 
-router.get("/current",permit(),controller.loadAdmin);
+router.get("/current",permit(Role.Admin),controller.loadAdmin);
 router.post("/signin", controller.signinAdmin);
 router.post("/register",  controller.registerAdmin);
 router.get("/only-admin", permit(Role.Admin), (req, res, next) => {

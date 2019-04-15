@@ -17,14 +17,13 @@ import ListOfUsersContainer from '../containers/ListOfUsersContainer';
 import ListOfExecutorsContainer from '../containers/ListOfExecutorsContainer';
 
 import UserOrderPage from './home/main/OrdersPage/UserOrderPage';
-import UserProfilePage from './home/main/ProfilePage/UserProfilePage';
+import UserEditProfileContainer from '../containers/UserEditProfileContainer';
 import UserProfileContainer from '../containers/UserProfileContainer';
 import ExecutorOrderPage from './home/main/OrdersPage/ExecutorOrderPage';
 import ExecutorProfilePage from './home/main/ProfilePage/ExecutorProfilePage';
 
 import ExecutorBlockedPageContainer from '../containers/ExecutorBlockedPageContainer';
 import UserBlockedPageContainer from '../containers/UserBlockedPageContainer';
-
 import { connect } from 'react-redux';
 
 class App extends Component {
@@ -58,14 +57,17 @@ class App extends Component {
           {this.props.isAuth && this.props.admin &&
             <Route path="/users-blocking" component={BlockUserFormContainer}/>//admin list of executors page!!!!!!!!
           }
-          {this.props.isAuth && this.props.user &&
+          {!this.props.isAuth && this.props.user &&
             <Route path="/user-blocked" component={UserBlockedPageContainer}/>//user profile page!!!!!!!!
           }
-          {this.props.isAuth && this.props.executor &&
+          {!this.props.isAuth && this.props.executor &&
             <Route path="/executor-blocked" component={ExecutorBlockedPageContainer}/>//executor profile page!!!!!!!
           }
           {this.props.isAuth && this.props.user &&
             <Route path="/profile" component={UserProfileContainer}/>//user profile page
+          }
+          {this.props.isAuth && this.props.user &&
+            <Route path="/profile-edit" component={UserEditProfileContainer}/>//user profile page
           }
           {this.props.isAuth && this.props.executor &&
             <Route path="/profile" component={ExecutorProfilePage}/>//executor profile page

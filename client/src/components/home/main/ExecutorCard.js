@@ -27,7 +27,7 @@ function ExecutorPaper(props) {
   return (
     <div>
       <Paper className={classes.root} elevation={1}>
-        <Typography variant="h5" component="h3">
+        <Typography variant="h5" >
           {props.name}
         </Typography>
         <Typography component="p">

@@ -8,15 +8,15 @@ const schema = new mongoose.Schema(
     name: { type: String, required: true , unique:true, select:true},
     email: { type: String, required: false, unique:true,},
     emailConfirmed:{type:Boolean, required: true},
-    verifyToken:{type:String, required: true},
+    verifyToken:{type:String, required: false},
     blocking:{
-      isBlocked:{ type: Boolean, required: false },
-      reason:{ type: String , required: false }
+      isBlocked:{ type: Boolean,default:false, required: false, },
+      reason:{ type: String ,default:"", required: false }
     },
     discription:{type: String, required: true },
     address:{type: String, required: false },
     averagePrice:{type: Number,required: true},
-    averageRate:{type: Number,required: true},
+    averageRate:{type: Number,required: false},
     orders:[{type: mongoose.Schema.Types.ObjectId, ref: 'Order', required: false}],
     password: { type: String, required: true },//, select: true 
     role: { type: String, required: false, lowercase: true },

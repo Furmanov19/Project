@@ -78,13 +78,13 @@ async function confirm( { code, email } ) {
         config.jwt.secret,
         { expiresIn: config.jwt.expiration }
       );
+      
+      const data=user.toObject();
+      const {password:userPassword ,code:userCode,attemts:userAttemts, ...clearUser} =data;
+      
       return {
         token: token,
-        user: {
-          _id: user._id,
-          role: user.role
-          // emailConfirmed:user.emailConfirmed
-        }
+        user: clearUser
       };
     }
     else if ( count == 1 ) {
@@ -102,12 +102,12 @@ async function confirm( { code, email } ) {
 }
 
 async function loadUser( user ) {
-  console.log(user);
+  const data=user.toObject();
+  const {password:userPassword , ...userWithoutPassword} =data;
+  
   return {
-    _id: user._id,
-    role: user.role
-    // emailConfirmed:user.emailConfirmed
-  }
+    user: userWithoutPassword
+  };
 }
 
 async function authenticate( { name, password } ) {
@@ -120,10 +120,14 @@ async function authenticate( { name, password } ) {
 
     if ( success === false ) throw new Error ( "Password is incorrect" );
 
+    const data=user.toObject();
+
+    const {password:userPassword , ...userWithoutPassword} =data;
+
     const token = jwt.sign (
       { 
-        id: user._id,
-        role: user.role
+        id: data._id,
+        role: data.role
       },
       config.jwt.secret,
       { expiresIn: config.jwt.expiration }
@@ -135,15 +139,17 @@ async function authenticate( { name, password } ) {
         reason:user.blocking.reason
       }
     }
-
     return {
       token: token,
-      user: {
-        _id: user._id,
-        role: user.role
-        // emailConfirmed:user.emailConfirmed
-      }
+      user: userWithoutPassword
     };
+    // return {
+    //   token: token,
+    //   user: {
+    //     _id: user._id,
+    //     role: user.role
+    //   }
+    // };
 }
 
 async function get({ page,perPage,search }) {
@@ -189,6 +195,52 @@ async function unblockUser(_id) {
 });
 }
 
+async function editUser(_id, {name,phone,password}) {
+  const user=await User.findOne({_id});
+  console.log(user);
+  let savedUser ={};
+  if(password){
+    console.log("пароль пришел");
+    let unchangedPassword=await user.comparePassword(password);
+    if(unchangedPassword){
+      console.log("пароль не изменился");
+      savedUser=await  User.findByIdAndUpdate(
+        _id,
+        { $set: 
+          { 
+            name:name?name:user.name,
+            phone:phone?phone:user.phone
+          } 
+        },
+        { new: true }
+      );
+      
+    } else {
+      console.log("пароль изменился");
+      user.name=name?name:user.name;
+      user.phone=phone?phone:user.phone;
+      user.password=password;
+      savedUser = await user.save();
+    }
+  } else {
+    console.log("пароль не пришел");
+    savedUser=await  User.findByIdAndUpdate(
+      _id,
+      {  $set: 
+        { 
+          name:name?name:user.name,
+          phone:phone?phone:user.phone
+        } 
+      },
+      { new: true }
+    );
+  }
+  const data= savedUser.toObject();
+  console.log(data);
+    const { password:userPassword, ...userWithoutPassword} =data;
+    return userWithoutPassword;
+}
+
 
 async function getById(_id ) {
     return User.findById(_id);
@@ -225,6 +277,7 @@ module.exports = {
   loadUser,
   blockUser,
   unblockUser,
+  editUser,
   authSocialNetwork,
   authenticate,
   logout,

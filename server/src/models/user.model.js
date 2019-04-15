@@ -8,8 +8,8 @@ const schema = new mongoose.Schema(
     email: { type: String, required: false },
     emailConfirmed:{type:Boolean, required: false},
     blocking:{
-      isBlocked:{ type: Boolean, required: false },
-      reason:{ type: String , required: false }
+      isBlocked:{ type: Boolean,default:false, required: false },
+      reason:{ type: String ,default:"", required: false }
     },
     attemts:{type:Number, required: false},
     code:{type:String, required: false},

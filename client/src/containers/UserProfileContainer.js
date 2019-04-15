@@ -3,8 +3,7 @@ import UserProfilePage from '../components/home/main/ProfilePage/UserProfilePage
 
 
 const mapStateToProps = state => ({
-    id: state.auth.user._id,
-    role:state.auth.user.role
+    user: state.auth.user
 });
 
 export default connect(

@@ -27,6 +27,7 @@ import {
     EXECUTOR_REGISTER_CONFIRM_FAIL,
     REDIRECT_BLOCKED_EXECUTOR,
     LOGOUT_SUCCESS,
+    EDIT_USER,
     AUTH_ERROR
 } from '../actions/types';
 
@@ -55,14 +56,14 @@ export default function (state = initialState, action) {
                 isLoading: false,
                 user: null,
                 executor:null,
-                admin:action.payload
+                admin:action.payload.admin
             }
         case USER_LOADED:
             return {
                 ...state,
                 isAuthenticated: true,
                 isLoading: false,
-                user: action.payload,
+                user: action.payload.user,
                 executor:null,
                 admin:null
             }
@@ -72,7 +73,7 @@ export default function (state = initialState, action) {
                 isAuthenticated: true,
                 isLoading: false,
                 user: null,
-                executor: action.payload,
+                executor: action.payload.executor,
                 admin:null
             }
         case ADMIN_LOADING_FAIL:
@@ -168,13 +169,18 @@ export default function (state = initialState, action) {
         case REDIRECT_BLOCKED_EXECUTOR:
             return{
                 ...state,
-                isAuthenticated:true,
+                isAuthenticated:false,
                 executor:action.payload
             }
         case REDIRECT_BLOCKED_USER:
             return{
                 ...state,
-                isAuthenticated:true,
+                isAuthenticated:false,
+                user:action.payload
+            }
+        case EDIT_USER:
+            return{
+                ...state,
                 user:action.payload
             }
         default:

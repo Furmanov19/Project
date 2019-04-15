@@ -68,7 +68,17 @@ module.exports.unblockExecutor = (req, res, next) => {
       })
       .catch(err => next(err));
 };
-
+module.exports.editExecutor = (req, res, next) => {
+  executorService
+      .editExecutor(req.params._id, req.body)
+      .then(executor => {
+        executor
+          ? res.json(executor)
+          : res
+              .json({ message: "Error" });
+      })
+      .catch(err => next(err));
+};
 
 
 module.exports.getExecutorById = (req, res, next) => {

@@ -4,7 +4,7 @@ import { returnErrors} from './errorActions';
 import {
     USERS_LOADING,
     USERS_LOADED,
-    USERS_LOADING_FAIL
+    USERS_LOADING_FAIL,
 } from './types';
 
 
