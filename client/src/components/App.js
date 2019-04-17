@@ -23,6 +23,7 @@ import ExecutorOrderPage from './home/main/OrdersPage/ExecutorOrderPage';
 import ExecutorProfilePage from './home/main/ProfilePage/ExecutorProfilePage';
 import ExecutorEditProfileContainer from '../containers/ExecutorEditProfileContainer';
 
+import BookingPageContainer from '../containers/BookingPageContainer';
 import ExecutorBlockedPageContainer from '../containers/ExecutorBlockedPageContainer';
 import UserBlockedPageContainer from '../containers/UserBlockedPageContainer';
 import { connect } from 'react-redux';
@@ -82,6 +83,7 @@ class App extends Component {
           {this.props.isAuth && this.props.executor &&
             <Route path="/orders" component={ExecutorOrderPage}/>//executor profile page
           }
+          <Route path="/company" component={BookingPageContainer} />
           <Route component={HomePageContainer}/>
         </Switch>
       </>  

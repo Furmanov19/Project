@@ -30,12 +30,12 @@ async function authenticate({ name,password }) {
     };
 }
 async function loadAdmin( admin ) {
-  console.log(admin);
+  const data=admin.toObject();
+  const {password:adminPassword , ...adminWithoutPassword} =data;
+  
   return {
-    _id: admin._id,
-    role: admin.role
-    // emailConfirmed:admin.emailConfirmed
-  }
+    admin: adminWithoutPassword
+  };
 }
 async function register(data) {
   console.log(data);

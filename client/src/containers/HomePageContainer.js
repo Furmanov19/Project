@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { getExecutors } from '../actions/executorsActions';
+import {selectExecutorForInfo} from '../actions/usersActions';
 import Main from '../components/home/main/Main'
 
 const mapStateToProps = state => ({
@@ -10,5 +11,5 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    {getExecutors}
+    {getExecutors,selectExecutorForInfo}
 )(Main);

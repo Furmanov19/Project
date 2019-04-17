@@ -2,14 +2,20 @@ const mongoose = require("mongoose");
 
 const schema = new mongoose.Schema(
   { 
-    addres:{type: String, required: false, lowercase: true },
+    address:{type: String, required: false, lowercase: true },
     type:{type: String, required: false},
-    discription:{type: String, required: true},//подумать,добавить сортировки в модель
-    date:{type: String, required: false},
+    apartments:{
+      smallRoom:{type:Number},
+      largeRoom:{type:Number},
+      toilet:{type:Number}
+    },
+    date:{type: Date, required: false},
+    time:{type: String, required: false},
     regularity:{type: String, required: false},
-    customer_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-    executor_id: { type:  mongoose.Schema.Types.ObjectId, ref: 'Executor', required: true },
-    status: { type: String, required: false}
+    customer_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: false },
+    executor_id: { type:  mongoose.Schema.Types.ObjectId, ref: 'Executor', required: false },
+    status: { type: String, required: false},
+    price:{type: Number}
   },
   {
     timestamps: { createdAt: "created_at", updatedAt: "updated_at" }

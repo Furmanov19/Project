@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ExecutorPaper from './ExecutorCard';
+import ExecutorCard from './ExecutorCard';
 import Load from '../../common/load'
 import SearchPanel from './SearchPanel';
 import Pagination from "./Pagination";
@@ -26,7 +26,7 @@ class Main extends Component {
           (
             <div>
               {this.props.executors.map(executor =>
-                !executor.blocking.isBlocked?<ExecutorPaper key={executor._id} name={executor.name} role={executor.role}/>:null
+                !executor.blocking.isBlocked?<ExecutorCard key={executor._id} executorInfo={executor} selectExecutorForInfo={this.props.selectExecutorForInfo} name={executor.name} averagePrice={executor.averagePrice} averageRate={executor.averageRate} services={executor.services} />:null
               )}
               <Pagination />
             </div>

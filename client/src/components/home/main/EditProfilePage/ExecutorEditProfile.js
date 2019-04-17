@@ -1,9 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
+import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import Divider from "@material-ui/core/Divider";
 import { Formik } from "formik";
 import { string, object } from "yup";
 import InputMask from "react-input-mask";
@@ -46,14 +48,29 @@ const validationSchema = object().shape({
     .min(5, "Password must contain atleast 5 characters")
     .max(18, "Password must contain less then 18 characters")
     .matches(/^[\S]{5,18}$/, "The password cannot contain spaces"),
-  confirmPassword: string()
-    .test("password-match", "Passport should match", function(value) {
+  confirmPassword: string().test(
+    "password-match",
+    "Passport should match",
+    function(value) {
       return this.parent.password === value;
-    }),
+    }
+  ),
   discription: string()
 });
 
 const styles = theme => ({
+  root: {
+    width: "70%",
+    margin: "5% auto"
+  },
+  header: {
+    margin: "3% auto 0%",
+    textAlign: "center"
+  },
+  divider: {
+    width: "90%",
+    margin: "0 auto"
+  },
   container: {
     position: "relative",
     display: "flex",
@@ -67,15 +84,6 @@ const styles = theme => ({
   textField: {
     width: "85%",
     margin: "5px"
-  },
-  confirmContainer: {
-    position: "absolute",
-    zIndex: "1",
-    width: "50%",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    padding: "2%"
   }
 });
 
@@ -178,159 +186,151 @@ class ExecutorEditProfile extends React.Component {
   form = ({ handleSubmit, handleChange, values, errors }) => {
     const { classes } = this.props;
     return (
-      <form className={classes.container} onSubmit={handleSubmit} noValidate>
-        <TextField
-          label="Company Name"
-          autoComplete="name"
-          className={classes.textField}
-          disabled={this.state.disabled ? true : false}
-          margin="normal"
-          variant="outlined"
-          name="name"
-          onChange={handleChange}
-          value={values.name}
-          helperText={errors.name}
-          error={Boolean(errors.name)}
-        />
-        <TextField
-          label="Discription"
-          multiline
-          rowsMax="4"
-          value={values.discription}
-          onChange={handleChange}
-          className={classes.textField}
-          margin="normal"
-          variant="outlined"
-          name="discription"
-          helperText={errors.discription}
-          error={Boolean(errors.discription)}
-        />
-        <TextField
-          label="Email"
-          autoComplete="email"
-          className={classes.textField}
-          disabled={this.state.disabled ? true : false}
-          margin="normal"
-          variant="outlined"
-          name="email"
-          onChange={handleChange}
-          value={values.email}
-          helperText={errors.email}
-          error={Boolean(errors.email)}
-        />
-        <TextField
-          label="Adress"
-          autoComplete="address"
-          className={classes.textField}
-          disabled={this.state.disabled ? true : false}
-          margin="normal"
-          variant="outlined"
-          name="address"
-          placeholder="Enter town"
-          onChange={handleChange}
-          value={values.address}
-          helperText={errors.address}
-          error={Boolean(errors.address)}
-        />
-        <TextField
-          label="Password"
-          autoComplete="password"
-          className={classes.textField}
-          disabled={this.state.disabled ? true : false}
-          margin="normal"
-          variant="outlined"
-          name="password"
-          onChange={handleChange}
-          value={values.password}
-          helperText={errors.password}
-          error={Boolean(errors.password)}
-          type={"password"}
-        />
-        <TextField
-          label="Confirm Password"
-          className={classes.textField}
-          disabled={this.state.disabled ? true : false}
-          margin="normal"
-          variant="outlined"
-          name="confirmPassword"
-          onChange={handleChange}
-          value={values.confirmPassword}
-          helperText={errors.confirmPassword}
-          error={Boolean(errors.confirmPassword)}
-          type={"password"}
-        />
-        <ExecutorServices
-          disabled={this.state.disabled ? true : false}
-          serviceType={"standart"}
-          smallRoom={this.state.services.standart.smallRoom}
-          largeRoom={this.state.services.standart.largeRoom}
-          toilet={this.state.services.standart.toilet}
-          serviceName={"Standart Cleaning"}
-          handleChangeService={this.handleChangeService}
-        />
-        <ExecutorServices
-          disabled={this.state.disabled ? true : false}
-          serviceType={"general"}
-          smallRoom={this.state.services.general.smallRoom}
-          largeRoom={this.state.services.general.largeRoom}
-          toilet={this.state.services.general.toilet}
-          serviceName={"General Cleaning"}
-          handleChangeService={this.handleChangeService}
-        />
-        <ExecutorServices
-          disabled={this.state.disabled ? true : false}
-          serviceType={"afterRepair"}
-          smallRoom={this.state.services.afterRepair.smallRoom}
-          largeRoom={this.state.services.afterRepair.largeRoom}
-          toilet={this.state.services.afterRepair.toilet}
-          serviceName={"Cleaning after repair"}
-          handleChangeService={this.handleChangeService}
-        />
-        <ExecutorServices
-          disabled={this.state.disabled ? true : false}
-          serviceType={"carpetDryCleaning"}
-          smallRoom={this.state.services.carpetDryCleaning.smallRoom}
-          largeRoom={this.state.services.carpetDryCleaning.largeRoom}
-          toilet={this.state.services.carpetDryCleaning.toilet}
-          serviceName={"Carpet Dry-Cleaning"}
-          handleChangeService={this.handleChangeService}
-        />
-        <ExecutorServices
-          disabled={this.state.disabled ? true : false}
-          serviceType={"office"}
-          smallRoom={this.state.services.office.smallRoom}
-          largeRoom={this.state.services.office.largeRoom}
-          toilet={this.state.services.office.toilet}
-          serviceName={"Office Cleaning"}
-          handleChangeService={this.handleChangeService}
-        />
-        <ExecutorServices
-          disabled={this.state.disabled ? true : false}
-          serviceType={"industrialСleaning"}
-          smallRoom={this.state.services.industrialСleaning.smallRoom}
-          largeRoom={this.state.services.industrialСleaning.largeRoom}
-          toilet={this.state.services.industrialСleaning.toilet}
-          serviceName={"Industrial Cleaning"}
-          handleChangeService={this.handleChangeService}
-        />
-        <ExecutorServices
-          disabled={this.state.disabled ? true : false}
-          serviceType={"furniture"}
-          smallRoom={this.state.services.furniture.smallRoom}
-          largeRoom={this.state.services.furniture.largeRoom}
-          toilet={this.state.services.furniture.toilet}
-          serviceName={"Furniture Cleaning"}
-          handleChangeService={this.handleChangeService}
-        />
-        <ExecutorServices
-          disabled={this.state.disabled ? true : false}
-          serviceType={"pool"}
-          smallRoom={this.state.services.pool.smallRoom}
-          largeRoom={this.state.services.pool.largeRoom}
-          toilet={this.state.services.pool.toilet}
-          serviceName={"Pool Cleaning"}
-          handleChangeService={this.handleChangeService}
-        />
+      <Paper className={classes.root}>
+        <Typography className={classes.header} variant="h4">
+          EDIT PROFILE
+        </Typography>
+        <Divider className={classes.divider} variant="inset" />
+        <form className={classes.container} onSubmit={handleSubmit} noValidate>
+          <TextField
+            label="Company Name"
+            autoComplete="name"
+            className={classes.textField}
+            disabled={this.state.disabled ? true : false}
+            margin="normal"
+            variant="outlined"
+            name="name"
+            onChange={handleChange}
+            value={values.name}
+            helperText={errors.name}
+            error={Boolean(errors.name)}
+          />
+          <TextField
+            label="Discription"
+            multiline
+            rowsMax="4"
+            value={values.discription}
+            onChange={handleChange}
+            className={classes.textField}
+            margin="normal"
+            variant="outlined"
+            name="discription"
+            helperText={errors.discription}
+            error={Boolean(errors.discription)}
+          />
+          <TextField
+            label="Adress"
+            autoComplete="address"
+            className={classes.textField}
+            disabled={this.state.disabled ? true : false}
+            margin="normal"
+            variant="outlined"
+            name="address"
+            placeholder="Enter town"
+            onChange={handleChange}
+            value={values.address}
+            helperText={errors.address}
+            error={Boolean(errors.address)}
+          />
+          <TextField
+            label="Password"
+            autoComplete="password"
+            className={classes.textField}
+            disabled={this.state.disabled ? true : false}
+            margin="normal"
+            variant="outlined"
+            name="password"
+            onChange={handleChange}
+            value={values.password}
+            helperText={errors.password}
+            error={Boolean(errors.password)}
+            type={"password"}
+          />
+          <TextField
+            label="Confirm Password"
+            className={classes.textField}
+            disabled={this.state.disabled ? true : false}
+            margin="normal"
+            variant="outlined"
+            name="confirmPassword"
+            onChange={handleChange}
+            value={values.confirmPassword}
+            helperText={errors.confirmPassword}
+            error={Boolean(errors.confirmPassword)}
+            type={"password"}
+          />
+          <ExecutorServices
+            disabled={this.state.disabled ? true : false}
+            serviceType={"standart"}
+            smallRoom={this.state.services.standart.smallRoom}
+            largeRoom={this.state.services.standart.largeRoom}
+            toilet={this.state.services.standart.toilet}
+            serviceName={"Standart Cleaning"}
+            handleChangeService={this.handleChangeService}
+          />
+          <ExecutorServices
+            disabled={this.state.disabled ? true : false}
+            serviceType={"general"}
+            smallRoom={this.state.services.general.smallRoom}
+            largeRoom={this.state.services.general.largeRoom}
+            toilet={this.state.services.general.toilet}
+            serviceName={"General Cleaning"}
+            handleChangeService={this.handleChangeService}
+          />
+          <ExecutorServices
+            disabled={this.state.disabled ? true : false}
+            serviceType={"afterRepair"}
+            smallRoom={this.state.services.afterRepair.smallRoom}
+            largeRoom={this.state.services.afterRepair.largeRoom}
+            toilet={this.state.services.afterRepair.toilet}
+            serviceName={"Cleaning after repair"}
+            handleChangeService={this.handleChangeService}
+          />
+          <ExecutorServices
+            disabled={this.state.disabled ? true : false}
+            serviceType={"carpetDryCleaning"}
+            smallRoom={this.state.services.carpetDryCleaning.smallRoom}
+            largeRoom={this.state.services.carpetDryCleaning.largeRoom}
+            toilet={this.state.services.carpetDryCleaning.toilet}
+            serviceName={"Carpet Dry-Cleaning"}
+            handleChangeService={this.handleChangeService}
+          />
+          <ExecutorServices
+            disabled={this.state.disabled ? true : false}
+            serviceType={"office"}
+            smallRoom={this.state.services.office.smallRoom}
+            largeRoom={this.state.services.office.largeRoom}
+            toilet={this.state.services.office.toilet}
+            serviceName={"Office Cleaning"}
+            handleChangeService={this.handleChangeService}
+          />
+          <ExecutorServices
+            disabled={this.state.disabled ? true : false}
+            serviceType={"industrialСleaning"}
+            smallRoom={this.state.services.industrialСleaning.smallRoom}
+            largeRoom={this.state.services.industrialСleaning.largeRoom}
+            toilet={this.state.services.industrialСleaning.toilet}
+            serviceName={"Industrial Cleaning"}
+            handleChangeService={this.handleChangeService}
+          />
+          <ExecutorServices
+            disabled={this.state.disabled ? true : false}
+            serviceType={"furniture"}
+            smallRoom={this.state.services.furniture.smallRoom}
+            largeRoom={this.state.services.furniture.largeRoom}
+            toilet={this.state.services.furniture.toilet}
+            serviceName={"Furniture Cleaning"}
+            handleChangeService={this.handleChangeService}
+          />
+          <ExecutorServices
+            disabled={this.state.disabled ? true : false}
+            serviceType={"pool"}
+            smallRoom={this.state.services.pool.smallRoom}
+            largeRoom={this.state.services.pool.largeRoom}
+            toilet={this.state.services.pool.toilet}
+            serviceName={"Pool Cleaning"}
+            handleChangeService={this.handleChangeService}
+          />
           <Button
             type="submit"
             key="submit"
@@ -341,7 +341,8 @@ class ExecutorEditProfile extends React.Component {
           >
             EDIT
           </Button>
-      </form>
+        </form>
+      </Paper>
     );
   };
 }

@@ -22,7 +22,7 @@ const schema = new mongoose.Schema(
     role: { type: String, required: false, lowercase: true },
     rate:[{
       customer_id:{type: mongoose.Schema.Types.ObjectId, ref: 'Order', required: false},
-      rate:{type: Number, required: false }
+      rate:{type: Number, required: false,default:0 }
     }],
     comments:[{
       customer_id:{type: mongoose.Schema.Types.ObjectId, ref: 'Order', required: false},

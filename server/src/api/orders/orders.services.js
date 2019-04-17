@@ -3,10 +3,11 @@ const User = require("../../models/user.model");
 const Executor = require("../../models/executor.model");
 const Status = require("../../enums/status.enum");
 
-async function createOrder({ addres, type, discription,date,regularity,status=Status.Pending,customer_id,executor_id }) {
+async function createOrder({ address, type, discription,apartments,date,regularity,status=Status.Pending,customer_id,executor_id }) {
   const order = await new Order({
-    addres,
+    address,
     type,
+    apartments,
     discription,
     date,
     regularity,
@@ -14,8 +15,8 @@ async function createOrder({ addres, type, discription,date,regularity,status=St
     customer_id,
     executor_id
   });
-  await User.findOneAndUpdate({_id:customer_id},{$push:{orders:order}}, { upsert: true, new: true });
-  await Executor.findOneAndUpdate({_id:executor_id},{$push:{orders:order}}, { upsert: true, new: true });
+  //await User.findOneAndUpdate({_id:customer_id},{$push:{orders:order}}, { upsert: true, new: true });
+  //await Executor.findOneAndUpdate({_id:executor_id},{$push:{orders:order}}, { upsert: true, new: true });
   return order.save();
 }
 async function getUserOrders(user_id) {

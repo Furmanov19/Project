@@ -104,14 +104,12 @@ async function confirm({ verifyToken }) {
       config.jwt.secret,
       { expiresIn: config.jwt.expiration }
     );
-
+    const data=executor.toObject();
+    const {password:executorPassword , ...executorWithoutPassword} =data;
+    
     return {
       token: token,
-      executor: {
-        _id: executor._id,
-        role: executor.role
-        // emailConfirmed:executor.emailConfirmed
-      }
+      executor: executorWithoutPassword
     };
   }
 }
@@ -154,12 +152,7 @@ async function authenticate({ name, password }) {
 
   return {
     token: token,
-    executor: {
-      _id: executor._id,
-      role: executor.role,
-      blocking: executor.blocking
-      // emailConfirmed:executor.emailConfirmed
-    }
+    executor: executor
   };
 }
 
@@ -198,7 +191,7 @@ async function get({
   const options = {
     page: parseInt(page, 10) || 1,
     limit: parseInt(perPage, 10) || 5,
-    select: "name email emailConfirmed blocking discription role _id services",
+    select: "name email emailConfirmed blocking discription role _id services averageRate averagePrice",
     sort: { averagePrice: averagePrice, popularity: popularity }
   };
 
