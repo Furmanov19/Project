@@ -127,33 +127,6 @@ schema.methods.AverageRate=function(rateArray){
     }
   });
 };
-// schema.methods.AveragePrice=function(services){
-//   return new Promise((resolve, reject) => {
-//     try{
-//       let acc=0;
-//       let count=0;
-//       getProp(services);
-//       function getProp(o) {
-//         for(let prop in o) {
-//             if(typeof(o[prop]) === 'object') {
-//                 getProp(o[prop]);
-//             } else {
-//             		if(typeof o[prop] === "number") {
-//                     acc+=o[prop];
-//                     ++count;
-//                 }
-//             }
-//         }
-//       }
-//       return resolve(acc/count);
-      
-//     }catch(err){
-//       return reject(err);
-//     }
-//   });
-//};
-
-
 schema.set("toObject", {
   transform: function(doc, ret) {
     delete ret.__v;
@@ -161,5 +134,4 @@ schema.set("toObject", {
 });
 
 schema.plugin(mongoosePaginate);
-
 module.exports = mongoose.model("Executor", schema);

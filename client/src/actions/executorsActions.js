@@ -1,11 +1,14 @@
 import axios from 'axios';
 import {returnErrors} from './errorActions';
+import { tokenConfig } from "./tokenConfig";
 
 import {
     EXECUTORS_LOADING,
     EXECUTORS_LOADED,
     EXECUTORS_LOADING_FAIL,
-    SELECT_EXECUTOR
+    GET_EXECUTOR_ORDERS,
+    GET_EXECUTOR_ORDERS_SUCCESS,
+    GET_EXECUTOR_ORDERS_FAIL
 } from './types';
 
 
@@ -38,3 +41,20 @@ export const getExecutors = () => (dispatch,getState) => {
             }
         )
 }
+
+export const getExecutorOrders = () => (dispatch, getState) => {
+    //get params
+    let offset = getState().search.offset;
+    axios.get(`orders?page=${++offset}`,tokenConfig(getState)).then(res => {
+      dispatch({
+        type:GET_EXECUTOR_ORDERS_SUCCESS,
+        payload:res.data
+      })
+      getState().search.offset=0;
+      }
+    )
+    .catch(err =>{
+      dispatch(returnErrors(err.response.data,err.response.status));
+      dispatch({type:GET_EXECUTOR_ORDERS_FAIL});
+    });
+  };

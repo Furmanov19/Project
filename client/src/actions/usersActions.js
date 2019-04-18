@@ -1,14 +1,16 @@
 import axios from "axios";
 import { returnErrors } from "./errorActions";
 import { push } from "connected-react-router";
+import { tokenConfig } from "./tokenConfig";
 import {
   USERS_LOADING,
   USERS_LOADED,
   USERS_LOADING_FAIL,
   SELECT_EXECUTOR_FOR_BOOKING,
-  CREATE_ORDER,
   CREATE_ORDER_SUCCESS,
-  CREATE_ORDER_FAIL
+  CREATE_ORDER_FAIL,
+  GET_USER_ORDERS_SUCCESS,
+  GET_USER_ORDERS_FAIL
 } from "./types";
 
 export const getUsers = () => (dispatch, getState) => {
@@ -34,6 +36,22 @@ export const getUsers = () => (dispatch, getState) => {
       dispatch({ type: USERS_LOADING_FAIL });
     });
 };
+export const getUserOrders = () => (dispatch, getState) => {
+  //get params
+  let offset = getState().search.offset;
+  axios.get(`orders?page=${++offset}`,tokenConfig(getState)).then(res => {
+    dispatch({
+      type:GET_USER_ORDERS_SUCCESS,
+      payload:res.data
+    })
+    getState().search.offset=0;
+    }
+  )
+  .catch(err =>{
+    dispatch(returnErrors(err.response.data,err.response.status));
+    dispatch({type:GET_USER_ORDERS_FAIL});
+  });
+};
 export const selectExecutorForInfo = executorId => dispatch => {
   dispatch({
     type: SELECT_EXECUTOR_FOR_BOOKING,
@@ -42,8 +60,8 @@ export const selectExecutorForInfo = executorId => dispatch => {
   dispatch(push("/company"));
 };
 export const createOrder = order => (dispatch, getState) => {
-  let user =getState().auth.user;
-  let isAuth =getState().auth.isAuthenticated;
+  let user = getState().auth.user;
+  let isAuth = getState().auth.isAuthenticated;
   //headers
   const config = {
     headers: {
@@ -54,16 +72,16 @@ export const createOrder = order => (dispatch, getState) => {
   //request body
   const body = JSON.stringify(order);
 
-  axios.post("orders/create", body, config).then(res => {
-    dispatch({ type: CREATE_ORDER_SUCCESS });
-  })
-  .then(res =>{
-    (user && isAuth)
-    ? dispatch(push("/profile"))
-    : dispatch(push("/"))
-  })
-  .catch( err => {
-    console.log(err);
-    dispatch({type:CREATE_ORDER_FAIL})
-  });
+  axios
+    .post("orders/create", body, config)
+    .then(res => {
+      dispatch({ type: CREATE_ORDER_SUCCESS });
+    })
+    .then(res => {
+      user && isAuth ? dispatch(push("/profile")) : dispatch(push("/"));
+    })
+    .catch(err => {
+      console.log(err);
+      dispatch({ type: CREATE_ORDER_FAIL });
+    });
 };

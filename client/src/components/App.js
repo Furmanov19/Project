@@ -16,10 +16,10 @@ import BlockUserFormContainer from '../containers/BlockUserFormContainer';
 import ListOfUsersContainer from '../containers/ListOfUsersContainer';
 import ListOfExecutorsContainer from '../containers/ListOfExecutorsContainer';
 
-import UserOrderPage from './home/main/OrdersPage/UserOrderPage';
+import UserOrdersPageContainer from '../containers/UserOrdersPageContainer';
 import UserEditProfileContainer from '../containers/UserEditProfileContainer';
 import UserProfileContainer from '../containers/UserProfileContainer';
-import ExecutorOrderPage from './home/main/OrdersPage/ExecutorOrderPage';
+import ExecutorOrdersContainer from '../containers/ExecutorOrdersContainer';
 import ExecutorProfilePage from './home/main/ProfilePage/ExecutorProfilePage';
 import ExecutorEditProfileContainer from '../containers/ExecutorEditProfileContainer';
 
@@ -78,10 +78,10 @@ class App extends Component {
             <Route path="/profile-edit" component={ExecutorEditProfileContainer}/>//user profile page
           }
           {this.props.isAuth && this.props.user &&
-            <Route path="/orders" component={UserOrderPage}/>//user profile page
+            <Route path="/orders" component={UserOrdersPageContainer}/>//user profile page
           }
           {this.props.isAuth && this.props.executor &&
-            <Route path="/orders" component={ExecutorOrderPage}/>//executor profile page
+            <Route path="/orders" component={ExecutorOrdersContainer}/>//executor profile page
           }
           <Route path="/company" component={BookingPageContainer} />
           <Route component={HomePageContainer}/>

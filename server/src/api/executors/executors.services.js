@@ -190,7 +190,7 @@ async function get({
   };
   const options = {
     page: parseInt(page, 10) || 1,
-    limit: parseInt(perPage, 10) || 5,
+    limit: parseInt(perPage, 10) || 1,
     select: "name email emailConfirmed blocking discription role _id services averageRate averagePrice",
     sort: { averagePrice: averagePrice, popularity: popularity }
   };

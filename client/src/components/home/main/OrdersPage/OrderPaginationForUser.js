@@ -5,7 +5,7 @@ import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 import Pagination from "material-ui-flat-pagination";
 import { withStyles } from '@material-ui/core/styles';
 import { pageChange } from '../../../../actions/searchActions';
-import {getUsers } from '../../../../actions/usersActions';
+import { getUserOrders } from '../../../../actions/usersActions';
 
 const theme = createMuiTheme({
     typography: {
@@ -31,7 +31,7 @@ class PaginationPaper extends React.Component {
             limit={this.props.limit}
             offset={this.props.offset}
             total={this.props.total}
-            onClick={(e, offset) => {this.props.pageChange(offset);this.props.getUsers()}}
+            onClick={(e, offset) => {this.props.pageChange(offset);this.props.getUserOrders()}}
             />
         </MuiThemeProvider>
     );
@@ -39,12 +39,12 @@ class PaginationPaper extends React.Component {
 }
 
 const mapStateToProps = state => ({
-    total:state.users.users.total,
-    limit:state.users.users.limit,
+    total:state.executors.orders.total,
+    limit:state.executors.orders.limit,
     offset:state.search.offset
 });
 
 export default connect(
     mapStateToProps,
-    {pageChange,getUsers}
+    {pageChange,getUserOrders}
 )(withStyles(styles)(PaginationPaper));

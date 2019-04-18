@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ExecutorCard from './ExecutorCard';
-import Load from '../../common/load'
+import Load from '../../common/load';
 import SearchPanel from './SearchPanel';
 import Pagination from "./Pagination";
 

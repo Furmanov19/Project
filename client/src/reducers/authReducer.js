@@ -132,6 +132,7 @@ export default function (state = initialState, action) {
             localStorage.setItem('token',action.payload.token);
             return {
                 ...state,
+                token:action.payload.token,
                 isAuthenticated: true,
                 user: action.payload.user,
                 executor: null,
@@ -142,6 +143,7 @@ export default function (state = initialState, action) {
             localStorage.setItem('token',action.payload.token);
             return {
                 ...state,
+                token:action.payload.token,
                 isAuthenticated: true,
                 user: null,
                 executor: action.payload.executor,

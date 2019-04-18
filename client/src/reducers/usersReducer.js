@@ -2,14 +2,17 @@ import {
   USERS_LOADING,
   USERS_LOADED,
   USERS_LOADING_FAIL,
-  SELECT_EXECUTOR_FOR_BOOKING
+  SELECT_EXECUTOR_FOR_BOOKING,
+  GET_USER_ORDERS_SUCCESS,
+  GET_USER_ORDERS_FAIL
 } from "../actions/types";
 
 const initialState = {
   isLoading: false,
   isLoaded: false,
   selectedExecutorForBooking: JSON.parse(localStorage.getItem('selectedExecutorForBooking')),
-  users: []
+  users: [],
+  orders:[]
 };
 
 export default function(state = initialState, action) {
@@ -32,7 +35,13 @@ export default function(state = initialState, action) {
         ...state,
         selectedExecutorForBooking: action.payload
       };
+      case GET_USER_ORDERS_SUCCESS:
+      return {
+        ...state,
+        orders:action.payload
+      }
     case USERS_LOADING_FAIL:
+    case GET_USER_ORDERS_FAIL:
       return {
         state: initialState
       };

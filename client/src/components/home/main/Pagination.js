@@ -23,6 +23,7 @@ const styles = theme => ({
 
 class PaginationPaper extends React.Component {
   render() {
+    console.log(this.props);
     return (
         <MuiThemeProvider theme={theme}>
             <Pagination

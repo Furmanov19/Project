@@ -52,6 +52,8 @@ const styles = theme => ({
   }
 });
 
+const date =new Date();
+
 class BookingPage extends Component {
   constructor(props) {
     super(props);
@@ -60,8 +62,8 @@ class BookingPage extends Component {
       email: this.props.user ? this.props.user.email : "",
       exactAddress: "",
       cleaningType: "",
-      date: "",
-      time: "",
+      date: `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`,
+      time: `${date.getHours()}:${date.getMinutes()}`,
       smallRoomDisabled: false,
       largeRoomDisabled: false,
       toiletDisabled: false,
@@ -69,9 +71,9 @@ class BookingPage extends Component {
       largeRoomCount: 0,
       toiletCount: 0,
       regularity: 1,
-      regularityText: "",
+      regularityText: "monthly",
       duration: 1,
-      durationText: "",
+      durationText: "1 month",
       price: 0
     };
     this.handleChange = this.handleChange.bind(this);
@@ -91,6 +93,7 @@ class BookingPage extends Component {
     const newOrder = {
       city: this.state.city,
       address: this.state.exactAddress,
+      type:this.state.cleaningType,
       email: this.state.email,
       date: this.state.date,
       time: this.state.time,
@@ -105,6 +108,7 @@ class BookingPage extends Component {
       executor_id: this.props.executor._id,
       customer_id: this.props.user ? this.props.user._id : null
     };
+    console.log(newOrder);
     this.props.createOrder(newOrder);
   }
   isAvailable(services) {
@@ -324,6 +328,8 @@ class BookingPage extends Component {
             <Pickers
               handleTimeChange={this.handleTimeChange}
               handleDateChange={this.handleDateChange}
+              date={this.state.date}
+              time={this.state.time}
             />
             <div className="deal">
               <InputLabel htmlFor="regularity">Regularity</InputLabel>

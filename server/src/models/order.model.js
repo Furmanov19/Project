@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const mongoosePaginate = require('mongoose-paginate');
 const schema = new mongoose.Schema(
   { 
     city:{type: String, required: false, lowercase: true },
@@ -39,4 +39,5 @@ schema.set("toObject", {
   }
 });
 
+schema.plugin(mongoosePaginate);
 module.exports = mongoose.model("Order", schema);
