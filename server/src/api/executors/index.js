@@ -1,3 +1,3 @@
 module.exports = {
-    router: require("./executors.routes")
-  };
+  router: require("./executors.routes")
+};

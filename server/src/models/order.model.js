@@ -1,24 +1,32 @@
 const mongoose = require("mongoose");
-const mongoosePaginate = require('mongoose-paginate');
+const mongoosePaginate = require("mongoose-paginate");
 const schema = new mongoose.Schema(
-  { 
-    city:{type: String, required: false, lowercase: true },
-    address:{type: String, required: false, lowercase: true },
-    email:{type: String, required: false, lowercase: true },
-    type:{type: String, required: false},
-    apartments:{
-      smallRooms:{type:Number},
-      largeRooms:{type:Number},
-      toilets:{type:Number}
+  {
+    city: { type: String, required: false, lowercase: true },
+    address: { type: String, required: false, lowercase: true },
+    email: { type: String, required: false, lowercase: true },
+    type: { type: String, required: false },
+    apartments: {
+      smallRooms: { type: Number },
+      largeRooms: { type: Number },
+      toilets: { type: Number }
     },
-    regularity:{type: String, required: false, lowercase: true},
-    duration:{type: String, required: false, lowercase: true},
-    date:{type: Date, required: false},
-    time:{type: String, required: false},
-    customer_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: false },
-    executor_id: { type:  mongoose.Schema.Types.ObjectId, ref: 'Executor', required: false },
-    status: { type: String, required: false},
-    price:{type: Number}
+    regularity: { type: String, required: false, lowercase: true },
+    duration: { type: String, required: false, lowercase: true },
+    date: { type: Date, required: false },
+    time: { type: String, required: false },
+    customer_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: false
+    },
+    executor_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Executor",
+      required: false
+    },
+    status: { type: String, required: false },
+    price: { type: Number }
   },
   {
     timestamps: { createdAt: "created_at", updatedAt: "updated_at" }

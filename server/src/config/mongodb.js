@@ -12,7 +12,7 @@ module.exports = callback => {
 
   if (env === "development") mongoose.set("debug", true);
 
-  mongoose.set('useCreateIndex', true);
+  mongoose.set("useCreateIndex", true);
 
   // CONNECTION EVENTS
   // When successfully connected

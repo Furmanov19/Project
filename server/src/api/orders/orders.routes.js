@@ -1,10 +1,11 @@
 const router = require("express").Router();
 const permit = require("../../middleware/permission");
 const controller = require(`./orders.controllers`);
-const Role =require('../../enums/roles.enum');
+const Role = require("../../enums/roles.enum");
 
 router.post("/create", controller.createOrder);
-router.get("/", permit([Role.User,Role.Executor]), controller.getOrders);//переделать  под юзеров и компании
+router.get("/", permit([Role.User, Role.Executor]), controller.getOrders);
 router.delete("/:id", permit(Role.User), controller.deleteUserOrder);
-router.put("/", permit([Role.User,Role.Executor]), controller.updateOrderById);
+router.put("/", permit([Role.User, Role.Executor]), controller.updateOrderById); //компания апдейтит
+
 module.exports = router;

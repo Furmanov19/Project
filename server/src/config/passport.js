@@ -1,11 +1,10 @@
 const passport = require("passport");
 const { ExtractJwt, Strategy } = require("passport-jwt");
-const GitHubStrategy = require('passport-github').Strategy;
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const config = require("./environment");
-const User = require("../models/user.model")
-const Admin = require("../models/admin.model")
-const Executor = require("../models/executor.model")
+const User = require("../models/user.model");
+const Admin = require("../models/admin.model");
+const Executor = require("../models/executor.model");
 
 function jwtStrategy() {
   const opts = {
@@ -16,15 +15,15 @@ function jwtStrategy() {
   const strategy = new Strategy(opts, async (token, done) => {
     const user = await User.findOne({ _id: token.id });
     const admin = await Admin.findOne({ _id: token.id });
-    const executor = await Executor.findById( {_id: token.id });
-    
+    const executor = await Executor.findById({ _id: token.id });
+
     if (user) {
       return done(null, user);
-    } else if(executor){
+    } else if (executor) {
       return done(null, executor);
-    }else if(admin){
+    } else if (admin) {
       return done(null, admin);
-    }else{
+    } else {
       return done(null, false);
     }
   });
@@ -49,10 +48,10 @@ function googleStrategy() {
               name: profile.name.givenName,
               surname: profile.name.familyName,
               email: profile.emails[0].value,
-              password:"123",
-              username:"johny",
-              emailConfirmed:"true",
-              role:"user",
+              password: "123",
+              username: "johny",
+              emailConfirmed: "true",
+              role: "user",
               googleId: profile.id
             })
               .save()
@@ -70,12 +69,11 @@ module.exports = {
   initialize: () => passport.initialize(),
   authenticate: () => passport.authenticate("jwt", { session: false }),
   authenticateGoogle: () =>
-  passport.authenticate("google", {
-    session: false,
-    scope: ["profile", "email"],
-    state: "myState"
-  }),
+    passport.authenticate("google", {
+      session: false,
+      scope: ["profile", "email"],
+      state: "myState"
+    }),
   jwtStrategy,
   googleStrategy
 };
- 

@@ -33,9 +33,9 @@ async function register(data) {
     discription,
     address,
     averagePrice,
-    blocking:{
-      isBLocked:false,
-      reason:""
+    blocking: {
+      isBLocked: false,
+      reason: ""
     },
     services,
     orders,
@@ -104,9 +104,9 @@ async function confirm({ verifyToken }) {
       config.jwt.secret,
       { expiresIn: config.jwt.expiration }
     );
-    const data=executor.toObject();
-    const {password:executorPassword , ...executorWithoutPassword} =data;
-    
+    const data = executor.toObject();
+    const { password: executorPassword, ...executorWithoutPassword } = data;
+
     return {
       token: token,
       executor: executorWithoutPassword
@@ -115,9 +115,9 @@ async function confirm({ verifyToken }) {
 }
 
 async function loadExecutor(executor) {
-  const data=executor.toObject();
-  const {password:executorPassword , ...executorWithoutPassword} =data;
-  
+  const data = executor.toObject();
+  const { password: executorPassword, ...executorWithoutPassword } = data;
+
   return {
     executor: executorWithoutPassword
   };
@@ -191,7 +191,8 @@ async function get({
   const options = {
     page: parseInt(page, 10) || 1,
     limit: parseInt(perPage, 10) || 1,
-    select: "name email emailConfirmed blocking discription role _id services averageRate averagePrice",
+    select:
+      "name email emailConfirmed blocking discription role _id services averageRate averagePrice",
     sort: { averagePrice: averagePrice, popularity: popularity }
   };
 
@@ -233,69 +234,60 @@ async function editExecutor(
   { name, discription, password, services, address }
 ) {
   const executor = await Executor.findOne({ _id });
-  let savedExecutor ={};
+  let savedExecutor = {};
   console.log(executor);
   console.log(name, discription, services, address, password);
-  if(password){
-    let unchangedPassword=await executor.comparePassword(password);
-    if(unchangedPassword){
-      savedExecutor=await  Executor.findByIdAndUpdate(
+  if (password) {
+    let unchangedPassword = await executor.comparePassword(password);
+    if (unchangedPassword) {
+      savedExecutor = await Executor.findByIdAndUpdate(
         _id,
-        { $set: 
-          { 
-            name:name?name:executor.name,
-            discription:discription?discription:executor.discription,
-            services:services?services:executor.services,
-            address:address?address:executor.address,
-          } 
+        {
+          $set: {
+            name: name ? name : executor.name,
+            discription: discription ? discription : executor.discription,
+            services: services ? services : executor.services,
+            address: address ? address : executor.address
+          }
         },
         { new: true }
       );
-      
     } else {
-      executor.name=name?name:executor.name;
-      executor.discription=discription?discription:executor.discription;
-      executor.services=services?services:executor.services;
-      executor.address=address?address:executor.address;
-      executor.password=password;
+      executor.name = name ? name : executor.name;
+      executor.discription = discription ? discription : executor.discription;
+      executor.services = services ? services : executor.services;
+      executor.address = address ? address : executor.address;
+      executor.password = password;
       savedExecutor = await executor.save();
     }
   } else {
-    savedExecutor=await  Executor.findByIdAndUpdate(
+    savedExecutor = await Executor.findByIdAndUpdate(
       _id,
-      { $set: 
-        { 
-          name:name?name:executor.name,
-          discription:discription?discription:executor.discription,
-          services:services?services:executor.services,
-          address:address?address:executor.address,
-        } 
+      {
+        $set: {
+          name: name ? name : executor.name,
+          discription: discription ? discription : executor.discription,
+          services: services ? services : executor.services,
+          address: address ? address : executor.address
+        }
       },
       { new: true }
     );
   }
-  const data= savedExecutor.toObject();
-    const { password:executorPassword, ...executorWithoutPassword} =data;
-    return executorWithoutPassword;
+  const data = savedExecutor.toObject();
+  const { password: executorPassword, ...executorWithoutPassword } = data;
+  return executorWithoutPassword;
 }
 
-async function deleteById(_id) {
-  return Executor.findOneAndRemove({ _id }, function(err, result) {
-    if (err) {
-      throw err;
-    }
-    console.log(result);
-  });
-}
-
-async function setExecutorComment(data, executor_id) {
+async function postComment(executor_id, data) {
   return await Executor.findOneAndUpdate(
     { _id: executor_id },
     { $push: { comments: data } },
     { upsert: true, new: true }
   );
 }
-async function takeExecutorComments(executor_id) {
+
+async function getExecutorComments(executor_id) {
   //const executor = await Executor.findOne({_id:executor_id});
   let mas = await Executor.find(
     { _id: executor_id },
@@ -316,7 +308,6 @@ module.exports = {
   loadExecutor,
   register,
   confirm,
-  deleteById,
-  setExecutorComment,
-  takeExecutorComments
+  postComment,
+  getExecutorComments
 };

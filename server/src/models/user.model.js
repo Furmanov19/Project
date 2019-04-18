@@ -1,23 +1,25 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
-const mongoosePaginate = require('mongoose-paginate');
+const mongoosePaginate = require("mongoose-paginate");
 
 const schema = new mongoose.Schema(
   {
-    name: { type: String, required: true},
+    name: { type: String, required: true },
     email: { type: String, required: false },
-    emailConfirmed:{type:Boolean, required: false},
-    blocking:{
-      isBlocked:{ type: Boolean,default:false, required: false },
-      reason:{ type: String ,default:"", required: false }
+    emailConfirmed: { type: Boolean, required: false },
+    blocking: {
+      isBlocked: { type: Boolean, default: false, required: false },
+      reason: { type: String, default: "", required: false }
     },
-    attemts:{type:Number, required: false},
-    code:{type:String, required: false},
-    phone:{type: String, require:false},
+    attemts: { type: Number, required: false },
+    code: { type: String, required: false },
+    phone: { type: String, require: false },
     googleId: { type: String, unique: true },
-    password: { type: String, required: true},//удалять пароль при каждом запросе
+    password: { type: String, required: true }, //удалять пароль при каждом запросе
     role: { type: String, required: false, lowercase: true },
-    orders:[{ type: mongoose.Schema.Types.ObjectId, ref: 'Order', required: false}]
+    orders: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "Order", required: false }
+    ]
   },
   {
     timestamps: { createdAt: "created_at", updatedAt: "updated_at" }

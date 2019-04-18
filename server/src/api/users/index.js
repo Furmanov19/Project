@@ -1,3 +1,3 @@
 module.exports = {
-    router: require("./users.routes")
-  };
+  router: require("./users.routes")
+};

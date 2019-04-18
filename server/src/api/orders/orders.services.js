@@ -48,16 +48,17 @@ async function createOrder({
 async function getUserOrders(user_id, req_query) {
   const { page, perPage } = req_query;
   const query = {
-    customer_id: user_id,
+    customer_id: user_id
   };
   const options = {
     page: parseInt(page, 10) || 1,
     limit: parseInt(perPage, 10) || 5,
-    select: "city address email type apartments regularity duration date time status price"
+    select:
+      "city address email type apartments regularity duration date time status price"
   };
 
   const userOrders = await Order.paginate(query, options);
-  console.log(userOrders)
+  console.log(userOrders);
   return userOrders;
 }
 
@@ -69,22 +70,11 @@ async function getExecutorOrders(executor_id, req_query) {
   const options = {
     page: parseInt(page, 10) || 1,
     limit: parseInt(perPage, 10) || 5,
-    select: "city address email type apartments regularity duration date time status price"
+    select:
+      "city address email type apartments regularity duration date time status price"
   };
-  const executorOrders = await Order.paginate(query,options);
+  const executorOrders = await Order.paginate(query, options);
   return executorOrders;
-}
-
-async function getUserOrder(order_id, user_id) {
-  return await Order.find({ _id: order_id, customer_id: user_id })
-    .populate("customer_id")
-    .exec();
-}
-
-async function getExecutorOrder(order_id, executor_id) {
-  return await Order.find({ _id: order_id, executor_id: executor_id })
-    .populate("executor_id")
-    .exec();
 }
 
 async function deleteUserOrder(order_id, user_id) {
@@ -123,19 +113,7 @@ async function deleteUserOrder(order_id, user_id) {
     }
   });
 }
-async function updateOrderByUser(order_id, user_id, data) {
-  return await Order.findOneAndUpdate(
-    { _id: order_id, customer_id: user_id },
-    { $set: data },
-    { new: true },
-    (err, result) => {
-      if (err) {
-        console.log(err);
-      }
-      console.log("RESULT: " + result);
-    }
-  );
-}
+
 async function updateOrderByExecutor(order_id, executor_id, status) {
   return await Order.findOneAndUpdate(
     { _id: order_id, executor_id: executor_id },
@@ -149,13 +127,11 @@ async function updateOrderByExecutor(order_id, executor_id, status) {
     }
   );
 }
+
 module.exports = {
   createOrder,
-  getUserOrder,
-  getExecutorOrder,
   getUserOrders,
   getExecutorOrders,
   deleteUserOrder,
-  updateOrderByUser,
   updateOrderByExecutor
 };

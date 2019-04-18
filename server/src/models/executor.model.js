@@ -1,85 +1,99 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
-const mongoosePaginate = require('mongoose-paginate');
+const mongoosePaginate = require("mongoose-paginate");
 
 const schema = new mongoose.Schema(
   {
-    logo:{type: String, required: false },
-    name: { type: String, required: true , unique:true, select:true},
-    email: { type: String, required: false, unique:true,},
-    emailConfirmed:{type:Boolean, required: true},
-    verifyToken:{type:String, required: false},
-    blocking:{
-      isBlocked:{ type: Boolean,default:false, required: false, },
-      reason:{ type: String ,default:"", required: false }
+    logo: { type: String, required: false },
+    name: { type: String, required: true, unique: true, select: true },
+    email: { type: String, required: false, unique: true },
+    emailConfirmed: { type: Boolean, required: true },
+    verifyToken: { type: String, required: false },
+    blocking: {
+      isBlocked: { type: Boolean, default: false, required: false },
+      reason: { type: String, default: "", required: false }
     },
-    discription:{type: String, required: true },
-    address:{type: String, required: false },
-    averagePrice:{type: Number,required: true},
-    averageRate:{type: Number,required: false},
-    orders:[{type: mongoose.Schema.Types.ObjectId, ref: 'Order', required: false}],
-    password: { type: String, required: true },//, select: true 
+    discription: { type: String, required: true },
+    address: { type: String, required: false },
+    averagePrice: { type: Number, required: true },
+    averageRate: { type: Number, required: false },
+    orders: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "Order", required: false }
+    ],
+    password: { type: String, required: true }, //, select: true
     role: { type: String, required: false, lowercase: true },
-    rate:[{
-      customer_id:{type: mongoose.Schema.Types.ObjectId, ref: 'Order', required: false},
-      rate:{type: Number, required: false,default:0 }
-    }],
-    comments:[{
-      customer_id:{type: mongoose.Schema.Types.ObjectId, ref: 'Order', required: false},
-      comment:{type: String, required: false }
-    }],
+    rate: [
+      {
+        customer_id: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Order",
+          required: false
+        },
+        rate: { type: Number, required: false, default: 0 }
+      }
+    ],
+    comments: [
+      {
+        customer_id: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Order",
+          required: false
+        },
+        comment: { type: String, required: false }
+      }
+    ],
     popularity: {
-      type: Number, required: false, default: 0 
+      type: Number,
+      required: false,
+      default: 0
     },
-    services:{
-      standart:{
-        smallRoom:{type: Number, required: false, default: 0 },
-        largeRoom:{type: Number, required: false, default: 0 },
-        toilet:{type: Number, required: false, default: 0 }
+    services: {
+      standart: {
+        smallRoom: { type: Number, required: false, default: 0 },
+        largeRoom: { type: Number, required: false, default: 0 },
+        toilet: { type: Number, required: false, default: 0 }
       },
-      general:{
-        smallRoom:{type: Number, required: false, default: 0 },
-        largeRoom:{type: Number, required: false, default: 0 },
-        toilet:{type: Number, required: false, default: 0 }
+      general: {
+        smallRoom: { type: Number, required: false, default: 0 },
+        largeRoom: { type: Number, required: false, default: 0 },
+        toilet: { type: Number, required: false, default: 0 }
       },
-      afterRepair:{
-        smallRoom:{type: Number, required: false, default: 0 },
-        largeRoom:{type: Number, required: false, default: 0 },
-        toilet:{type: Number, required: false, default: 0 }
+      afterRepair: {
+        smallRoom: { type: Number, required: false, default: 0 },
+        largeRoom: { type: Number, required: false, default: 0 },
+        toilet: { type: Number, required: false, default: 0 }
       },
-      carpetDryCleaning:{
-        smallRoom:{type: Number, required: false, default: 0 },
-        largeRoom:{type: Number, required: false, default: 0 },
-        toilet:{type: Number, required: false, default: 0 }
+      carpetDryCleaning: {
+        smallRoom: { type: Number, required: false, default: 0 },
+        largeRoom: { type: Number, required: false, default: 0 },
+        toilet: { type: Number, required: false, default: 0 }
       },
-      office:{
-        smallRoom:{type: Number, required: false, default: 0 },
-        largeRoom:{type: Number, required: false, default: 0 },
-        toilet:{type: Number, required: false, default: 0 }
+      office: {
+        smallRoom: { type: Number, required: false, default: 0 },
+        largeRoom: { type: Number, required: false, default: 0 },
+        toilet: { type: Number, required: false, default: 0 }
       },
-      furniture:{
-        smallRoom:{type: Number, required: false, default: 0 },
-        largeRoom:{type: Number, required: false, default: 0 },
-        toilet:{type: Number, required: false, default: 0 }
+      furniture: {
+        smallRoom: { type: Number, required: false, default: 0 },
+        largeRoom: { type: Number, required: false, default: 0 },
+        toilet: { type: Number, required: false, default: 0 }
       },
-      industrialСleaning:{
-        smallRoom:{type: Number, required: false, default: 0 },
-        largeRoom:{type: Number, required: false, default: 0 },
-        toilet:{type: Number, required: false, default: 0 }
+      industrialСleaning: {
+        smallRoom: { type: Number, required: false, default: 0 },
+        largeRoom: { type: Number, required: false, default: 0 },
+        toilet: { type: Number, required: false, default: 0 }
       },
-      pool:{
-        smallRoom:{type: Number, required: false, default: 0 },
-        largeRoom:{type: Number, required: false, default: 0 },
-        toilet:{type: Number, required: false, default: 0 }
-      },
+      pool: {
+        smallRoom: { type: Number, required: false, default: 0 },
+        largeRoom: { type: Number, required: false, default: 0 },
+        toilet: { type: Number, required: false, default: 0 }
+      }
     }
   },
   {
     timestamps: { createdAt: "created_at", updatedAt: "updated_at" }
   }
 );
-
-
 
 schema.pre("save", function(next) {
   bcrypt.hash(this.password, 10, (err, hash) => {
@@ -106,23 +120,24 @@ schema.post("save", function(error, doc, next) {
 schema.methods.comparePassword = function(candidatePassword) {
   return new Promise((resolve, reject) => {
     bcrypt.compare(candidatePassword, this.password, (err, success) => {
-      if ( err ) { return reject( err ) }
+      if (err) {
+        return reject(err);
+      }
       return resolve(success);
     });
   });
 };
 
-schema.methods.AverageRate=function(rateArray){
+schema.methods.AverageRate = function(rateArray) {
   return new Promise((resolve, reject) => {
-    try{
-      
-      let averageRate =rateArray.reduce(function (p, c) {
-        return p + c.rate;
-      },0) / rateArray.length;
+    try {
+      let averageRate =
+        rateArray.reduce(function(p, c) {
+          return p + c.rate;
+        }, 0) / rateArray.length;
 
       return resolve(averageRate);
-      
-    }catch(err){
+    } catch (err) {
       return reject(err);
     }
   });
