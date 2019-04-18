@@ -57,7 +57,7 @@ class BookingPage extends Component {
     super(props);
     this.state = {
       city: "",
-      email:this.props.user?this.props.user.email:"",
+      email: this.props.user ? this.props.user.email : "",
       exactAddress: "",
       cleaningType: "",
       date: "",
@@ -69,7 +69,9 @@ class BookingPage extends Component {
       largeRoomCount: 0,
       toiletCount: 0,
       regularity: 1,
+      regularityText: "",
       duration: 1,
+      durationText: "",
       price: 0
     };
     this.handleChange = this.handleChange.bind(this);
@@ -82,7 +84,28 @@ class BookingPage extends Component {
     this.handleChangeRegularity = this.handleChangeRegularity.bind(this);
     this.handleChangeDuration = this.handleChangeDuration.bind(this);
     this.calculatePrice = this.calculatePrice.bind(this);
-    this.handleChangeEmail=this.handleChangeEmail.bind(this);
+    this.handleChangeEmail = this.handleChangeEmail.bind(this);
+    this.createOrder = this.createOrder.bind(this);
+  }
+  createOrder() {
+    const newOrder = {
+      city: this.state.city,
+      address: this.state.exactAddress,
+      email: this.state.email,
+      date: this.state.date,
+      time: this.state.time,
+      apartments: {
+        smallRooms: this.state.smallRoomCount,
+        largeRooms: this.state.largeRoomCount,
+        toilets: this.state.toiletCount
+      },
+      regularity:this.state.regularityText,
+      duration:this.state.durationText,
+      price: this.state.price,
+      executor_id: this.props.executor._id,
+      customer_id: this.props.user ? this.props.user._id : null
+    };
+    this.props.createOrder(newOrder);
   }
   isAvailable(services) {
     if (
@@ -152,28 +175,29 @@ class BookingPage extends Component {
     );
   }
   handleRoomCountChange(e) {
-    this.setState(
-      {
-        [e.target.name]: parseFloat(e.target.value)
-      },
-      () => console.log(this.state)
-    );
+    this.setState({
+      [e.target.name]: parseFloat(e.target.value)
+    });
   }
   handleChangeRegularity(e) {
-    this.setState(
-      {
-        [e.target.name]: e.target.value
-      },
-      () => console.log(this.state)
-    );
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+    e.target.value === 1.00000001 && this.setState({ regularityText: "ones" });
+    e.target.value === 4 && this.setState({ regularityText: "weekly" });
+    e.target.value === 2 && this.setState({ regularityText: "every 2 weeks" });
+    e.target.value === 1 && this.setState({ regularityText: "monthly" });
   }
   handleChangeDuration(e) {
-    this.setState(
-      {
-        [e.target.name]: e.target.value
-      },
-      () => console.log(this.state)
-    );
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+    e.target.value === 1 && this.setState({ durationText: "1 month" });
+    e.target.value === 2 && this.setState({ durationText: "2 monthes" });
+    e.target.value === 3 && this.setState({ durationText: "3 monthes" });
+    e.target.value === 4 && this.setState({ durationText: "4 monthes" });
+    e.target.value === 5 && this.setState({ durationText: "5 monthes" });
+    e.target.value === 6 && this.setState({ durationText: "6 monthes" });
   }
   calculatePrice() {
     let price = 0;
@@ -312,7 +336,7 @@ class BookingPage extends Component {
                   id: "regularity"
                 }}
               >
-                <MenuItem value={1.1}>ones</MenuItem>
+                <MenuItem value={1.00000001}>ones</MenuItem>
                 <MenuItem value={4}>weekly</MenuItem>
                 <MenuItem value={2}>every 2 weeks</MenuItem>
                 <MenuItem value={1}>monthly</MenuItem>
@@ -336,7 +360,7 @@ class BookingPage extends Component {
               </Select>
             </div>
             <div className="email">
-            <TextField
+              <TextField
                 label="Email"
                 margin="normal"
                 name="email"
@@ -349,6 +373,7 @@ class BookingPage extends Component {
               <ConfirmPage
                 disabled={!Boolean(this.state.cleaningType)}
                 order={this.state}
+                createOrder={this.createOrder}
               />
             </Button>
           </form>

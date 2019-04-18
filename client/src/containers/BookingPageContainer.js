@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { editExecutor } from '../actions/authActions';
+import { createOrder } from '../actions/usersActions';
 
 import ExecutorInfoPage from '../components/home/main/BookingPage/BookingPage';
 
@@ -12,5 +12,5 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    {editExecutor}
+    {createOrder}
 )(ExecutorInfoPage);

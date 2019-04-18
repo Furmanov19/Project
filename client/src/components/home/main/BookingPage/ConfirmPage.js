@@ -74,6 +74,13 @@ function ConfirmPage(props) {
           </ListItem>
           <Divider />
           <ListItem>
+            <Typography variant="h5">Regularity: {props.order.regularityText}</Typography>
+          </ListItem>
+          <ListItem>
+            <Typography variant="h5">Duration: {props.order.durationText}</Typography>
+          </ListItem>
+          <Divider />
+          <ListItem>
             <Typography variant="h5">Price: {props.order.price} $</Typography>
           </ListItem>
           <Divider />
@@ -82,8 +89,8 @@ function ConfirmPage(props) {
           </ListItem>
           <Divider />
           <ListItem>
-            <Button color="primary">Confirm</Button>
-            <Button color="secondary">Hide</Button>
+            <Button color="primary" onClick={()=>{props.createOrder()}}>Confirm</Button>
+            <Button color="secondary" onClick={handleClose}>Hide</Button>
           </ListItem>
         </List>
       </Dialog>

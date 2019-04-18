@@ -37,11 +37,13 @@ export const getUsers = () => (dispatch, getState) => {
 export const selectExecutorForInfo = executorId => dispatch => {
   dispatch({
     type: SELECT_EXECUTOR_FOR_BOOKING,
-    payload:executorId
+    payload: executorId
   });
   dispatch(push("/company"));
 };
-export const createOrder = order => (dispatch,getState) => {
+export const createOrder = order => (dispatch, getState) => {
+  let user =getState().auth.user;
+  let isAuth =getState().auth.isAuthenticated;
   //headers
   const config = {
     headers: {
@@ -52,11 +54,16 @@ export const createOrder = order => (dispatch,getState) => {
   //request body
   const body = JSON.stringify(order);
 
-  axios.
-    post("orders/create",body,config)
-  dispatch({
-    type: SELECT_EXECUTOR_FOR_BOOKING,
-    payload:order
+  axios.post("orders/create", body, config).then(res => {
+    dispatch({ type: CREATE_ORDER_SUCCESS });
+  })
+  .then(res =>{
+    (user && isAuth)
+    ? dispatch(push("/profile"))
+    : dispatch(push("/"))
+  })
+  .catch( err => {
+    console.log(err);
+    dispatch({type:CREATE_ORDER_FAIL})
   });
-  dispatch(push("/company"));
 };
