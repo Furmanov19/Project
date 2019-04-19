@@ -6,6 +6,6 @@ const Role = require("../../enums/roles.enum");
 router.post("/create", controller.createOrder);
 router.get("/", permit([Role.User, Role.Executor]), controller.getOrders);
 router.delete("/:id", permit(Role.User), controller.deleteUserOrder);
-router.put("/", permit([Role.User, Role.Executor]), controller.updateOrderById); //компания апдейтит
+router.put("/", permit( Role.Executor), controller.updateOrderById); //компания апдейтит
 
 module.exports = router;

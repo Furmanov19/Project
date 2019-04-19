@@ -19,8 +19,8 @@ import ListOfExecutorsContainer from '../containers/ListOfExecutorsContainer';
 import UserOrdersPageContainer from '../containers/UserOrdersPageContainer';
 import UserEditProfileContainer from '../containers/UserEditProfileContainer';
 import UserProfileContainer from '../containers/UserProfileContainer';
-import ExecutorOrdersContainer from '../containers/ExecutorOrdersContainer';
-import ExecutorProfilePage from './home/main/ProfilePage/ExecutorProfilePage';
+import ExecutorOrdersPageContainer from '../containers/ExecutorOrdersPageContainer';
+import ExecutorProfileContainer from '../containers/ExecutorProfileContainer';
 import ExecutorEditProfileContainer from '../containers/ExecutorEditProfileContainer';
 
 import BookingPageContainer from '../containers/BookingPageContainer';
@@ -72,7 +72,7 @@ class App extends Component {
             <Route path="/profile-edit" component={UserEditProfileContainer}/>//user profile page
           }
           {this.props.isAuth && this.props.executor &&
-            <Route path="/profile" component={ExecutorProfilePage}/>//executor profile page
+            <Route path="/profile" component={ExecutorProfileContainer}/>//executor profile page
           }
           {this.props.isAuth && this.props.executor &&
             <Route path="/profile-edit" component={ExecutorEditProfileContainer}/>//user profile page
@@ -81,7 +81,7 @@ class App extends Component {
             <Route path="/orders" component={UserOrdersPageContainer}/>//user profile page
           }
           {this.props.isAuth && this.props.executor &&
-            <Route path="/orders" component={ExecutorOrdersContainer}/>//executor profile page
+            <Route path="/orders" component={ExecutorOrdersPageContainer}/>//executor profile page
           }
           <Route path="/company" component={BookingPageContainer} />
           <Route component={HomePageContainer}/>

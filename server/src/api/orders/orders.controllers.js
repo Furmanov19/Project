@@ -37,21 +37,11 @@ module.exports.deleteUserOrder = (req, res, next) => {
     .catch(err => console.log(err));
 };
 module.exports.updateOrderById = (req, res, next) => {
-  if (req.user.role == "executor") {
     orderService
-      .updateOrderByExecutor(req.params.id, req.user.id, req.body)
+      .updateOrderById( req.user.id, req.body)
       .then(order => {
         res.json(order);
         console.log("done");
       })
       .catch(err => console.log(err));
-  } else {
-    orderService
-      .updateOrderByUser(req.params.id, req.user.id, req.body)
-      .then(order => {
-        res.json(order);
-        console.log("done");
-      })
-      .catch(err => console.log(err));
-  }
 };

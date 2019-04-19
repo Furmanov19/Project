@@ -33,16 +33,20 @@ async function createOrder({
     executor_id,
     customer_id
   });
-  await User.findOneAndUpdate(
-    { _id: customer_id },
-    { $push: { orders: order } },
-    { upsert: true, new: true }
-  );
-  await Executor.findOneAndUpdate(
-    { _id: executor_id },
-    { $push: { orders: order } },
-    { upsert: true, new: true }
-  );
+  const user = await User.findOne({ _id: customer_id });
+  user &&
+    (await User.findOneAndUpdate(
+      { _id: customer_id },
+      { $push: { orders: order } },
+      { upsert: true, new: true }
+    ));
+  const executor = await Executor.findOne({ _id: executor_id });
+  executor &&
+    (await Executor.findOneAndUpdate(
+      { _id: executor_id },
+      { $push: { orders: order }, $set: { popularity: ++executor.popularity } },
+      { upsert: true, new: true }
+    ));
   return await order.save();
 }
 async function getUserOrders(user_id, req_query) {
@@ -52,7 +56,7 @@ async function getUserOrders(user_id, req_query) {
   };
   const options = {
     page: parseInt(page, 10) || 1,
-    limit: parseInt(perPage, 10) || 5,
+    limit: parseInt(perPage, 10) || 3,
     select:
       "city address email type apartments regularity duration date time status price"
   };
@@ -69,7 +73,7 @@ async function getExecutorOrders(executor_id, req_query) {
   };
   const options = {
     page: parseInt(page, 10) || 1,
-    limit: parseInt(perPage, 10) || 5,
+    limit: parseInt(perPage, 10) || 3,
     select:
       "city address email type apartments regularity duration date time status price"
   };
@@ -114,10 +118,10 @@ async function deleteUserOrder(order_id, user_id) {
   });
 }
 
-async function updateOrderByExecutor(order_id, executor_id, status) {
+async function updateOrderById(executor_id, {order_id,order_status,reason}) {
   return await Order.findOneAndUpdate(
     { _id: order_id, executor_id: executor_id },
-    { $set: status },
+    { $set: {status:order_status,rejectionReason:reason} },
     { new: true },
     function(err, result) {
       if (err) {
@@ -133,5 +137,5 @@ module.exports = {
   getUserOrders,
   getExecutorOrders,
   deleteUserOrder,
-  updateOrderByExecutor
+  updateOrderById
 };

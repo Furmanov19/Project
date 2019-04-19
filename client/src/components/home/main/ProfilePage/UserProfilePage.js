@@ -29,10 +29,10 @@ const styles = theme => ({
 });
 
 class UserProfilePage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {};
+  // }
 
   render() {
     const { classes, user } = this.props;
