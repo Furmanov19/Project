@@ -89,7 +89,7 @@ module.exports.getExecutorById = (req, res, next) => {
 };
 module.exports.getExecutorComments = (req, res, next) => {
   executorService
-    .getExecutorComments(req.params.id)
+    .getExecutorComments(req.params._id)
     .then(data => {
       res.status(httpStatus.CREATED).json(data);
     })

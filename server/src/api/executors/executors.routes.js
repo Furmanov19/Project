@@ -14,7 +14,7 @@ router.put("/block/:_id", controller.blockExecutor);
 router.put("/unblock/:_id", controller.unblockExecutor);
 router.put("/edit/:_id", controller.editExecutor);
 router.get("/", controller.getExecutors);
-router.get("/:_id/comments",permit(Role.User), controller.getExecutorComments);
+router.get("/:_id/comments", controller.getExecutorComments);
 
 module.exports = router;
 

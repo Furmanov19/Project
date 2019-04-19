@@ -10,7 +10,9 @@ import {
   CREATE_ORDER_SUCCESS,
   CREATE_ORDER_FAIL,
   GET_USER_ORDERS_SUCCESS,
-  GET_USER_ORDERS_FAIL
+  GET_USER_ORDERS_FAIL,
+  GET_EXECUTOR_COMMENTS_SUCCESS,
+  GET_EXECUTOR_COMMENTS_FAIL
 } from "./types";
 
 export const getUsers = () => (dispatch, getState) => {
@@ -39,18 +41,19 @@ export const getUsers = () => (dispatch, getState) => {
 export const getUserOrders = () => (dispatch, getState) => {
   //get params
   let offset = getState().search.offset;
-  axios.get(`orders?page=${++offset}`,tokenConfig(getState)).then(res => {
-    dispatch({
-      type:GET_USER_ORDERS_SUCCESS,
-      payload:res.data
+  axios
+    .get(`orders?page=${++offset}`, tokenConfig(getState))
+    .then(res => {
+      dispatch({
+        type: GET_USER_ORDERS_SUCCESS,
+        payload: res.data
+      });
+      getState().search.offset = 0;
     })
-    getState().search.offset=0;
-    }
-  )
-  .catch(err =>{
-    dispatch(returnErrors(err.response.data,err.response.status));
-    dispatch({type:GET_USER_ORDERS_FAIL});
-  });
+    .catch(err => {
+      dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch({ type: GET_USER_ORDERS_FAIL });
+    });
 };
 export const selectExecutorForInfo = executorId => dispatch => {
   dispatch({
@@ -81,7 +84,30 @@ export const createOrder = order => (dispatch, getState) => {
       user && isAuth ? dispatch(push("/profile")) : dispatch(push("/"));
     })
     .catch(err => {
-      console.log(err);
+      dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({ type: CREATE_ORDER_FAIL });
+    });
+};
+
+export const getExecutorComments = () => (dispatch, getState) => {
+  let executor_id = getState().users.selectedExecutorForBooking._id;
+  
+  //headers
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+  axios
+    .get(`executors/${executor_id}/comments`)
+    .then(res => {
+      dispatch({
+        type: GET_EXECUTOR_COMMENTS_SUCCESS,
+        payload: res.data
+      });
+    })
+    .catch(err => {
+      dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch({ type: GET_EXECUTOR_COMMENTS_SUCCESS });
     });
 };

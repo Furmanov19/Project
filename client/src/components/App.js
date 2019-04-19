@@ -9,7 +9,6 @@ import RegistrationPage from './home/main/RegistrationPage/RegistrationPage';
 import LoginPage from './home/main/LoginPage/LoginPage';
 import ExecutorConfirmPage from './home/main/LoginPage/ExecutorConfirmPage';
 
-import AdminProfilePage from './home/main/ProfilePage/AdminProfilePage';
 import AdminProfileContainer from '../containers/AdminProfileContainer';
 import BlockExecutorFormContainer from '../containers/BlockExecutorFormContainer';
 import BlockUserFormContainer from '../containers/BlockUserFormContainer';
@@ -26,6 +25,9 @@ import ExecutorEditProfileContainer from '../containers/ExecutorEditProfileConta
 import BookingPageContainer from '../containers/BookingPageContainer';
 import ExecutorBlockedPageContainer from '../containers/ExecutorBlockedPageContainer';
 import UserBlockedPageContainer from '../containers/UserBlockedPageContainer';
+
+import CommentsPageContainer from '../containers/CommentsPageContainer';
+
 import { connect } from 'react-redux';
 
 class App extends Component {
@@ -84,6 +86,7 @@ class App extends Component {
             <Route path="/orders" component={ExecutorOrdersPageContainer}/>//executor profile page
           }
           <Route path="/company" component={BookingPageContainer} />
+          <Route path="/comments" component={CommentsPageContainer} />
           <Route component={HomePageContainer}/>
         </Switch>
       </>  

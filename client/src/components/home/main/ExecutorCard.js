@@ -5,7 +5,7 @@ import Paper from "@material-ui/core/Paper";
 import Chip from "@material-ui/core/Chip";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-
+import {CommentsLink} from "./../../common/Links";
 const styles = theme => ({
   root: {
     ...theme.mixins.gutters(),
@@ -13,27 +13,34 @@ const styles = theme => ({
     paddingBottom: theme.spacing.unit * 2,
     width: "75%",
     margin: "10px auto",
-    display:"flex",
-    flexWrap:"wrap",
-    justifyContent:"space-between",
-    alignItems:"center"
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    alignItems: "center"
   },
-  companyInfo:{
-    width:"30%"
+  companyInfo: {
+    width: "30%"
   },
-  services:{
-    width:"50%",
+  services: {
+    width: "50%",
     display: "flex",
     flexWrap: "wrap",
     justifyContent: "space-around"
   },
-  booking:{
-    width:"20%",
-    padding:" 0 auto"
+  booking: {
+    width: "20%",
+    padding: " 0 auto"
   },
   chip: {
     margin: "1%"
   },
+  buttonsBlock: {
+    display: "flex",
+    flexDirection: "column"
+  },
+  button: {
+    margin: theme.spacing.unit
+  }
 });
 
 class ExecutorCard extends React.Component {
@@ -56,8 +63,8 @@ class ExecutorCard extends React.Component {
         <Paper className={classes.root} elevation={1}>
           <div className={classes.companyInfo}>
             <Typography variant="h4">{this.props.name}</Typography>
-            <Typography >average price:{this.props.averagePrice}$</Typography>
-            <Typography >average rate:{this.props.averageRate}</Typography>
+            <Typography>average price:{this.props.averagePrice}$</Typography>
+            <Typography>average rate:{this.props.averageRate}</Typography>
           </div>
           <div className={classes.services} variant="outlined">
             {this.isChip(services.standart) && (
@@ -67,30 +74,65 @@ class ExecutorCard extends React.Component {
               <Chip key="general" label="general" className={classes.chip} />
             )}
             {this.isChip(services.afterRepair) && (
-              <Chip key="afterRepair" label="after repair" className={classes.chip}/>
+              <Chip
+                key="afterRepair"
+                label="after repair"
+                className={classes.chip}
+              />
             )}
             {this.isChip(services.carpetDryCleaning) && (
-              <Chip key="carpetDryCleaning" label="carpet dry cleaning" className={classes.chip}/>
+              <Chip
+                key="carpetDryCleaning"
+                label="carpet dry cleaning"
+                className={classes.chip}
+              />
             )}
             {this.isChip(services.office) && (
-              <Chip key="office" label="office" className={classes.chip}/>
+              <Chip key="office" label="office" className={classes.chip} />
             )}
             {this.isChip(services.industrialСleaning) && (
-              <Chip key="industrialСleaning" label="industrial cleaning" className={classes.chip}/>
+              <Chip
+                key="industrialСleaning"
+                label="industrial cleaning"
+                className={classes.chip}
+              />
             )}
             {this.isChip(services.furniture) && (
-              <Chip key="furniture" label="furniture" className={classes.chip}/>
+              <Chip
+                key="furniture"
+                label="furniture"
+                className={classes.chip}
+              />
             )}
-            {this.isChip(services.pool) && <Chip key="pool" label="pool"className={classes.chip} />}
+            {this.isChip(services.pool) && (
+              <Chip key="pool" label="pool" className={classes.chip} />
+            )}
           </div>
+          <div className={classes.buttonsBlock}>
             <Button
               variant="outlined"
               color="primary"
               className={classes.button}
-              onClick={()=>{console.log("click");this.props.selectExecutorForInfo(this.props.executorInfo)}}
+              onClick={() => {
+                console.log("click");
+                this.props.selectExecutorForInfo(this.props.executorInfo);
+              }}
             >
               Booking
             </Button>
+            <Button
+              component={CommentsLink}
+              variant="outlined"
+              color="secondary"
+              className={classes.button}
+              onClick={() => {
+                console.log("click");
+                this.props.selectExecutorForInfo(this.props.executorInfo);
+              }}
+            >
+              View comments
+            </Button>
+          </div>
         </Paper>
       </div>
     );

@@ -5,7 +5,7 @@ const mongoosePaginate = require("mongoose-paginate");
 const schema = new mongoose.Schema(
   {
     logo: { type: String, required: false },
-    name: { type: String, required: true, unique: true, select: true },
+    name: { type: String, required: true, unique: true, },
     email: { type: String, required: false, unique: true },
     emailConfirmed: { type: Boolean, required: true },
     verifyToken: { type: String, required: false },

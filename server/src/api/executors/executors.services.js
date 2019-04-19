@@ -288,15 +288,10 @@ async function postComment(executor_id, data) {
 }
 
 async function getExecutorComments(executor_id) {
+  console.log(executor_id);
   //const executor = await Executor.findOne({_id:executor_id});
-  let mas = await Executor.find(
-    { _id: executor_id },
-    { "comments.customer_id": 1, "comments.comment": 1 }
-  ).then(obj => {
-    console.log(obj);
-    return obj[0].comments;
-  });
-  return mas;
+  const executor =  await Executor.findOne({ _id: executor_id },{comments:1,_id:0});
+  console.log(executor.comments.toObject());
 }
 
 module.exports = {

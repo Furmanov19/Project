@@ -15,3 +15,4 @@ export const ExecutorsLink = props => <Link to="/executors" {...props} />
 
 export const ExecutorBlockLink = props => <Link to="/executors-blocking"  {...props} />
 export const UserBlockLink = props => <Link to="/users-blocking"  {...props} />
+export const CommentsLink = props => <Link to="/comments"  {...props} />
