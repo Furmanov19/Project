@@ -12,7 +12,9 @@ import {
   GET_USER_ORDERS_SUCCESS,
   GET_USER_ORDERS_FAIL,
   GET_EXECUTOR_COMMENTS_SUCCESS,
-  GET_EXECUTOR_COMMENTS_FAIL
+  GET_EXECUTOR_COMMENTS_FAIL,
+  POST_EXECUTOR_COMMENT_SUCCESS,
+  POST_EXECUTOR_COMMENT_FAIL
 } from "./types";
 
 export const getUsers = () => (dispatch, getState) => {
@@ -89,9 +91,9 @@ export const createOrder = order => (dispatch, getState) => {
     });
 };
 
-export const getExecutorComments = () => (dispatch, getState) => {
+export const getExecutorComments = perPage => (dispatch, getState) => {
   let executor_id = getState().users.selectedExecutorForBooking._id;
-  
+
   //headers
   const config = {
     headers: {
@@ -99,7 +101,7 @@ export const getExecutorComments = () => (dispatch, getState) => {
     }
   };
   axios
-    .get(`executors/${executor_id}/comments`)
+    .get(`executors/${executor_id}/comments?perPage=${perPage}`, config)
     .then(res => {
       dispatch({
         type: GET_EXECUTOR_COMMENTS_SUCCESS,
@@ -108,6 +110,36 @@ export const getExecutorComments = () => (dispatch, getState) => {
     })
     .catch(err => {
       dispatch(returnErrors(err.response.data, err.response.status));
-      dispatch({ type: GET_EXECUTOR_COMMENTS_SUCCESS });
+      dispatch({ type: GET_EXECUTOR_COMMENTS_FAIL });
+    });
+};
+export const postComment = comment => (dispatch, getState) => {
+  let executor_id = getState().users.selectedExecutorForBooking._id;
+
+  //headers
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+  axios
+    .post(`executors/${executor_id}/comments`, comment, config)
+    .then(res => {
+      dispatch({
+        type: POST_EXECUTOR_COMMENT_SUCCESS,
+        payload: res.data
+      });
+    })
+    .then(res => {
+      axios.get(`executors/${executor_id}/comments`, config).then(res => {
+        dispatch({
+          type: GET_EXECUTOR_COMMENTS_SUCCESS,
+          payload: res.data
+        });
+      });
+    })
+    .catch(err => {
+      dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch({ type: POST_EXECUTOR_COMMENT_FAIL });
     });
 };

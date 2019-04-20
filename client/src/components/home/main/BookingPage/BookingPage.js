@@ -52,7 +52,7 @@ const styles = theme => ({
   }
 });
 
-const date =new Date();
+const date = new Date();
 
 class BookingPage extends Component {
   constructor(props) {
@@ -93,7 +93,7 @@ class BookingPage extends Component {
     const newOrder = {
       city: this.state.city,
       address: this.state.exactAddress,
-      type:this.state.cleaningType,
+      type: this.state.cleaningType,
       email: this.state.email,
       date: this.state.date,
       time: this.state.time,
@@ -102,8 +102,8 @@ class BookingPage extends Component {
         largeRooms: this.state.largeRoomCount,
         toilets: this.state.toiletCount
       },
-      regularity:this.state.regularityText,
-      duration:this.state.durationText,
+      regularity: this.state.regularityText,
+      duration: this.state.durationText,
       price: this.state.price,
       executor_id: this.props.executor._id,
       customer_id: this.props.user ? this.props.user._id : null

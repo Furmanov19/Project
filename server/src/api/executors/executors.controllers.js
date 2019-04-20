@@ -69,7 +69,7 @@ module.exports.editExecutor = (req, res, next) => {
 };
 module.exports.postComment = (req, res, next) => {
   executorService
-    .postComment(req.user.id, req.body)
+    .postComment(req.params._id, req.body)
     .then(executor => {
       executor ? res.json(executor) : res.json({ message: "Error" });
     })
@@ -89,7 +89,7 @@ module.exports.getExecutorById = (req, res, next) => {
 };
 module.exports.getExecutorComments = (req, res, next) => {
   executorService
-    .getExecutorComments(req.params._id)
+    .getExecutorComments(req.params._id,req.query)
     .then(data => {
       res.status(httpStatus.CREATED).json(data);
     })

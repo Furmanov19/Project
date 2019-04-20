@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const config = require("../../config/environment");
 const Executor = require("../../models/executor.model");
+const Comment = require("../../models/comment.model");
 const nodemailer = require("nodemailer");
 const service = require("../../services/calculateValues.service");
 
@@ -280,18 +281,35 @@ async function editExecutor(
 }
 
 async function postComment(executor_id, data) {
-  return await Executor.findOneAndUpdate(
-    { _id: executor_id },
-    { $push: { comments: data } },
-    { upsert: true, new: true }
-  );
+  const {userName,userComment } =data;
+  const comment =new Comment ({
+    userName,
+    comment:userComment,
+    executorId:executor_id
+  });
+  const savedComment = comment.save().then(({ _id }) => Comment.findById(_id));
+  await Executor.findOneAndUpdate({_id:executor_id},{
+    $push:{
+      comments:savedComment
+    }
+  });
+  return savedComment;
 }
 
-async function getExecutorComments(executor_id) {
-  console.log(executor_id);
-  //const executor = await Executor.findOne({_id:executor_id});
-  const executor =  await Executor.findOne({ _id: executor_id },{comments:1,_id:0});
-  console.log(executor.comments.toObject());
+async function getExecutorComments(executor_id,req_query) {
+  const { page, perPage} =req_query;
+  const query ={
+    executorId:executor_id,
+  }
+  const options = {
+    page: parseInt(page,10) || 1,
+    limit: parseInt(perPage,10) || 5,
+    select : "userName comment created_at",
+    sort :{"created_at":-1}
+  }
+  const comments =await Comment.paginate(query,options);
+  console.log(comments);
+  return comments;
 }
 
 module.exports = {

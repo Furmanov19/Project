@@ -34,12 +34,11 @@ const schema = new mongoose.Schema(
     ],
     comments: [
       {
-        customer_id: {
+        commentId: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "Order",
+          ref: "Comment",
           required: false
-        },
-        comment: { type: String, required: false }
+        }
       }
     ],
     popularity: {
@@ -111,7 +110,7 @@ schema.pre("update", function(next) {
 
 schema.post("save", function(error, doc, next) {
   if (error.name === "MongoError" && error.code === 11000) {
-    next(new Error("User already exist"));
+    next(new Error("Executor already exist"));
   } else {
     next(error);
   }

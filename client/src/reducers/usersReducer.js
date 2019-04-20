@@ -6,7 +6,9 @@ import {
   GET_USER_ORDERS_SUCCESS,
   GET_USER_ORDERS_FAIL,
   GET_EXECUTOR_COMMENTS_SUCCESS,
-  GET_EXECUTOR_COMMENTS_FAIL
+  GET_EXECUTOR_COMMENTS_FAIL,
+  POST_EXECUTOR_COMMENT_SUCCESS,
+  POST_EXECUTOR_COMMENT_FAIL
 } from "../actions/types";
 
 const initialState = {
@@ -17,7 +19,8 @@ const initialState = {
   ),
   selectedExecutorComments: [],
   users: [],
-  orders: []
+  orders: [],
+  lastComment: 0
 };
 
 export default function(state = initialState, action) {
@@ -54,9 +57,15 @@ export default function(state = initialState, action) {
         ...state,
         selectedExecutorComments: action.payload
       };
+    case POST_EXECUTOR_COMMENT_SUCCESS:
+      return {
+        ...state,
+        lastComment: action.pauload
+      };
     case USERS_LOADING_FAIL:
     case GET_USER_ORDERS_FAIL:
     case GET_EXECUTOR_COMMENTS_FAIL:
+    case POST_EXECUTOR_COMMENT_FAIL:
       return {
         state: initialState
       };
