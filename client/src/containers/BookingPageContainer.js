@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { createOrder } from '../actions/usersActions';
-
-import ExecutorInfoPage from '../components/home/main/BookingPage/BookingPage';
+import {goBackFanc} from "../actions/goBackActions";
+import BookingPage from '../components/home/main/BookingPage/BookingPage';
 
 
 const mapStateToProps = state => ({
@@ -12,5 +12,5 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    {createOrder}
-)(ExecutorInfoPage);
+    {createOrder,goBackFanc}
+)(BookingPage);

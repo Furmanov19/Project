@@ -5,6 +5,7 @@ import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
+import IconButton from "@material-ui/core/IconButton";
 import MenuItem from "@material-ui/core/MenuItem";
 import TextField from "@material-ui/core/TextField";
 import Pickers from "./Pickers";
@@ -21,7 +22,8 @@ const styles = theme => ({
     display: "flex",
     flexWrap: "wrap",
     justifyContent: "space-between",
-    alignItems: "center"
+    alignItems: "center",
+    position:"relative"
   },
   address: {
     textAlign: "center"
@@ -49,6 +51,11 @@ const styles = theme => ({
     textAlign: "center",
     margin: "0 auto",
     width: "80%"
+  },
+  iconButton:{
+    position:"absolute",
+    top:0,
+    right:0
   }
 });
 
@@ -382,6 +389,9 @@ class BookingPage extends Component {
                 createOrder={this.createOrder}
               />
             </Button>
+            <IconButton className={classes.iconButton} onClick={()=>{this.props.goBackFanc()}}>
+              <i className="material-icons">cancel</i>
+            </IconButton>
           </form>
         </Paper>
       </>

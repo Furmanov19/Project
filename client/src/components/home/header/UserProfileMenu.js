@@ -1,33 +1,33 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
+import React from "react";
+import PropTypes from "prop-types";
+import { withStyles } from "@material-ui/core/styles";
+import AccountCircle from "@material-ui/icons/AccountCircle";
+import MenuItem from "@material-ui/core/MenuItem";
+import Menu from "@material-ui/core/Menu";
 import Button from "@material-ui/core/Button";
-import { ProfileLink, OrderLink, HomeLink } from '../../common/Links';
+import { ProfileLink, OrderLink, HomeLink } from "../../common/Links";
 
 const styles = {
   root: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   grow: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   menuButton: {
     marginLeft: -12,
     marginRight: 20,
-    color:"white"
+    color: "white"
   },
   icon: {
-    marginLeft: 14,
+    marginLeft: 14
   }
 };
 
 class UserProfileMenu extends React.Component {
   state = {
     auth: true,
-    anchorEl: null,
+    anchorEl: null
   };
 
   handleMenu = event => {
@@ -40,7 +40,7 @@ class UserProfileMenu extends React.Component {
   handleLogout = () => {
     this.props.logout();
     this.setState({ anchorEl: null });
-  }
+  };
 
   render() {
     const { anchorEl } = this.state;
@@ -49,23 +49,34 @@ class UserProfileMenu extends React.Component {
     return (
       <>
         <Button
-            aria-haspopup="true"
-            onClick={this.handleMenu}
-            className={classes.menuButton}
-            size="large"
-        >PROFILE 
-            <AccountCircle className={classes.icon}/>
+          aria-haspopup="true"
+          onClick={this.handleMenu}
+          className={classes.menuButton}
+          size="large"
+        >
+          PROFILE
+          <AccountCircle className={classes.icon} />
         </Button>
         <Menu
-            id="menu-appbar"
-            anchorEl={anchorEl}
-            open={open}
-            onClose={this.handleClose}
+          id="menu-appbar"
+          anchorEl={anchorEl}
+          open={open}
+          onClose={this.handleClose}
         >
-            <MenuItem onClick={this.handleClose} component={ProfileLink}>Edit</MenuItem>
-            <MenuItem onClick={this.handleClose} component={OrderLink}>My orders</MenuItem>
-            <MenuItem onClick={this.handleLogout}>Log out</MenuItem>
-            <MenuItem onClick={this.handleClose} component={HomeLink}>Companies</MenuItem>
+          <MenuItem onClick={this.handleClose} component={ProfileLink}>
+            <i className="material-icons">portrait</i> My profile
+          </MenuItem>
+          <MenuItem onClick={this.handleClose} component={OrderLink}>
+            <i className="material-icons">shopping_cart</i>
+            My orders
+          </MenuItem>
+          <MenuItem onClick={this.handleLogout}>
+            <i className="material-icons">exit_to_app</i> Log out
+          </MenuItem>
+          <MenuItem onClick={this.handleClose} component={HomeLink}>
+            <i className="material-icons">supervisor_account</i>
+            Companies
+          </MenuItem>
         </Menu>
       </>
     );
@@ -73,7 +84,7 @@ class UserProfileMenu extends React.Component {
 }
 
 UserProfileMenu.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(UserProfileMenu);

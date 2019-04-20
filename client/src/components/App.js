@@ -85,9 +85,11 @@ class App extends Component {
           {this.props.isAuth && this.props.executor &&
             <Route path="/orders" component={ExecutorOrdersPageContainer}/>//executor profile page
           }
-          <Route path="/company" component={BookingPageContainer} />
-          <Route path="/comments" component={CommentsPageContainer} />
-          <Route component={HomePageContainer}/>
+          
+          <Route exact path="/comments" component={CommentsPageContainer} />
+          <Route exact path="/" component={HomePageContainer}/>
+          <Route exact path="/company" component={BookingPageContainer} />
+          
         </Switch>
       </>  
     );

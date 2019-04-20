@@ -3,6 +3,7 @@ import Paper from "@material-ui/core/Paper";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Load from "../../../common/load";
+import IconButton from "@material-ui/core/IconButton";
 import Divider from "@material-ui/core/Divider";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
@@ -18,7 +19,8 @@ const styles = theme => ({
     flexDirection: "column",
     flexWrap: "wrap",
     justifyContent: "center",
-    alignItems: "flex-start"
+    alignItems: "flex-start",
+    position:"relative"
   },
   comment: {
     width: "100%",
@@ -43,6 +45,11 @@ const styles = theme => ({
     width: "97%",
     margin: "0 auto",
     marginLeft: "0"
+  },
+  iconButton:{
+    position:"absolute",
+    top:0,
+    right:0
   }
 });
 
@@ -155,6 +162,9 @@ class CommentsPage extends Component {
             >
               More
             </Button>
+            <IconButton className={classes.iconButton} onClick={()=>{this.props.goBackFanc()}}>
+              <i className="material-icons">cancel</i>
+            </IconButton>
           </Paper>
         )}
       </>

@@ -71,6 +71,6 @@ module.exports.editUser = (req, res, next) => {
 module.exports.authSocialNetwork = (req, res, next) => {
   userService
     .authSocialNetwork(req.user)
-    .then(() => res.status(httpStatus.OK).json("ok"))
+    .then((data) => res.status(httpStatus.OK).json(data))
     .catch(err => next(err));
 };
