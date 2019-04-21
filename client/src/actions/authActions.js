@@ -38,6 +38,7 @@ import {
   AUTH_ERROR
 } from "./types";
 
+
 // check token & load admin
 export const loadAdmin = () => (dispatch, getState) => {
   //user loading
@@ -271,6 +272,44 @@ export const loginUser = obj => dispatch => {
 
   axios
     .post("users/signin", obj, config)
+    .then(async res => {
+      if (res.data.isBlocked) {
+        await dispatch({ type: REDIRECT_BLOCKED_USER, payload: res.data });
+        await dispatch(push("/user-blocked"));
+      } else {
+        await dispatch(clearErrors());
+        await dispatch({
+          type: USER_LOGIN_SUCCESS,
+          payload: res.data
+        });
+        await dispatch(push("/profile"));
+      }
+    })
+    .catch(err => {
+      dispatch(
+        returnErrors(err.response.data, err.response.status, "USER_LOGIN_FAIL")
+      );
+      dispatch({
+        type: USER_LOGIN_FAIL
+      });
+    });
+};
+export const loginUserwithGoogle = obj => dispatch => {
+  console.log("!!!!!!!!!!");
+  const {accessToken} =obj;
+  const body ={
+    access_token:accessToken
+  }
+  console.log(body);
+  //headers
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+
+  axios
+    .post("users/google", body, config)
     .then(async res => {
       if (res.data.isBlocked) {
         await dispatch({ type: REDIRECT_BLOCKED_USER, payload: res.data });

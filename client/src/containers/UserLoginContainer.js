@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { loginUser } from '../actions/authActions';
+import { loginUser,loginUserwithGoogle } from '../actions/authActions';
 import { clearErrors } from '../actions/errorActions';
 import UserLoginForm from '../components/home/main/LoginPage/UserLoginForm';
 
@@ -11,5 +11,5 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    {loginUser,clearErrors}
+    {loginUser,clearErrors,loginUserwithGoogle}
 )(UserLoginForm);

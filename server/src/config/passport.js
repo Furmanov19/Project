@@ -1,6 +1,6 @@
 const passport = require("passport");
 const { ExtractJwt, Strategy } = require("passport-jwt");
-const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const GoogleStrategy = require("passport-google-token").Strategy;
 const config = require("./environment");
 const User = require("../models/user.model");
 const Admin = require("../models/admin.model");
@@ -35,8 +35,7 @@ function googleStrategy() {
     new GoogleStrategy(
       {
         clientID: config.google.client_id,
-        clientSecret: config.google.secret,
-        callbackURL: `/api/users/google/redirect`
+        clientSecret: config.google.secret
       },
       (accessToken, refreshToken, profile, done) => {
         User.findOne({ googleId: profile.id }).then(user => {
@@ -48,8 +47,6 @@ function googleStrategy() {
               name: profile.name.givenName,
               surname: profile.name.familyName,
               email: profile.emails[0].value,
-              password: "123",
-              username: "johny",
               emailConfirmed: "true",
               role: "user",
               googleId: profile.id
@@ -69,7 +66,7 @@ module.exports = {
   initialize: () => passport.initialize(),
   authenticate: () => passport.authenticate("jwt", { session: false }),
   authenticateGoogle: () =>
-    passport.authenticate("google", {
+    passport.authenticate("google-token", {
       session: false,
       scope: ["profile", "email"],
       state: "myState"

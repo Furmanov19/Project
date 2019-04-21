@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const config = require("../../config/environment");
 const User = require("../../models/user.model");
-const mailService =require("../../services/mail.service");
+const mailService = require("../../services/mail.service");
 
 async function register(data) {
   const {
@@ -30,9 +30,13 @@ async function register(data) {
   await user.save();
   const savedUser = await User.findOne({ email });
   const savedData = savedUser.toObject();
-  mailService.registerMailForUser(savedData.name,savedData.email,savedData.code);
+  mailService.registerMailForUser(
+    savedData.name,
+    savedData.email,
+    savedData.code
+  );
   const { password: userPassword, ...userWithoutPassword } = savedData;
-  
+
   return {
     user: userWithoutPassword
   };
@@ -164,7 +168,7 @@ async function blockUser(_id, { reason }) {
     { new: true }
   );
   const data = updatedUser.toObject();
-  mailService.mailForBlockUser(data.name,data.email,data.blocking.reason);
+  mailService.mailForBlockUser(data.name, data.email, data.blocking.reason);
   const { password: userPassword, ...userWithoutPassword } = data;
   return userWithoutPassword;
 }
@@ -176,7 +180,7 @@ async function unblockUser(_id) {
     { new: true }
   );
   const data = updatedUser.toObject();
-  mailService.mailForUnBlockUser(data.name,data.email);
+  mailService.mailForUnBlockUser(data.name, data.email);
   const { password: userPassword, ...userWithoutPassword } = data;
   return userWithoutPassword;
 }
@@ -227,7 +231,19 @@ async function editUser(_id, { name, phone, password }) {
 }
 
 async function authSocialNetwork(data) {
-  return data;
+  console.log(data);
+  const token = jwt.sign(
+    {
+      id: data._id,
+      role: data.role
+    },
+    config.jwt.secret,
+    { expiresIn: config.jwt.expiration }
+  );
+  return {
+    token: token,
+    user: data
+  };
 }
 module.exports = {
   get,

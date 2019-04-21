@@ -5,6 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { Formik } from "formik";
 import { string, object } from "yup";
+import GoogleLogin from './GoogleLogin';
 
 const validationSchema = object().shape({
   name: string()
@@ -116,7 +117,7 @@ class UserLoginForm extends React.Component {
           >
           LOG IN
         </Button>
-      
+      <GoogleLogin loginUserwithGoogle={this.props.loginUserwithGoogle}/>
     </form>
   );
  }

@@ -14,9 +14,8 @@ router.put("/block/:_id",permit(Role.Admin),controller.blockUser);
 router.put("/unblock/:_id",permit(Role.Admin), controller.unblockUser);
 router.put("/edit/:_id", controller.editUser);
 router.get("/", controller.getUsers);
-router.get("/google", authenticateGoogle());
-router.get(
-  "/google/redirect",
+router.post(
+  "/google",
   authenticateGoogle(),
   controller.authSocialNetwork
 );
