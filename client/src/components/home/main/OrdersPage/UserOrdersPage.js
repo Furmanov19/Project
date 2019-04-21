@@ -20,7 +20,7 @@ class UserOrderPage extends Component {
     this.props.getUserOrders();
   }
   render() {
-    const  {classes} =this.props;
+    const { classes } = this.props;
     return (
       <>
         {this.props.orders === undefined ? (
@@ -30,10 +30,7 @@ class UserOrderPage extends Component {
             <div className={classes.root}>
               {this.props.orders.length !== 0 ? (
                 this.props.orders.map(order => (
-                  <UserOrderPaper
-                    key={order._id}
-                    order={order}
-                  />
+                  <UserOrderPaper key={order._id} order={order} />
                 ))
               ) : (
                 <Typography variant="h5">There is no orders yet</Typography>

@@ -6,7 +6,6 @@ import {
   EXECUTORS_LOADING,
   EXECUTORS_LOADED,
   EXECUTORS_LOADING_FAIL,
-  GET_EXECUTOR_ORDERS,
   GET_EXECUTOR_ORDERS_SUCCESS,
   GET_EXECUTOR_ORDERS_FAIL,
   CHANGE_ORDER_STATUS_SUCCESS,
@@ -22,7 +21,6 @@ export const getExecutors = () => (dispatch, getState) => {
   let rate = getState().search.rate;
   let popularity = getState().search.popularity;
 
-  //executors loading
   dispatch({ type: EXECUTORS_LOADING });
 
   //get executors
@@ -44,8 +42,8 @@ export const getExecutors = () => (dispatch, getState) => {
 };
 
 export const getExecutorOrders = () => (dispatch, getState) => {
-  //get params
   let offset = getState().search.offset;
+
   axios
     .get(`orders?page=${++offset}`, tokenConfig(getState))
     .then(res => {
@@ -61,7 +59,7 @@ export const getExecutorOrders = () => (dispatch, getState) => {
     });
 };
 
-export const changeOrderStatus = (order_id, order_status,reason) => (
+export const changeOrderStatus = (order_id, order_status, reason) => (
   dispatch,
   getState
 ) => {

@@ -46,6 +46,10 @@ const styles = theme => ({
     flexDirection:'column',
     alignItems:'center',
     padding:'2%'
+  },
+  btns:{
+    display:"flex",
+    justifyContent:"center"
   }
 
 });
@@ -107,6 +111,7 @@ class UserLoginForm extends React.Component {
             helperText={errors.password}
             error={Boolean(errors.password)}
       />
+      <div className={classes.btns}>
         <Button
             type="submit"
             key="submit"
@@ -118,6 +123,7 @@ class UserLoginForm extends React.Component {
           LOG IN
         </Button>
       <GoogleLogin loginUserwithGoogle={this.props.loginUserwithGoogle}/>
+      </div>
     </form>
   );
  }

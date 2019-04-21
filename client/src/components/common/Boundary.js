@@ -1,14 +1,15 @@
-import React, { Component } from "react";
+import React from "react";
 import Typography from "@material-ui/core/Typography";
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from "@material-ui/core/styles";
 
 const styles = theme => ({
   root: {
-    margin:"20% auto",
-    width:"40%",
-    textAlign:"center"
+    margin: "20% auto",
+    width: "40%",
+    textAlign: "center"
   }
 });
+
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
@@ -23,7 +24,7 @@ class ErrorBoundary extends React.Component {
   }
 
   render() {
-    const {classes} =this.props;
+    const { classes } = this.props;
     if (this.state.errorInfo) {
       return (
         <div className={classes.root}>

@@ -3,6 +3,7 @@ import ExecutorPaperContainer from '../../../../containers/ExecutorPaperContaile
 import Load from '../../../common/load'
 import Pagination from "../Pagination";
 import ExecutorsSearchPanel from './ExecutorsSearchPanel';
+import Typography from "@material-ui/core/Typography";
 
 class ListOfExecutors extends Component {
   constructor(props){
@@ -25,8 +26,11 @@ class ListOfExecutors extends Component {
           <Load/>:
           (
             <div>
-              {this.props.executors.map(executor =>
+              {this.props.executors.length!==0?(
+                this.props.executors.map(executor =>
                 <ExecutorPaperContainer key={executor._id} executorInfo={executor}/>
+              )):(
+                <Typography variant="h5">There is no companies yet</Typography>
               )}
               <Pagination />
             </div>

@@ -33,6 +33,9 @@ const validationSchema = object().shape({
 
 const styles = theme => ({
   container: {
+    marginTop:theme.spacing.unit * 2,
+    marginLeft:'auto',
+    marginRight:'auto',
     position:'relative',
     display: 'flex',
     flexWrap:'wrap',

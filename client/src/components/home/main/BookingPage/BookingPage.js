@@ -23,7 +23,7 @@ const styles = theme => ({
     flexWrap: "wrap",
     justifyContent: "space-between",
     alignItems: "center",
-    position:"relative"
+    position: "relative"
   },
   address: {
     textAlign: "center"
@@ -52,10 +52,10 @@ const styles = theme => ({
     margin: "0 auto",
     width: "80%"
   },
-  iconButton:{
-    position:"absolute",
-    top:0,
-    right:0
+  iconButton: {
+    position: "absolute",
+    top: 0,
+    right: 0
   }
 });
 
@@ -115,7 +115,6 @@ class BookingPage extends Component {
       executor_id: this.props.executor._id,
       customer_id: this.props.user ? this.props.user._id : null
     };
-    console.log(newOrder);
     this.props.createOrder(newOrder);
   }
   isAvailable(services) {
@@ -145,7 +144,6 @@ class BookingPage extends Component {
     this.setState({
       [e.target.name]: e.target.value
     });
-    console.log(e.target.value);
     this.props.services[e.target.value].smallRoom
       ? this.setState({
           smallRoomDisabled: false
@@ -167,23 +165,16 @@ class BookingPage extends Component {
       : this.setState({
           toiletDisabled: true
         });
-    console.log(this.state);
   }
   handleTimeChange(e) {
-    this.setState(
-      {
-        time: e.target.value
-      },
-      () => console.log(this.state)
-    );
+    this.setState({
+      time: e.target.value
+    });
   }
   handleDateChange(e) {
-    this.setState(
-      {
-        date: e.target.value
-      },
-      () => console.log(this.state)
-    );
+    this.setState({
+      date: e.target.value
+    });
   }
   handleRoomCountChange(e) {
     this.setState({
@@ -212,7 +203,6 @@ class BookingPage extends Component {
   }
   calculatePrice() {
     let price = 0;
-    console.log("click");
     price = (
       (this.props.services[this.state.cleaningType].smallRoom *
         this.state.smallRoomCount +
@@ -222,10 +212,7 @@ class BookingPage extends Component {
           this.state.toiletCount) *
       this.state.duration
     ).toFixed(2);
-    console.log(price);
-    this.setState({ price }, () => {
-      console.log(this.state);
-    });
+    this.setState({ price });
   }
   render() {
     const { classes, services } = this.props;
@@ -389,7 +376,12 @@ class BookingPage extends Component {
                 createOrder={this.createOrder}
               />
             </Button>
-            <IconButton className={classes.iconButton} onClick={()=>{this.props.goBackFanc()}}>
+            <IconButton
+              className={classes.iconButton}
+              onClick={() => {
+                this.props.goBackFanc();
+              }}
+            >
               <i className="material-icons">cancel</i>
             </IconButton>
           </form>

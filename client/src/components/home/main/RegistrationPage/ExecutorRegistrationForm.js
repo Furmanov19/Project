@@ -175,7 +175,6 @@ class ExecutorRegistrationForm extends React.Component {
               services: this.state.services,
               address: values.address
             };
-            console.log(newExecutor);
             this.props.registerExecutor(newExecutor);
           } catch (errors) {
             errors.forEach(err => {

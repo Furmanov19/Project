@@ -5,7 +5,6 @@ import {
   ADMIN_LOGIN_SUCCESS,
   ADMIN_LOGIN_FAIL,
   ADMIN_REGISTER_SUCCESS,
-  ADMIN_REGISTER_FAIL,
   USER_LOADING,
   USER_LOADED,
   USER_LOADING_FAIL,
@@ -164,7 +163,7 @@ export default function(state = initialState, action) {
     case EXECUTOR_REGISTER_CONFIRM_FAIL:
     case EDIT_EXECUTOR_FAIL:
     case EDIT_USER_FAIL:
-      localStorage.removeItem("token"); //тк загружается сразу 2 юзера и происходит удаление токена то на одного из низ выбрасывает ошибку
+      localStorage.removeItem("token");
       return {
         ...state,
         token: null,

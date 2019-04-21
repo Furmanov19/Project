@@ -3,7 +3,7 @@ const config = require("../../config/environment");
 const Executor = require("../../models/executor.model");
 const Comment = require("../../models/comment.model");
 const service = require("../../services/calculateValues.service");
-const mailService =require("../../services/mail.service.js");
+const mailService = require("../../services/mail.service.js");
 
 async function register(data) {
   const {
@@ -45,9 +45,13 @@ async function register(data) {
     role
   });
   await executor.save();
-  const savedExecutor = await Executor.findOne({ name,email });
+  const savedExecutor = await Executor.findOne({ name, email });
   const savedData = savedExecutor.toObject();
-  mailService.registerMailForExecutor(savedData.verifyToken,savedData.name,savedData.email);
+  mailService.registerMailForExecutor(
+    savedData.verifyToken,
+    savedData.name,
+    savedData.email
+  );
   const { password: executorPassword, ...executorWithoutPassword } = savedData;
   return {
     executor: executorWithoutPassword
@@ -153,8 +157,7 @@ async function get({
   }
 
   let averagePrice = sortByPrice !== "" ? sortByPrice : 0;
-  let popularity = sortByPopularity !== "" ? sortByPopularity : 0; //доделать
-
+  let popularity = sortByPopularity !== "" ? sortByPopularity : 0;
   const query = {
     emailConfirmed: true,
     name: { $regex: nameReg, $options: "i" },
@@ -162,7 +165,7 @@ async function get({
   };
   const options = {
     page: parseInt(page, 10) || 1,
-    limit: parseInt(perPage, 10) || 1,
+    limit: parseInt(perPage, 10) || 5,
     select:
       "name email emailConfirmed blocking discription role _id services averageRate averagePrice",
     sort: { averagePrice: averagePrice, popularity: popularity }
@@ -174,27 +177,27 @@ async function get({
 }
 
 async function blockExecutor(_id, { reason }) {
-  const updatedExecutor =await  Executor.findByIdAndUpdate(
+  const updatedExecutor = await Executor.findByIdAndUpdate(
     _id,
     { $set: { "blocking.isBlocked": true, "blocking.reason": reason } },
     { new: true }
   );
   const data = updatedExecutor.toObject();
-  mailService.mailForBlockExecutor(data.name,data.email,data.blocking.reason);
-      const { password: executorPassword, ...executorWithoutPassword } = data;
-      return executorWithoutPassword;
+  mailService.mailForBlockExecutor(data.name, data.email, data.blocking.reason);
+  const { password: executorPassword, ...executorWithoutPassword } = data;
+  return executorWithoutPassword;
 }
 
 async function unblockExecutor(_id) {
-  const updatedExecutor =await Executor.findByIdAndUpdate(
+  const updatedExecutor = await Executor.findByIdAndUpdate(
     _id,
     { $set: { "blocking.isBlocked": false, "blocking.reason": "" } },
     { new: true }
   );
   const data = updatedExecutor.toObject();
-  mailService.mailForUnBlockExecutor(data.name,data.email);
-      const { password: executorPassword, ...executorWithoutPassword } = data;
-      return executorWithoutPassword;
+  mailService.mailForUnBlockExecutor(data.name, data.email);
+  const { password: executorPassword, ...executorWithoutPassword } = data;
+  return executorWithoutPassword;
 }
 
 async function editExecutor(
@@ -202,9 +205,8 @@ async function editExecutor(
   { name, discription, password, services, address }
 ) {
   const executor = await Executor.findOne({ _id });
+  let averagePrice = services ? service.averagePrice(services) : 0;
   let savedExecutor = {};
-  console.log(executor);
-  console.log(name, discription, services, address, password);
   if (password) {
     let unchangedPassword = await executor.comparePassword(password);
     if (unchangedPassword) {
@@ -215,7 +217,8 @@ async function editExecutor(
             name: name ? name : executor.name,
             discription: discription ? discription : executor.discription,
             services: services ? services : executor.services,
-            address: address ? address : executor.address
+            address: address ? address : executor.address,
+            averagePrice: averagePrice ? averagePrice : executor.averagePrice
           }
         },
         { new: true }
@@ -226,6 +229,9 @@ async function editExecutor(
       executor.services = services ? services : executor.services;
       executor.address = address ? address : executor.address;
       executor.password = password;
+      executor.averagePrice = averagePrice
+        ? averagePrice
+        : executor.averagePrice;
       savedExecutor = await executor.save();
     }
   } else {
@@ -236,7 +242,8 @@ async function editExecutor(
           name: name ? name : executor.name,
           discription: discription ? discription : executor.discription,
           services: services ? services : executor.services,
-          address: address ? address : executor.address
+          address: address ? address : executor.address,
+          averagePrice: averagePrice ? averagePrice : executor.averagePrice
         }
       },
       { new: true }

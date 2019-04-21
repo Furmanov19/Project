@@ -11,7 +11,7 @@ import AdminProfileMenu from './AdminProfileMenu';
 import { RegLink, LogLink, Logo } from '../../common/Links';
 const styles = {
   root: {
-    flexGrow: 1,
+    
   },
   grow: {
     flexGrow: 1

@@ -47,7 +47,9 @@ module.exports.blockUser = (req, res, next) => {
   userService
     .blockUser(req.params._id, req.body)
     .then(user => {
-      user ? res.status(httpStatus.OK).json(user) : res.status(httpStatus.BAD_REQUEST).json({ message: "Error" });
+      user
+        ? res.status(httpStatus.OK).json(user)
+        : res.status(httpStatus.BAD_REQUEST).json({ message: "Error" });
     })
     .catch(err => next(err));
 };
@@ -55,7 +57,9 @@ module.exports.unblockUser = (req, res, next) => {
   userService
     .unblockUser(req.params._id)
     .then(user => {
-      user ? res.status(httpStatus.OK).json(user) : res.status(httpStatus.BAD_REQUEST).json({ message: "Error" });
+      user
+        ? res.status(httpStatus.OK).json(user)
+        : res.status(httpStatus.BAD_REQUEST).json({ message: "Error" });
     })
     .catch(err => next(err));
 };
@@ -63,13 +67,15 @@ module.exports.editUser = (req, res, next) => {
   userService
     .editUser(req.params._id, req.body)
     .then(user => {
-      user ? res.status(httpStatus.OK).json(user) : res.status(httpStatus.BAD_REQUEST).json({ message: "Error" });
+      user
+        ? res.status(httpStatus.OK).json(user)
+        : res.status(httpStatus.BAD_REQUEST).json({ message: "Error" });
     })
     .catch(err => next(err));
 };
 module.exports.authSocialNetwork = (req, res, next) => {
   userService
     .authSocialNetwork(req.user)
-    .then((data) => res.status(httpStatus.OK).json(data))
+    .then(data => res.status(httpStatus.OK).json(data))
     .catch(err => next(err));
 };

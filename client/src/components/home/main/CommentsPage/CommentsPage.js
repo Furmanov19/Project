@@ -20,7 +20,7 @@ const styles = theme => ({
     flexWrap: "wrap",
     justifyContent: "center",
     alignItems: "flex-start",
-    position:"relative"
+    position: "relative"
   },
   comment: {
     width: "100%",
@@ -46,10 +46,10 @@ const styles = theme => ({
     margin: "0 auto",
     marginLeft: "0"
   },
-  iconButton:{
-    position:"absolute",
-    top:0,
-    right:0
+  iconButton: {
+    position: "absolute",
+    top: 0,
+    right: 0
   }
 });
 
@@ -95,7 +95,9 @@ class CommentsPage extends Component {
     this.setState({ comment: "", buttonDisabled: true });
   }
   handleClickMore() {
-    this.setState({ perPage: this.state.perPage + 5 },()=>{this.props.getExecutorComments(this.state.perPage)});
+    this.setState({ perPage: this.state.perPage + 5 }, () => {
+      this.props.getExecutorComments(this.state.perPage);
+    });
   }
   render() {
     const date = new Date();
@@ -162,7 +164,12 @@ class CommentsPage extends Component {
             >
               More
             </Button>
-            <IconButton className={classes.iconButton} onClick={()=>{this.props.goBackFanc()}}>
+            <IconButton
+              className={classes.iconButton}
+              onClick={() => {
+                this.props.goBackFanc();
+              }}
+            >
               <i className="material-icons">cancel</i>
             </IconButton>
           </Paper>

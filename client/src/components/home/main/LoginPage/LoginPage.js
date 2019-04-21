@@ -22,7 +22,9 @@ const styles = theme => ({
   root: {
     backgroundColor: theme.palette.background.paper,
     width: 700,
-    margin:'8px auto'
+    marginTop:theme.spacing.unit * 2,
+    marginLeft:'auto',
+    marginRight:'auto',
   },
 });
 

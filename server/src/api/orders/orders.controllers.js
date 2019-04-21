@@ -7,6 +7,7 @@ module.exports.createOrder = (req, res, next) => {
     .then(order => res.status(httpStatus.CREATED).json(order))
     .catch(err => next(err));
 };
+
 module.exports.getOrders = (req, res, next) => {
   console.log(req.user.role);
   if (req.user.role == "executor") {
@@ -27,6 +28,7 @@ module.exports.getOrders = (req, res, next) => {
       .catch(err => next(err));
   }
 };
+
 module.exports.deleteUserOrder = (req, res, next) => {
   orderService
     .deleteUserOrder(req.params.id, req.user.id)
@@ -36,12 +38,13 @@ module.exports.deleteUserOrder = (req, res, next) => {
     })
     .catch(err => console.log(err));
 };
+
 module.exports.updateOrderById = (req, res, next) => {
-    orderService
-      .updateOrderById( req.user.id, req.body)
-      .then(order => {
-        res.json(order);
-        console.log("done");
-      })
-      .catch(err => console.log(err));
+  orderService
+    .updateOrderById(req.user.id, req.body)
+    .then(order => {
+      res.json(order);
+      console.log("done");
+    })
+    .catch(err => console.log(err));
 };

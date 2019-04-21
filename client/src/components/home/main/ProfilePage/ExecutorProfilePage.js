@@ -60,7 +60,7 @@ class ExecutorProfilePage extends Component {
           </Paper>
         )}
       </>
-    )
+    );
   }
 }
 

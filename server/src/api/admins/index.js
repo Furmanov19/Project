@@ -1,3 +1,3 @@
 module.exports = {
-    router: require("./admins.routes")
-  };
+  router: require("./admins.routes")
+};

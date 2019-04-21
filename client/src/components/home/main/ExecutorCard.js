@@ -64,7 +64,6 @@ class ExecutorCard extends React.Component {
           <div className={classes.companyInfo}>
             <Typography variant="h4">{this.props.name}</Typography>
             <Typography>average price:{this.props.averagePrice}$</Typography>
-            <Typography>average rate:{this.props.averageRate}</Typography>
           </div>
           <div className={classes.services} variant="outlined">
             {this.isChip(services.standart) && (

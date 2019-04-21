@@ -43,7 +43,7 @@ async function register(data) {
   const savedAdmin = await Admin.findOne({ name }).toObject();
   const { password: adminPassword, ...adminWithoutPassword } = savedAdmin;
   const res = {
-    admin:adminWithoutPassword
+    admin: adminWithoutPassword
   };
   return res;
 }

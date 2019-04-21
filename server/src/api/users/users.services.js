@@ -152,7 +152,7 @@ async function get({ page, perPage, search }) {
   };
   const options = {
     page: parseInt(page, 10) || 1,
-    limit: parseInt(perPage, 10) || 1,
+    limit: parseInt(perPage, 10) || 5,
     select: "name _id role blocking"
   };
 

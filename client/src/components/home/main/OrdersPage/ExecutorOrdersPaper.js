@@ -46,15 +46,11 @@ class ExecutorCard extends React.Component {
     this.handleChange = this.handleChange.bind(this);
   }
   handleChange(e) {
-    this.setState(
-      {
-        [e.target.name]: e.target.value
-      },
-      () => console.log(this.state)
-    );
+    this.setState({
+      [e.target.name]: e.target.value
+    });
   }
   render() {
-    console.log(this.state);
     const date = new Date();
     const { classes, order } = this.props;
     return (
@@ -136,7 +132,11 @@ class ExecutorCard extends React.Component {
               size="small"
               className={classes.button}
               onClick={() => {
-                this.props.changeOrderStatus(order._id, this.state.status,this.state.reason);
+                this.props.changeOrderStatus(
+                  order._id,
+                  this.state.status,
+                  this.state.reason
+                );
                 this.props.getExecutorOrders();
               }}
             >

@@ -18,14 +18,11 @@ import {
 } from "./types";
 
 export const getUsers = () => (dispatch, getState) => {
-  //get params
   let offset = getState().search.offset;
   let search = getState().search.searchInput;
 
-  //users loading
   dispatch({ type: USERS_LOADING });
 
-  //get users
   axios
     .get(`users?page=${++offset}&search=${search}`)
     .then(res => {
@@ -40,9 +37,10 @@ export const getUsers = () => (dispatch, getState) => {
       dispatch({ type: USERS_LOADING_FAIL });
     });
 };
+
 export const getUserOrders = () => (dispatch, getState) => {
-  //get params
   let offset = getState().search.offset;
+
   axios
     .get(`orders?page=${++offset}`, tokenConfig(getState))
     .then(res => {
@@ -57,6 +55,7 @@ export const getUserOrders = () => (dispatch, getState) => {
       dispatch({ type: GET_USER_ORDERS_FAIL });
     });
 };
+
 export const selectExecutorForInfo = executorId => dispatch => {
   dispatch({
     type: SELECT_EXECUTOR_FOR_BOOKING,
@@ -64,17 +63,17 @@ export const selectExecutorForInfo = executorId => dispatch => {
   });
   dispatch(push("/company"));
 };
+
 export const createOrder = order => (dispatch, getState) => {
   let user = getState().auth.user;
   let isAuth = getState().auth.isAuthenticated;
-  //headers
+
   const config = {
     headers: {
       "Content-Type": "application/json"
     }
   };
 
-  //request body
   const body = JSON.stringify(order);
 
   axios
@@ -94,7 +93,6 @@ export const createOrder = order => (dispatch, getState) => {
 export const getExecutorComments = perPage => (dispatch, getState) => {
   let executor_id = getState().users.selectedExecutorForBooking._id;
 
-  //headers
   const config = {
     headers: {
       "Content-Type": "application/json"
@@ -113,10 +111,10 @@ export const getExecutorComments = perPage => (dispatch, getState) => {
       dispatch({ type: GET_EXECUTOR_COMMENTS_FAIL });
     });
 };
+
 export const postComment = comment => (dispatch, getState) => {
   let executor_id = getState().users.selectedExecutorForBooking._id;
 
-  //headers
   const config = {
     headers: {
       "Content-Type": "application/json"

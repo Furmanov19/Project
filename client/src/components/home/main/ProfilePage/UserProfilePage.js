@@ -14,7 +14,9 @@ const styles = theme => ({
     width: "100%",
     maxWidth: 500,
     backgroundColor: theme.palette.background.paper,
-    margin: "5% auto",
+    marginTop:theme.spacing.unit * 5,
+    marginLeft:'auto',
+    marginRight:'auto',
     padding: "3%",
     borderRadius: "5px"
   },
@@ -29,11 +31,6 @@ const styles = theme => ({
 });
 
 class UserProfilePage extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {};
-  // }
-
   render() {
     const { classes, user } = this.props;
     return (

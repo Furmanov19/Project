@@ -15,7 +15,7 @@ const schema = new mongoose.Schema(
     code: { type: String, required: false },
     phone: { type: String, require: false },
     googleId: { type: String, unique: true },
-    password: { type: String, required: false }, //удалять пароль при каждом запросе
+    password: { type: String, required: false },
     role: { type: String, required: false, lowercase: true },
     orders: [
       { type: mongoose.Schema.Types.ObjectId, ref: "Order", required: false }

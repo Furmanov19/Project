@@ -50,7 +50,7 @@ class AdminProfilePage extends Component {
           </Paper>
         )}
       </>
-    )
+    );
   }
 }
 

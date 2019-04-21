@@ -17,7 +17,6 @@ module.exports.averagePrice = services => {
   }
 };
 module.exports.averageRate = rate => {
-  //create validation on NaN
   let acc = 0;
   let count = 0;
   getProp(rate);

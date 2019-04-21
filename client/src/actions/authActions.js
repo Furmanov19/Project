@@ -34,14 +34,10 @@ import {
   EDIT_USER,
   EDIT_USER_FAIL,
   EDIT_EXECUTOR,
-  EDIT_EXECUTOR_FAIL,
-  AUTH_ERROR
+  EDIT_EXECUTOR_FAIL
 } from "./types";
 
-
-// check token & load admin
 export const loadAdmin = () => (dispatch, getState) => {
-  //user loading
   dispatch({ type: ADMIN_LOADING });
 
   axios
@@ -62,16 +58,13 @@ export const loadAdmin = () => (dispatch, getState) => {
     });
 };
 
-//register admin
 export const registerAdmin = ({ name, password }) => dispatch => {
-  //headers
   const config = {
     headers: {
       "Content-Type": "application/json"
     }
   };
 
-  //request body
   const body = JSON.stringify({
     name,
     password
@@ -102,7 +95,6 @@ export const registerAdmin = ({ name, password }) => dispatch => {
 };
 
 export const loginAdmin = obj => dispatch => {
-  //headers
   const config = {
     headers: {
       "Content-Type": "application/json"
@@ -131,9 +123,7 @@ export const loginAdmin = obj => dispatch => {
     });
 };
 
-// check token & load user
 export const loadUser = () => (dispatch, getState) => {
-  //user loading
   dispatch({ type: USER_LOADING });
 
   axios
@@ -154,16 +144,13 @@ export const loadUser = () => (dispatch, getState) => {
     });
 };
 
-//register user
 export const registerUser = ({ name, email, phone, password }) => dispatch => {
-  //headers
   const config = {
     headers: {
       "Content-Type": "application/json"
     }
   };
 
-  //request body
   const body = JSON.stringify({
     name,
     email,
@@ -194,15 +181,14 @@ export const registerUser = ({ name, email, phone, password }) => dispatch => {
       });
     });
 };
+
 export const editUser = ({ name, phone, password }) => (dispatch, getState) => {
-  //headers
   const config = {
     headers: {
       "Content-Type": "application/json"
     }
   };
   const _id = getState().auth.user._id;
-  //request body
   const body = JSON.stringify({
     name,
     phone,
@@ -229,8 +215,8 @@ export const editUser = ({ name, phone, password }) => (dispatch, getState) => {
       });
     });
 };
+
 export const registerConfirmUser = obj => dispatch => {
-  //headers
   const config = {
     headers: {
       "Content-Type": "application/json"
@@ -263,7 +249,6 @@ export const registerConfirmUser = obj => dispatch => {
 };
 
 export const loginUser = obj => dispatch => {
-  //headers
   const config = {
     headers: {
       "Content-Type": "application/json"
@@ -294,14 +279,13 @@ export const loginUser = obj => dispatch => {
       });
     });
 };
+
 export const loginUserwithGoogle = obj => dispatch => {
-  console.log("!!!!!!!!!!");
-  const {accessToken} =obj;
-  const body ={
-    access_token:accessToken
-  }
-  console.log(body);
-  //headers
+  const { accessToken } = obj;
+  const body = {
+    access_token: accessToken
+  };
+
   const config = {
     headers: {
       "Content-Type": "application/json"
@@ -333,9 +317,7 @@ export const loginUserwithGoogle = obj => dispatch => {
     });
 };
 
-// check token & load executor
 export const loadExecutor = () => (dispatch, getState) => {
-  //executor loading
   dispatch({ type: EXECUTOR_LOADING });
 
   axios
@@ -356,16 +338,13 @@ export const loadExecutor = () => (dispatch, getState) => {
     });
 };
 
-//register executor
 export const registerExecutor = executor => dispatch => {
-  //headers
   const config = {
     headers: {
       "Content-Type": "application/json"
     }
   };
 
-  //request body
   const body = JSON.stringify(executor);
 
   axios
@@ -390,6 +369,7 @@ export const registerExecutor = executor => dispatch => {
       });
     });
 };
+
 export const editExecutor = ({
   name,
   discription,
@@ -398,7 +378,6 @@ export const editExecutor = ({
   address
 }) => (dispatch, getState) => {
   const _id = getState().auth.executor._id;
-  //request body
   const body = JSON.stringify({
     name,
     discription,
@@ -466,7 +445,6 @@ export const registerConfirmExecutor = obj => dispatch => {
 };
 
 export const loginExecutor = obj => dispatch => {
-  //headers
   const config = {
     headers: {
       "Content-Type": "application/json"
@@ -502,7 +480,6 @@ export const loginExecutor = obj => dispatch => {
     });
 };
 
-//logout user
 export const logout = () => dispatch => {
   dispatch(push("/"));
   dispatch({ type: LOGOUT_SUCCESS });

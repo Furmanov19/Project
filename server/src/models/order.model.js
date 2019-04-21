@@ -25,8 +25,8 @@ const schema = new mongoose.Schema(
       ref: "Executor",
       required: false
     },
-    status: { type: String, required: false,default:"new" },
-    rejectionReason: { type: String, required: false,default:"" },
+    status: { type: String, required: false, default: "new" },
+    rejectionReason: { type: String, required: false, default: "" },
     price: { type: Number }
   },
   {

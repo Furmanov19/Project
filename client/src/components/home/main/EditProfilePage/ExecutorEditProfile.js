@@ -61,7 +61,9 @@ const validationSchema = object().shape({
 const styles = theme => ({
   root: {
     width: "70%",
-    margin: "5% auto"
+    marginTop:theme.spacing.unit * 2,
+    marginLeft:'auto',
+    marginRight:'auto',
   },
   header: {
     margin: "3% auto 0%",

@@ -4,23 +4,23 @@ const mongoosePaginate = require("mongoose-paginate");
 
 const schema = new mongoose.Schema(
   {
-    logo: { type: String, required: false },
-    name: { type: String, required: true, unique: true, },
-    email: { type: String, required: false, unique: true },
+    logo: { type: String },
+    name: { type: String, required: true, unique: true },
+    email: { type: String, required: true, unique: true },
     emailConfirmed: { type: Boolean, required: true },
-    verifyToken: { type: String, required: false },
+    verifyToken: { type: String },
     blocking: {
-      isBlocked: { type: Boolean, default: false, required: false },
-      reason: { type: String, default: "", required: false }
+      isBlocked: { type: Boolean, default: false },
+      reason: { type: String, default: "" }
     },
     discription: { type: String, required: true },
-    address: { type: String, required: false },
+    address: { type: String },
     averagePrice: { type: Number, required: true },
-    averageRate: { type: Number, required: false },
+    averageRate: { type: Number },
     orders: [
       { type: mongoose.Schema.Types.ObjectId, ref: "Order", required: false }
     ],
-    password: { type: String, required: true }, //, select: true
+    password: { type: String, required: true },
     role: { type: String, required: false, lowercase: true },
     rate: [
       {

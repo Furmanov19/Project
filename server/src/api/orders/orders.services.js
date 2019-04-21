@@ -63,7 +63,6 @@ async function getUserOrders(user_id, req_query) {
   };
 
   const userOrders = await Order.paginate(query, options);
-  console.log(userOrders);
   return userOrders;
 }
 
