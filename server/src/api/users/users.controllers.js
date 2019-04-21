@@ -5,16 +5,15 @@ module.exports.registerUser = (req, res, next) => {
   userService
     .register(req.body)
     .then(user => {
-      res.json(user);
+      res.status(httpStatus.OK).json(user);
     })
     .catch(err => next(err));
 };
 module.exports.confirmUser = (req, res, next) => {
   userService
     .confirm(req.body)
-    .then(token => {
-      //not only token responsed from service
-      res.json(token);
+    .then(data => {
+      res.status(httpStatus.OK).json(data);
     })
     .catch(err => next(err));
 };
@@ -22,7 +21,7 @@ module.exports.loadUser = (req, res, next) => {
   userService
     .loadUser(req.user)
     .then(user => {
-      res.json(user);
+      res.status(httpStatus.OK).json(user);
     })
     .catch(err => next(err));
 };
@@ -30,7 +29,7 @@ module.exports.signinUser = (req, res, next) => {
   userService
     .authenticate(req.body)
     .then(user => {
-      res.json(user);
+      res.status(httpStatus.OK).json(user);
     })
     .catch(err => next(err));
 };
@@ -39,8 +38,8 @@ module.exports.getUsers = (req, res, next) => {
     .get(req.query)
     .then(users => {
       users
-        ? res.json(users)
-        : res.status(httpStatus.UNAUTHORIZED).json({ message: "Error" });
+        ? res.status(httpStatus.OK).json(users)
+        : res.status(httpStatus.BAD_REQUEST).json({ message: "Error" });
     })
     .catch(err => next(err));
 };
@@ -48,7 +47,7 @@ module.exports.blockUser = (req, res, next) => {
   userService
     .blockUser(req.params._id, req.body)
     .then(user => {
-      user ? res.json(user) : res.json({ message: "Error" });
+      user ? res.status(httpStatus.OK).json(user) : res.status(httpStatus.BAD_REQUEST).json({ message: "Error" });
     })
     .catch(err => next(err));
 };
@@ -56,7 +55,7 @@ module.exports.unblockUser = (req, res, next) => {
   userService
     .unblockUser(req.params._id)
     .then(user => {
-      user ? res.json(user) : res.json({ message: "Error" });
+      user ? res.status(httpStatus.OK).json(user) : res.status(httpStatus.BAD_REQUEST).json({ message: "Error" });
     })
     .catch(err => next(err));
 };
@@ -64,7 +63,7 @@ module.exports.editUser = (req, res, next) => {
   userService
     .editUser(req.params._id, req.body)
     .then(user => {
-      user ? res.json(user) : res.json({ message: "Error" });
+      user ? res.status(httpStatus.OK).json(user) : res.status(httpStatus.BAD_REQUEST).json({ message: "Error" });
     })
     .catch(err => next(err));
 };

@@ -2,8 +2,7 @@ const Order = require("../../models/order.model");
 const User = require("../../models/user.model");
 const Executor = require("../../models/executor.model");
 const Status = require("../../enums/status.enum");
-
-const nodemailer = require("nodemailer");
+const mailService = require("../../services/mail.service.js");
 
 async function createOrder({
   city,
@@ -40,6 +39,7 @@ async function createOrder({
       { $push: { orders: order } },
       { upsert: true, new: true }
     ));
+  user && mailService.mailAboutNewOrderForUser(order, user.email);
   const executor = await Executor.findOne({ _id: executor_id });
   executor &&
     (await Executor.findOneAndUpdate(
@@ -47,6 +47,7 @@ async function createOrder({
       { $push: { orders: order }, $set: { popularity: ++executor.popularity } },
       { upsert: true, new: true }
     ));
+  executor && mailService.mailAboutNewOrderForExecutor(order, executor.email);
   return await order.save();
 }
 async function getUserOrders(user_id, req_query) {
@@ -118,18 +119,16 @@ async function deleteUserOrder(order_id, user_id) {
   });
 }
 
-async function updateOrderById(executor_id, {order_id,order_status,reason}) {
-  return await Order.findOneAndUpdate(
+async function updateOrderById(
+  executor_id,
+  { order_id, order_status, reason }
+) {
+  const updatedOrder = await Order.findOneAndUpdate(
     { _id: order_id, executor_id: executor_id },
-    { $set: {status:order_status,rejectionReason:reason} },
-    { new: true },
-    function(err, result) {
-      if (err) {
-        console.log(err);
-      }
-      console.log("RESULT: " + result);
-    }
+    { $set: { status: order_status, rejectionReason: reason } },
+    { new: true }
   );
+  return updatedOrder;
 }
 
 module.exports = {

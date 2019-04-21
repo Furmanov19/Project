@@ -351,43 +351,47 @@ export const registerExecutor = executor => dispatch => {
       });
     });
 };
-export const editExecutor = ({ name, discription, password, services, address }) => (dispatch, getState) => {
-    //headers
-    const config = {
-      headers: {
-        "Content-Type": "application/json"
-      }
-    };
-    const _id = getState().auth.executor._id;
-    //request body
-    const body = JSON.stringify({
-      name, 
-      discription, 
-      password, 
-      services, 
-      address
-    });
-  
-    axios
-      .put(`executors/edit/${_id}`, body, config)
-      .then(res => {
-        dispatch(clearErrors());
-        dispatch({
-          type: EDIT_EXECUTOR,
-          payload: res.data
-        });
-        dispatch(push("/profile"));
-      })
-      .catch(err => {
-        console.log(err);
-        dispatch(
-          returnErrors(err.response.data, err.response.status, "EDIT_EXECUTOR_FAIL")
-        );
-        dispatch({
-          type: EDIT_EXECUTOR_FAIL
-        });
+export const editExecutor = ({
+  name,
+  discription,
+  password,
+  services,
+  address
+}) => (dispatch, getState) => {
+  const _id = getState().auth.executor._id;
+  //request body
+  const body = JSON.stringify({
+    name,
+    discription,
+    password,
+    services,
+    address
+  });
+
+  axios
+    .put(`executors/edit/${_id}`, body, tokenConfig(getState))
+    .then(res => {
+      dispatch(clearErrors());
+      dispatch({
+        type: EDIT_EXECUTOR,
+        payload: res.data
       });
-  };
+      dispatch(push("/profile"));
+    })
+    .catch(err => {
+      console.log(err);
+      dispatch(
+        returnErrors(
+          err.response.data,
+          err.response.status,
+          "EDIT_EXECUTOR_FAIL"
+        )
+      );
+      dispatch({
+        type: EDIT_EXECUTOR_FAIL
+      });
+    });
+};
 
 export const registerConfirmExecutor = obj => dispatch => {
   //headers

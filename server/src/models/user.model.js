@@ -5,7 +5,7 @@ const mongoosePaginate = require("mongoose-paginate");
 const schema = new mongoose.Schema(
   {
     name: { type: String, required: true },
-    email: { type: String, required: false },
+    email: { type: String, required: true, unique: true },
     emailConfirmed: { type: Boolean, required: false },
     blocking: {
       isBlocked: { type: Boolean, default: false, required: false },
@@ -42,6 +42,7 @@ schema.pre("update", function(next) {
 
 schema.post("save", function(error, doc, next) {
   if (error.name === "MongoError" && error.code === 11000) {
+    console.log(error);
     next(new Error("User already exist"));
   } else {
     next(error);

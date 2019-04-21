@@ -2,8 +2,8 @@ const jwt = require("jsonwebtoken");
 const config = require("../../config/environment");
 const Executor = require("../../models/executor.model");
 const Comment = require("../../models/comment.model");
-const nodemailer = require("nodemailer");
 const service = require("../../services/calculateValues.service");
+const mailService =require("../../services/mail.service.js");
 
 async function register(data) {
   const {
@@ -20,6 +20,7 @@ async function register(data) {
     averageRate = 0
   } = data;
   let averagePrice = service.averagePrice(services);
+
   const token = jwt.sign({ id: email }, config.jwt.secret, {
     expiresIn: config.jwt.expiration
   });
@@ -44,43 +45,13 @@ async function register(data) {
     role
   });
   await executor.save();
-
-  const link = `<a href="http://localhost:3000/confirm?verifyToken=${token}">finish registration</a>`;
-
-  const output = `
-    <p>You have a new contact request</p>
-    <h3>Details</h3>
-    <ul>
-      <li>${name}</li>
-    </ul>
-    <p>Follow ${link}</p>
-  `;
-
-  let transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: config.nodemailer.user,
-      pass: config.nodemailer.pass
-    }
-  });
-
-  let mailOptions = {
-    from: '"Artem Furmanov" <artem.s.furman@gmail.com>', // sender address
-    to: email, // list of receivers
-    subject: "Hello ✔", // Subject line
-    text: "Hello world?", // plain text body
-    html: output // html body
+  const savedExecutor = await Executor.findOne({ name,email });
+  const savedData = savedExecutor.toObject();
+  mailService.registerMailForExecutor(savedData.verifyToken,savedData.name,savedData.email);
+  const { password: executorPassword, ...executorWithoutPassword } = savedData;
+  return {
+    executor: executorWithoutPassword
   };
-
-  let info = await transporter.sendMail(mailOptions);
-  console.log("Message sent: %s", info.messageId);
-
-  const savedExecutor = await Executor.findOne({ email });
-  const res = {
-    _id: savedExecutor._id,
-    role: savedExecutor.role
-  };
-  return res;
 }
 
 async function confirm({ verifyToken }) {
@@ -203,31 +174,27 @@ async function get({
 }
 
 async function blockExecutor(_id, { reason }) {
-  return Executor.findByIdAndUpdate(
+  const updatedExecutor =await  Executor.findByIdAndUpdate(
     _id,
     { $set: { "blocking.isBlocked": true, "blocking.reason": reason } },
-    { new: true },
-    function(err, result) {
-      if (err) {
-        console.log(err);
-      }
-      console.log("RESULT: " + result);
-    }
+    { new: true }
   );
+  const data = updatedExecutor.toObject();
+  mailService.mailForBlockExecutor(data.name,data.email,data.blocking.reason);
+      const { password: executorPassword, ...executorWithoutPassword } = data;
+      return executorWithoutPassword;
 }
 
 async function unblockExecutor(_id) {
-  return Executor.findByIdAndUpdate(
+  const updatedExecutor =await Executor.findByIdAndUpdate(
     _id,
     { $set: { "blocking.isBlocked": false, "blocking.reason": "" } },
-    { new: true },
-    function(err, result) {
-      if (err) {
-        console.log(err);
-      }
-      console.log("RESULT: " + result);
-    }
+    { new: true }
   );
+  const data = updatedExecutor.toObject();
+  mailService.mailForUnBlockExecutor(data.name,data.email);
+      const { password: executorPassword, ...executorWithoutPassword } = data;
+      return executorWithoutPassword;
 }
 
 async function editExecutor(
@@ -281,33 +248,36 @@ async function editExecutor(
 }
 
 async function postComment(executor_id, data) {
-  const {userName,userComment } =data;
-  const comment =new Comment ({
+  const { userName, userComment } = data;
+  const comment = new Comment({
     userName,
-    comment:userComment,
-    executorId:executor_id
+    comment: userComment,
+    executorId: executor_id
   });
   const savedComment = comment.save().then(({ _id }) => Comment.findById(_id));
-  await Executor.findOneAndUpdate({_id:executor_id},{
-    $push:{
-      comments:savedComment
+  await Executor.findOneAndUpdate(
+    { _id: executor_id },
+    {
+      $push: {
+        comments: savedComment
+      }
     }
-  });
+  );
   return savedComment;
 }
 
-async function getExecutorComments(executor_id,req_query) {
-  const { page, perPage} =req_query;
-  const query ={
-    executorId:executor_id,
-  }
+async function getExecutorComments(executor_id, req_query) {
+  const { page, perPage } = req_query;
+  const query = {
+    executorId: executor_id
+  };
   const options = {
-    page: parseInt(page,10) || 1,
-    limit: parseInt(perPage,10) || 5,
-    select : "userName comment created_at",
-    sort :{"created_at":-1}
-  }
-  const comments =await Comment.paginate(query,options);
+    page: parseInt(page, 10) || 1,
+    limit: parseInt(perPage, 10) || 5,
+    select: "userName comment created_at",
+    sort: { created_at: -1 }
+  };
+  const comments = await Comment.paginate(query, options);
   console.log(comments);
   return comments;
 }

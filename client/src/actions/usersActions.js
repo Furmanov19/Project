@@ -123,7 +123,7 @@ export const postComment = comment => (dispatch, getState) => {
     }
   };
   axios
-    .post(`executors/${executor_id}/comments`, comment, config)
+    .post(`executors/${executor_id}/comments`, comment, tokenConfig(getState))
     .then(res => {
       dispatch({
         type: POST_EXECUTOR_COMMENT_SUCCESS,

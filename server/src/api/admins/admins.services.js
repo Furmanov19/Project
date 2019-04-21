@@ -5,11 +5,11 @@ const Admin = require("../../models/admin.model");
 async function authenticate({ name, password }) {
   const admin = await Admin.findOne({ name });
 
-  if (admin === null) throw "Admin not found";
+  if (admin === null) throw new Error("Admin not found");
 
   let success = await admin.comparePassword(password);
 
-  if (success === false) throw new Error("Password is incorrect");
+  if (!success) throw new Error("Password is incorrect");
 
   const token = jwt.sign(
     {
@@ -37,16 +37,14 @@ async function loadAdmin(admin) {
   };
 }
 async function register(data) {
-  console.log(data);
   const { name, password, role = "admin" } = data;
   const admin = new Admin({ name, password, role });
   await admin.save();
-  const savedAdmin = await Admin.findOne({ name });
+  const savedAdmin = await Admin.findOne({ name }).toObject();
+  const { password: adminPassword, ...adminWithoutPassword } = savedAdmin;
   const res = {
-    _id: savedAdmin._id,
-    role: savedAdmin.role
+    admin:adminWithoutPassword
   };
-  console.log(res);
   return res;
 }
 module.exports = {

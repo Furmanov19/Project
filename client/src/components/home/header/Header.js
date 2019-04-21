@@ -53,7 +53,7 @@ class Header extends React.Component {
           <Toolbar className={classes.toolbar}>
             <Typography variant="h4" color="inherit" className={classes.grow}>
               <Logo className={classes.logo}>
-                MY APP
+                CLEAN TEAM
               </Logo>
             </Typography>
             { !this.props.isAuth &&

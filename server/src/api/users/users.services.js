@@ -1,8 +1,7 @@
 const jwt = require("jsonwebtoken");
 const config = require("../../config/environment");
 const User = require("../../models/user.model");
-
-const nodemailer = require("nodemailer");
+const mailService =require("../../services/mail.service");
 
 async function register(data) {
   const {
@@ -17,35 +16,6 @@ async function register(data) {
   } = data;
   let code = Math.floor(100000 + Math.random() * 900000);
 
-  const output = `
-    <p>You have a new contact request</p>
-    <h3>Details</h3>
-    <ul>
-      <li>${name}</li>
-      <li>${role}</li>
-    </ul>
-    <p>Your confirm code is ${code}</p>
-  `;
-
-  let transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: config.nodemailer.user,
-      pass: config.nodemailer.pass
-    }
-  });
-
-  let mailOptions = {
-    from: '"Artem Furmanov" <artem.s.furman@gmail.com>', // sender address
-    to: email, // list of receivers
-    subject: "Hello ✔", // Subject line
-    text: "Hello world?", // plain text body
-    html: output // html body
-  };
-
-  let info = await transporter.sendMail(mailOptions);
-  console.log("Message sent: %s", info.messageId);
-
   const user = new User({
     name,
     email,
@@ -59,13 +29,13 @@ async function register(data) {
   });
   await user.save();
   const savedUser = await User.findOne({ email });
-  const res = {
-    _id: savedUser._id,
-    role: savedUser.role
-    // emailConfirmed:savedUser.emailConfirmed,
-    // email:savedUser.email
+  const savedData = savedUser.toObject();
+  mailService.registerMailForUser(savedData.name,savedData.email,savedData.code);
+  const { password: userPassword, ...userWithoutPassword } = savedData;
+  
+  return {
+    user: userWithoutPassword
   };
-  return res;
 }
 
 async function confirm({ code, email }) {
@@ -161,13 +131,6 @@ async function authenticate({ name, password }) {
     token: token,
     user: userWithoutPassword
   };
-  // return {
-  //   token: token,
-  //   user: {
-  //     _id: user._id,
-  //     role: user.role
-  //   }
-  // };
 }
 
 async function get({ page, perPage, search }) {
@@ -195,31 +158,27 @@ async function get({ page, perPage, search }) {
 }
 
 async function blockUser(_id, { reason }) {
-  return User.findByIdAndUpdate(
+  const updatedUser = await User.findByIdAndUpdate(
     _id,
     { $set: { "blocking.isBlocked": true, "blocking.reason": reason } },
-    { new: true },
-    function(err, result) {
-      if (err) {
-        console.log(err);
-      }
-      console.log("RESULT: " + result);
-    }
+    { new: true }
   );
+  const data = updatedUser.toObject();
+  mailService.mailForBlockUser(data.name,data.email,data.blocking.reason);
+  const { password: userPassword, ...userWithoutPassword } = data;
+  return userWithoutPassword;
 }
 
 async function unblockUser(_id) {
-  return User.findByIdAndUpdate(
+  const updatedUser = await User.findByIdAndUpdate(
     _id,
     { $set: { "blocking.isBlocked": false, "blocking.reason": "" } },
-    { new: true },
-    function(err, result) {
-      if (err) {
-        console.log(err);
-      }
-      console.log("RESULT: " + result);
-    }
+    { new: true }
   );
+  const data = updatedUser.toObject();
+  mailService.mailForUnBlockUser(data.name,data.email);
+  const { password: userPassword, ...userWithoutPassword } = data;
+  return userWithoutPassword;
 }
 
 async function editUser(_id, { name, phone, password }) {

@@ -8,10 +8,11 @@ const schema = joi
       .valid("development", "test", "production")
       .default("development"),
     APP_PORT: joi.number().default(3001),
+    CLIENT_PORT: joi.number().default(3000),
     JWT_ENCRYPTION: joi
       .string()
       .default("e5a3388c-9731-4043-8b11-be602d8c8919"),
-    JWT_EXPIRATION: joi.number().default(10000),
+    JWT_EXPIRATION: joi.number().default(28800),
     GITHUB_CLIENT_ID: joi.string().default("66cfd1f1666e3c5fca86"),
     GITHUB_CLIENT_SECRET: joi
       .string()
@@ -40,7 +41,8 @@ if (error) {
 module.exports = {
   app: {
     environment: envVars.NODE_ENV,
-    port: envVars.APP_PORT
+    port: envVars.APP_PORT,
+    clientPort: envVars.CLIENT_PORT
   },
   jwt: {
     secret: envVars.JWT_ENCRYPTION,
